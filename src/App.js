@@ -14,7 +14,6 @@ function App() {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: "375px",
     margin: "auto",
     height: "100vh",
   },
