@@ -11,14 +11,15 @@ import React from "react";
 
 const TaskCard = ({ task }) => {
   const classes = useStyles();
+
   return (
     <Card className={classes.root}>
       <CardContent className={classes.CardContent}>
         <Box className={classes.remainingDuration}>
-          <Typography variant="h6">05:00</Typography>
+          <Typography variant="h6">{task.duration}</Typography>
         </Box>
         <Box className={classes.taskName}>
-          <Typography variant="subtitle1">My First Task</Typography>
+          <Typography variant="subtitle1">{task.name}</Typography>
         </Box>
       </CardContent>
       <CardActions className={classes.cardActions}>

@@ -1,24 +1,44 @@
-import { Card, CardContent, TextField } from "@material-ui/core";
+import { Button, Card, TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import React from "react";
+import React, { useState } from "react";
 
 const AddTask = () => {
   const classes = useStyles();
+
+  const [task, setTask] = useState({
+    name: "",
+    duration: "",
+  });
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    console.log(task);
+  };
+
   return (
-    <Card className={classes.root}>
-      <CardContent className={classes.cardContent}>
+    <Card component="form" onSubmit={handleSubmit} className={classes.root}>
+      <div className={classes.cardContent}>
         <TextField
           label="Task Name"
           size="small"
           className={classes.textfields}
+          value={task.name}
+          onChange={(e) => setTask({ ...task, name: e.target.value })}
         />
         <TextField
           label="Duration"
           type="number"
           size="small"
           className={classes.textfields}
+          value={task.duration}
+          onChange={(e) => setTask({ ...task, duration: e.target.value })}
         />
-      </CardContent>
+
+        <Button size="small" variant="outlined" type="submit">
+          Add
+        </Button>
+      </div>
     </Card>
   );
 };
@@ -33,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    padding: 0,
+    padding: "0.5rem 0rem",
   },
 }));
 
