@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 const TaskContainer = () => {
   const classes = useStyles();
 
-  const tasks = useSelector((state) => state.tasks);
+  const tasks = useSelector((state) => state.tasks.value);
 
   console.log(tasks);
   return (

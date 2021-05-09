@@ -1,9 +1,14 @@
 import { Button, Card, TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import React, { useState } from "react";
+import { useDispatch } from "react-redux";
+import { v4 } from "uuid";
+import { addTask } from "../features/tasks/taskSlice";
 
 const AddTask = () => {
   const classes = useStyles();
+
+  const dispatch = useDispatch();
 
   const [task, setTask] = useState({
     name: "",
@@ -12,8 +17,8 @@ const AddTask = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-
-    console.log(task);
+    dispatch(addTask({ ...task, id: v4() }));
+    setTask({ name: "", duration: "" });
   };
 
   return (

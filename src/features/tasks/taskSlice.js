@@ -3,12 +3,17 @@ import { v4 } from "uuid";
 
 export const taskSlice = createSlice({
   name: "tasks",
-  initialState: [{ id: v4(), name: "My First Task", duration: "15:00" }],
+  initialState: {
+    value: [{ id: v4(), name: "Mys First Task", duration: "15:00" }],
+  },
+
   reducers: {
-    addTask: (state) => {},
+    addTask: (state, action) => {
+      state.value.push(action.payload);
+    },
   },
 });
 
-export const { increment, decrement, incrementByAmount } = taskSlice.actions;
+export const { addTask } = taskSlice.actions;
 
 export default taskSlice.reducer;
