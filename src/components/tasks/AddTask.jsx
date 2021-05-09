@@ -1,9 +1,10 @@
 import { Button, Card, TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import React, { useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { v4 } from "uuid";
-import { addTask } from "../features/tasks/taskSlice";
+import { addTask } from "../../features/tasks/taskSlice";
+import timeParser from "../../utils/timeParser";
 
 const AddTask = () => {
   const classes = useStyles();
@@ -17,7 +18,10 @@ const AddTask = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(addTask({ ...task, id: v4() }));
+    dispatch(
+      addTask({ ...task, id: v4(), duration: timeParser(task.duration) })
+    );
+
     setTask({ name: "", duration: "" });
   };
 

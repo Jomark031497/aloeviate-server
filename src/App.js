@@ -1,6 +1,7 @@
 import { makeStyles } from "@material-ui/styles";
-import Header from "./components/Header";
-import TaskContainer from "./components/TaskContainer";
+import Header from "./components/layouts/Header";
+import TaskContainer from "./components/tasks/TaskContainer";
+import Timer from "./components/timer/Timer";
 
 function App() {
   const classes = useStyles();
@@ -9,6 +10,7 @@ function App() {
       <Header />
 
       <div className={classes.mainContainer}>
+        <Timer />
         <TaskContainer />
       </div>
     </div>
@@ -19,8 +21,11 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: "375px",
     margin: "auto",
-    background: "#cecece",
+    background: "#efefef",
     minHeight: "100vh",
+  },
+  mainContainer: {
+    padding: "0rem 1rem",
   },
 }));
 

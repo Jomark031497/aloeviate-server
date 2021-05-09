@@ -6,24 +6,15 @@ import { useSelector } from "react-redux";
 const TaskContainer = () => {
   const classes = useStyles();
 
-  const tasks = useSelector((state) => state.tasks.value);
-
-  console.log(tasks);
+  const tasks = useSelector((state) => state.tasks);
   return (
     <div className={classes.root}>
-      {tasks.map((task) => (
-        <TaskCard key={task.id} task={task} />
-      ))}
-
+      {tasks && tasks.map((task) => <TaskCard key={task.id} task={task} />)}
       <AddTask />
     </div>
   );
 };
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    padding: "1rem",
-  },
-}));
+const useStyles = makeStyles((theme) => ({}));
 
 export default TaskContainer;
