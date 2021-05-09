@@ -7,14 +7,19 @@ function App() {
   return (
     <div className={classes.root}>
       <Header />
-      <TaskContainer />
+
+      <div className={classes.mainContainer}>
+        <TaskContainer />
+      </div>
     </div>
   );
 }
 
 const useStyles = makeStyles((theme) => ({
   root: {
+    width: "375px",
     margin: "auto",
+    background: "#cecece",
     height: "100vh",
   },
 }));

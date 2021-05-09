@@ -18,17 +18,17 @@ const TaskCard = ({ task }) => {
           <Typography variant="h6">05:00</Typography>
         </Box>
         <Box className={classes.taskName}>
-          <Typography variant="h6">My First Task</Typography>
+          <Typography variant="subtitle1">My First Task</Typography>
         </Box>
       </CardContent>
       <CardActions className={classes.cardActions}>
-        <Button variant="outlined" size="small">
+        <Button variant="outlined" size="small" className={classes.buttons}>
           Delete
         </Button>
-        <Button variant="outlined" size="small">
+        <Button variant="outlined" size="small" className={classes.buttons}>
           Reset
         </Button>
-        <Button variant="outlined" size="small">
+        <Button variant="outlined" size="small" className={classes.buttons}>
           Complete
         </Button>
         <Typography>05:00</Typography>
@@ -38,28 +38,28 @@ const TaskCard = ({ task }) => {
 };
 
 const useStyles = makeStyles((theme) => ({
-  root: {
-    margin: "1rem 1.5rem",
-    minWidth: "490px",
-  },
+  root: {},
   CardContent: {
     display: "flex",
     padding: "0",
   },
   cardActions: {
     background: "#efefef",
-    paddingLeft: "5.5rem",
-    paddingRight: "1rem",
     display: "flex",
     alignItems: "center",
     justifyContent: "space-between",
   },
   remainingDuration: {
     background: "#ddd",
-    padding: "1rem",
+    display: "flex",
+    alignItems: "center",
+    padding: "0rem 1rem",
   },
   taskName: {
-    padding: "1rem",
+    padding: "1rem 0.5rem",
+  },
+  buttons: {
+    fontSize: "0.7rem",
   },
 }));
 
