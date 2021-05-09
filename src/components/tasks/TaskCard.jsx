@@ -42,7 +42,7 @@ const TaskCard = ({ task }) => {
         <Button variant="outlined" size="small" className={classes.buttons}>
           Complete
         </Button>
-        <Typography>05:00</Typography>
+        <Typography>{task.duration}</Typography>
       </CardActions>
     </Card>
   );
