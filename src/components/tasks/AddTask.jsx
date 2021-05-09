@@ -13,6 +13,7 @@ const AddTask = () => {
   const [task, setTask] = useState({
     name: "",
     duration: "",
+    isCompleted: false,
   });
 
   const [open, setOpen] = useState(false);

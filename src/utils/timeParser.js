@@ -5,7 +5,6 @@ export const timeParser = (time) => {
   const parsedTime = parseInt(time);
   const timeFormat = parsedTime > 9 ? `${time}:00` : `0${time}:00`;
 
-  console.log(timeFormat);
   return timeFormat;
 };
 
