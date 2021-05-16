@@ -6,7 +6,13 @@ export const TaskContext = createContext();
 
 const TaskContextProvider = (props) => {
   const [tasks, dispatch] = useReducer(taskReducer, [
-    { id: v4(), name: "My First Task", duration: 30 },
+    {
+      id: v4(),
+      name: "My First Task",
+      duration: 30,
+      elapsedTime: 0,
+      isCompleted: false,
+    },
   ]);
 
   return (

@@ -17,12 +17,23 @@ const TaskCard = ({ task }) => {
 
   const { dispatch } = useContext(TaskContext);
 
-  const removeTask = () => {
-    dispatch({ type: "REMOVE_TASK", id: task.id });
+  const handleRemove = () => {
+    dispatch({ type: "REMOVE_TASK", payload: { id: task.id } });
+  };
+
+  const handleComplete = () => {
+    dispatch({ type: "COMPLETE_TASK", payload: { id: task.id } });
+  };
+
+  const handleReset = () => {
+    dispatch({ type: "RESET_TASK", payload: { id: task.id } });
   };
 
   return (
-    <Card className={classes.root}>
+    <Card
+      className={classes.root}
+      style={{ background: task.isCompleted ? "green" : "red" }}
+    >
       <CardContent className={classes.CardContent}>
         <Box className={classes.remainingDuration}>
           <Typography variant="h6">{timeFormatter(task.duration)}</Typography>
@@ -36,14 +47,24 @@ const TaskCard = ({ task }) => {
           variant="outlined"
           size="small"
           className={classes.buttons}
-          onClick={removeTask}
+          onClick={handleRemove}
         >
           Delete
         </Button>
-        <Button variant="outlined" size="small" className={classes.buttons}>
+        <Button
+          variant="outlined"
+          size="small"
+          className={classes.buttons}
+          onClick={handleReset}
+        >
           Reset
         </Button>
-        <Button variant="outlined" size="small" className={classes.buttons}>
+        <Button
+          variant="outlined"
+          size="small"
+          className={classes.buttons}
+          onClick={handleComplete}
+        >
           Complete
         </Button>
         <Typography>REM</Typography>

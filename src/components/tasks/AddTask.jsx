@@ -1,7 +1,6 @@
 import { Button, Card, TextField, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { useContext, useState } from "react";
-import { v4 } from "uuid";
 import { TaskContext } from "../../context/TaskContext";
 
 const AddTask = () => {
@@ -10,12 +9,8 @@ const AddTask = () => {
   const { dispatch } = useContext(TaskContext);
 
   const [task, setTask] = useState({
-    id: v4(),
     name: "",
     duration: 0,
-    elapsedTime: 0,
-    isCompleted: false,
-    isActive: false,
   });
 
   const [open, setOpen] = useState(false);
@@ -24,7 +19,7 @@ const AddTask = () => {
     e.preventDefault();
     dispatch({
       type: "ADD_TASK",
-      task: { ...task, duration: parseInt(task.duration) * 60 },
+      payload: { name: task.name, duration: parseInt(task.duration) * 60 },
     });
     closeAddTask();
   };
