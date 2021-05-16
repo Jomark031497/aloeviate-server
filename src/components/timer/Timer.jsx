@@ -12,6 +12,7 @@ const Timer = () => {
   const [active, setActive] = useState(false);
   const [activeTask, setActiveTask] = useState(null);
   const timeRef = useRef();
+  const dingAudio = new Audio("assets/ding.mp3");
 
   // The countdown timer will now start
   const startTimer = (e) => {
@@ -43,7 +44,6 @@ const Timer = () => {
 
   useEffect(() => {
     let countdown;
-
     if (active) {
       let duration = activeTask.duration - activeTask.elapsedTime;
       countdown = setInterval(() => {
@@ -52,6 +52,7 @@ const Timer = () => {
           setActive((prev) => !prev);
           dispatch({ type: "COMPLETE_TASK", payload: { id: activeTask.id } });
           setActiveTask(null);
+          dingAudio.play();
         }
         duration -= 1;
         timeRef.current.innerHTML = timeFormatter(duration);
@@ -61,7 +62,7 @@ const Timer = () => {
     return () => {
       clearInterval(countdown);
     };
-  }, [active, activeTask, dispatch]);
+  }, [active, activeTask, dispatch, dingAudio]);
 
   return (
     <div>
