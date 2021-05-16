@@ -18,9 +18,11 @@ const Timer = () => {
     // button won't work if there are no tasks
     if (!tasks.length) return;
 
+    // fetch all tasks that are not completed yet
     const filteredTasks = tasks.filter((task) => !task.isCompleted);
 
-    if (!filteredTasks) {
+    // if there are no tasks left, return
+    if (!filteredTasks.length) {
       console.log(" no tasks left");
       return;
     }

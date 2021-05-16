@@ -17,17 +17,14 @@ const TaskCard = ({ task }) => {
 
   const { dispatch } = useContext(TaskContext);
 
-  const handleRemove = () => {
+  const handleRemove = () =>
     dispatch({ type: "REMOVE_TASK", payload: { id: task.id } });
-  };
 
-  const handleComplete = () => {
+  const handleComplete = () =>
     dispatch({ type: "COMPLETE_TASK", payload: { id: task.id } });
-  };
 
-  const handleReset = () => {
+  const handleReset = () =>
     dispatch({ type: "RESET_TASK", payload: { id: task.id } });
-  };
 
   return (
     <Card
