@@ -7,16 +7,19 @@ import {
   Typography,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import { useDispatch } from "react-redux";
-import { removeTask } from "../../features/tasks/taskSlice";
+import { useContext } from "react";
+import { TaskContext } from "../../context/TaskContext";
+
 import { timeFormatter } from "../../utils/timeParser";
 
 const TaskCard = ({ task }) => {
   const classes = useStyles();
 
-  const dispatch = useDispatch();
+  const { dispatch } = useContext(TaskContext);
 
-  const handleDelete = (e) => dispatch(removeTask({ id: task.id }));
+  const removeTask = () => {
+    dispatch({ type: "REMOVE_TASK", id: task.id });
+  };
 
   return (
     <Card className={classes.root}>
@@ -33,7 +36,7 @@ const TaskCard = ({ task }) => {
           variant="outlined"
           size="small"
           className={classes.buttons}
-          onClick={handleDelete}
+          onClick={removeTask}
         >
           Delete
         </Button>

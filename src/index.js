@@ -1,20 +1,19 @@
-import { createMuiTheme, CssBaseline, ThemeProvider } from "@material-ui/core";
 import React from "react";
 import ReactDOM from "react-dom";
-import { Provider } from "react-redux";
 import App from "./App";
-import store from "./app/store";
+import { createMuiTheme, CssBaseline, ThemeProvider } from "@material-ui/core";
+import TaskContextProvider from "./context/TaskContext";
 
 const theme = createMuiTheme({});
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
+    <TaskContextProvider>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <App />
       </ThemeProvider>
-    </Provider>
+    </TaskContextProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );

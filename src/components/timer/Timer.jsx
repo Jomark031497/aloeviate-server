@@ -1,30 +1,20 @@
 import { IconButton, makeStyles, Typography } from "@material-ui/core";
 import PlayIcon from "@material-ui/icons/PlayCircleFilledWhiteOutlined";
 import PauseIcon from "@material-ui/icons/PauseCircleOutline";
-import { useState } from "react";
-import { useSelector } from "react-redux";
-import { v4 } from "uuid";
+import { TaskContext } from "../../context/TaskContext";
+import { useContext, useState } from "react";
 import { timeFormatter } from "../../utils/timeParser";
 
 const Timer = () => {
   const classes = useStyles();
 
-  // fetches all tasks available in the state
-  const tasks = useSelector((state) => state.tasks);
   const [active, setActive] = useState(false);
-
-  const [activeTask, setActiveTask] = useState({
-    id: v4(),
-    name: "no task yet",
-    duration: 0,
-  });
+  const { tasks } = useContext(TaskContext);
 
   // The countdown timer will now start
   const startTimer = (e) => {
     if (!tasks.length) return;
     setActive((prev) => !prev);
-    console.log("timer starts now!");
-    setActiveTask(tasks[0]);
   };
 
   const stopTimer = (e) => {
@@ -35,9 +25,11 @@ const Timer = () => {
     <div>
       <div className={classes.root}>
         <Typography variant="h3">
-          {timeFormatter(activeTask.duration)}
+          {tasks.length ? timeFormatter(tasks[0].duration) : "00:00"}
         </Typography>
-        <Typography variant="h6">{activeTask.name}</Typography>
+        <Typography variant="h6">
+          {tasks.length ? tasks[0].name : "No Task Yet"}
+        </Typography>
 
         {active ? (
           <IconButton size="small" onClick={stopTimer}>
