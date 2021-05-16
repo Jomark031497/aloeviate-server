@@ -12,7 +12,6 @@ const Timer = () => {
   const [active, setActive] = useState(false);
   const [activeTask, setActiveTask] = useState(null);
   const timeRef = useRef();
-  const dingAudio = new Audio("assets/ding.mp3");
 
   // The countdown timer will now start
   const startTimer = (e) => {
@@ -35,23 +34,44 @@ const Timer = () => {
   };
 
   const stopTimer = (e) => {
+    // toggle the active state
     setActive((prev) => !prev);
+
+    // adding elapsed time so that when resuming, it will not start at the beginning
     setActiveTask({
       ...activeTask,
       elapsedTime: activeTask.duration - timeToSecs(timeRef.current.innerHTML),
     });
+    dispatch({
+      type: "UPDATE_ELAPSED",
+      payload: {
+        id: activeTask.id,
+        elapsedTime: timeToSecs(timeRef.current.innerHTML),
+      },
+    });
   };
 
   useEffect(() => {
+    // interval id
     let countdown;
+    const dingAudio = new Audio("assets/ding.mp3");
+    // button state if it is active (play)
     if (active) {
+      // calculate the duration if ever there's an elapsed time already
       let duration = activeTask.duration - activeTask.elapsedTime;
+
+      // the countdown
       countdown = setInterval(() => {
         if (duration <= 1) {
           clearInterval(countdown);
+
+          // toggle the active state
           setActive((prev) => !prev);
+          // update to complete the task
           dispatch({ type: "COMPLETE_TASK", payload: { id: activeTask.id } });
+          // remove the current task
           setActiveTask(null);
+          // play the ding audio
           dingAudio.play();
         }
         duration -= 1;
@@ -62,7 +82,7 @@ const Timer = () => {
     return () => {
       clearInterval(countdown);
     };
-  }, [active, activeTask, dispatch, dingAudio]);
+  }, [active, activeTask, dispatch]);
 
   return (
     <div>

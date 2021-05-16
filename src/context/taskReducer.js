@@ -21,6 +21,7 @@ export const taskReducer = (state, action) => {
       return state.map((task) => {
         if (task.id === action.payload.id) {
           task.isCompleted = true;
+          task.elapsedTime = 0;
         }
         return task;
       });
@@ -29,6 +30,14 @@ export const taskReducer = (state, action) => {
       return state.map((task) => {
         if (task.id === action.payload.id) {
           task.isCompleted = false;
+        }
+        return task;
+      });
+
+    case "UPDATE_ELAPSED":
+      return state.map((task) => {
+        if (task.id === action.payload.id) {
+          task.elapsedTime = action.payload.elapsedTime;
         }
         return task;
       });

@@ -17,26 +17,34 @@ const TaskCard = ({ task }) => {
 
   const { dispatch } = useContext(TaskContext);
 
-  const handleRemove = () =>
+  const handleRemove = () => {
     dispatch({ type: "REMOVE_TASK", payload: { id: task.id } });
+  };
 
-  const handleComplete = () =>
+  const handleComplete = () => {
+    if (task.isCompleted) return;
+    console.log("completing task");
     dispatch({ type: "COMPLETE_TASK", payload: { id: task.id } });
+  };
 
-  const handleReset = () =>
+  const handleReset = () => {
+    if (!task.isCompleted) return;
+    console.log("resetting task");
     dispatch({ type: "RESET_TASK", payload: { id: task.id } });
+  };
 
   return (
-    <Card
-      className={classes.root}
-      style={{ background: task.isCompleted ? "green" : "red" }}
-    >
+    <Card className={classes.root}>
       <CardContent className={classes.CardContent}>
         <Box className={classes.remainingDuration}>
-          <Typography variant="h6">{timeFormatter(task.duration)}</Typography>
+          <Typography variant="subtitle1">
+            {timeFormatter(task.elapsedTime)}
+          </Typography>
         </Box>
         <Box className={classes.taskName}>
-          <Typography variant="subtitle1">{task.name}</Typography>
+          <Typography variant="subtitle2" className={classes.taskName}>
+            {task.name}
+          </Typography>
         </Box>
       </CardContent>
       <CardActions className={classes.cardActions}>
@@ -64,7 +72,7 @@ const TaskCard = ({ task }) => {
         >
           Complete
         </Button>
-        <Typography>REM</Typography>
+        <Typography>{timeFormatter(task.duration)}</Typography>
       </CardActions>
     </Card>
   );
@@ -72,7 +80,7 @@ const TaskCard = ({ task }) => {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    margin: "1rem auto",
+    margin: "1rem 1rem",
   },
   CardContent: {
     display: "flex",
@@ -91,7 +99,8 @@ const useStyles = makeStyles((theme) => ({
     padding: "0rem 1rem",
   },
   taskName: {
-    padding: "1rem 0.5rem",
+    padding: "0.5rem 0.5rem",
+    fontWeight: "bold",
   },
   buttons: {
     fontSize: "0.7rem",
