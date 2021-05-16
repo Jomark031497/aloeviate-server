@@ -12,6 +12,7 @@ const AddTask = () => {
   const [task, setTask] = useState({
     name: "",
     duration: 0,
+    elapsedTime: 0,
     isCompleted: false,
     isActive: false,
   });
