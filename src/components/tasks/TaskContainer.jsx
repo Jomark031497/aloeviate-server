@@ -19,6 +19,8 @@ const TaskContainer = () => {
   );
 };
 
-const useStyles = makeStyles((theme) => ({}));
+const useStyles = makeStyles((theme) => ({
+  root: {},
+}));
 
 export default TaskContainer;

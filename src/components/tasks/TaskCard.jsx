@@ -49,24 +49,24 @@ const TaskCard = ({ task }) => {
       </CardContent>
       <CardActions className={classes.cardActions}>
         <Button
-          variant="outlined"
           size="small"
+          color="primary"
           className={classes.buttons}
           onClick={handleRemove}
         >
           Delete
         </Button>
         <Button
-          variant="outlined"
           size="small"
+          color="primary"
           className={classes.buttons}
           onClick={handleReset}
         >
           Reset
         </Button>
         <Button
-          variant="outlined"
           size="small"
+          color="primary"
           className={classes.buttons}
           onClick={handleComplete}
         >
@@ -104,6 +104,7 @@ const useStyles = makeStyles((theme) => ({
   },
   buttons: {
     fontSize: "0.7rem",
+    fontWeight: "bold",
   },
 }));
 

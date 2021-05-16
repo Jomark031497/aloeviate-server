@@ -117,6 +117,7 @@ const useStyles = makeStyles((theme) => ({
   },
   icons: {
     fontSize: "3rem",
+    color: theme.palette.secondary.main,
   },
 }));
 

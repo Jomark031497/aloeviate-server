@@ -8,7 +8,9 @@ const Header = () => {
     <>
       <AppBar>
         <Toolbar>
-          <Typography variant="h4">productivity.</Typography>
+          <Typography variant="h5" className={classes.projectName}>
+            aloeviate.
+          </Typography>
         </Toolbar>
       </AppBar>
 
@@ -19,6 +21,9 @@ const Header = () => {
 
 const useStyles = makeStyles((theme) => ({
   offset: theme.mixins.toolbar,
+  projectName: {
+    letterSpacing: "0.2rem",
+  },
 }));
 
 export default Header;

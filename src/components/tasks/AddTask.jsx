@@ -61,7 +61,9 @@ const AddTask = () => {
         </Card>
       ) : (
         <div className={classes.addTaskCard} onClick={(e) => setOpen(true)}>
-          <Typography variant="h6">Add Task</Typography>
+          <Typography variant="h6" color="textSecondary">
+            Add Task
+          </Typography>
         </div>
       )}
     </>
@@ -70,7 +72,7 @@ const AddTask = () => {
 
 const useStyles = makeStyles((theme) => ({
   card: {
-    margin: "0.5rem auto",
+    margin: "0.5rem 1rem",
     background: "rgba(255,255,255, 0.5)",
   },
   cardContent: {
@@ -81,7 +83,8 @@ const useStyles = makeStyles((theme) => ({
     padding: "0.5rem 0rem",
   },
   addTaskCard: {
-    border: "2px dashed black",
+    margin: "0.5rem 0.9rem",
+    border: "1px dashed black",
     borderRadius: "0.5rem",
     display: "flex",
     justifyContent: "center",
