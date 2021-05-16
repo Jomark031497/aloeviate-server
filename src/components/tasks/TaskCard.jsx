@@ -9,6 +9,7 @@ import {
 import { makeStyles } from "@material-ui/styles";
 import { useDispatch } from "react-redux";
 import { removeTask } from "../../features/tasks/taskSlice";
+import { timeFormatter } from "../../utils/timeParser";
 
 const TaskCard = ({ task }) => {
   const classes = useStyles();
@@ -21,7 +22,7 @@ const TaskCard = ({ task }) => {
     <Card className={classes.root}>
       <CardContent className={classes.CardContent}>
         <Box className={classes.remainingDuration}>
-          <Typography variant="h6">{task.duration}</Typography>
+          <Typography variant="h6">{timeFormatter(task.duration)}</Typography>
         </Box>
         <Box className={classes.taskName}>
           <Typography variant="subtitle1">{task.name}</Typography>
@@ -42,7 +43,7 @@ const TaskCard = ({ task }) => {
         <Button variant="outlined" size="small" className={classes.buttons}>
           Complete
         </Button>
-        <Typography>{task.duration}</Typography>
+        <Typography>REM</Typography>
       </CardActions>
     </Card>
   );

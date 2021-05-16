@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { v4 } from "uuid";
 import { addTask } from "../../features/tasks/taskSlice";
-import timeParser from "../../utils/timeParser";
 
 const AddTask = () => {
   const classes = useStyles();
@@ -12,17 +11,16 @@ const AddTask = () => {
 
   const [task, setTask] = useState({
     name: "",
-    duration: "",
+    duration: 0,
     isCompleted: false,
+    isActive: false,
   });
 
   const [open, setOpen] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(
-      addTask({ ...task, id: v4(), duration: timeParser(task.duration) })
-    );
+    dispatch(addTask({ ...task, id: v4(), duration: task.duration * 60 }));
     closeAddTask();
   };
 

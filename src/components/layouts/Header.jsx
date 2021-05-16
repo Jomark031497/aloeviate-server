@@ -8,7 +8,7 @@ const Header = () => {
     <>
       <AppBar>
         <Toolbar>
-          <Typography variant="h4">llama life.</Typography>
+          <Typography variant="h4">productivity.</Typography>
         </Toolbar>
       </AppBar>
 
