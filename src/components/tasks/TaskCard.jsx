@@ -50,8 +50,8 @@ const TaskCard = ({ task }) => {
       <CardActions className={classes.cardActions}>
         <Button
           size="small"
-          color="primary"
-          className={classes.buttons}
+          color="secondary"
+          className={classes.deleteBtn}
           onClick={handleRemove}
         >
           Delete
@@ -59,7 +59,7 @@ const TaskCard = ({ task }) => {
         <Button
           size="small"
           color="primary"
-          className={classes.buttons}
+          className={classes.resetBtn}
           onClick={handleReset}
         >
           Reset
@@ -67,7 +67,7 @@ const TaskCard = ({ task }) => {
         <Button
           size="small"
           color="primary"
-          className={classes.buttons}
+          className={classes.completeBtn}
           onClick={handleComplete}
         >
           Complete
@@ -102,7 +102,15 @@ const useStyles = makeStyles((theme) => ({
     padding: "0.5rem 0.5rem",
     fontWeight: "bold",
   },
-  buttons: {
+  resetBtn: {
+    fontSize: "0.7rem",
+    fontWeight: "bold",
+  },
+  completeBtn: {
+    fontSize: "0.7rem",
+    fontWeight: "bold",
+  },
+  deleteBtn: {
     fontSize: "0.7rem",
     fontWeight: "bold",
   },

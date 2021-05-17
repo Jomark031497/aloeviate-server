@@ -22,10 +22,8 @@ const Timer = () => {
     const filteredTasks = tasks.filter((task) => !task.isCompleted);
 
     // if there are no tasks left, return
-    if (!filteredTasks.length) {
-      console.log(" no tasks left");
-      return;
-    }
+    if (!filteredTasks.length) return;
+
     // set the active state to true
     setActive((prev) => !prev);
 
@@ -79,6 +77,7 @@ const Timer = () => {
       }, 1000);
     }
 
+    // cleanup
     return () => {
       clearInterval(countdown);
     };
@@ -90,16 +89,24 @@ const Timer = () => {
         <Typography variant="h3" ref={timeRef}>
           {activeTask ? timeFormatter(activeTask.duration) : "00:00"}
         </Typography>
-        <Typography variant="h6">
+        <Typography variant="h6" className={classes.activeTaskName}>
           {activeTask ? activeTask.name : "No Task Yet"}
         </Typography>
 
         {active ? (
-          <IconButton size="small" onClick={stopTimer}>
+          <IconButton
+            size="small"
+            onClick={stopTimer}
+            className={classes.iconButtons}
+          >
             <PauseIcon className={classes.icons} />
           </IconButton>
         ) : (
-          <IconButton size="small" onClick={startTimer}>
+          <IconButton
+            size="small"
+            onClick={startTimer}
+            className={classes.iconButtons}
+          >
             <PlayIcon className={classes.icons} />
           </IconButton>
         )}
@@ -118,6 +125,16 @@ const useStyles = makeStyles((theme) => ({
   icons: {
     fontSize: "3rem",
     color: theme.palette.secondary.main,
+  },
+  activeTaskName: {
+    background: theme.palette.primary.main,
+    padding: "0.5rem 1rem",
+    borderRadius: "0.5rem",
+    color: "#fff",
+    fontWeight: "bold",
+  },
+  iconButtons: {
+    margin: "0.5rem auto 0 auto",
   },
 }));
 
