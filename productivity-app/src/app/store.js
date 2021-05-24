@@ -1,8 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
-import tasksReducer from "../features/tasks/tasksSlice";
+import addTaskReducer from "../features/tasks/addTaskSlice";
+import getTasksReducer from "../features/tasks/getTasksSlice";
 
 export default configureStore({
   reducer: {
-    tasks: tasksReducer,
+    getTasks: getTasksReducer,
+    addTask: addTaskReducer,
   },
 });

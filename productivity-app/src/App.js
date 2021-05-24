@@ -1,48 +1,27 @@
 import { makeStyles } from "@material-ui/styles";
 import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Header from "./components/layouts/Header";
 import TaskContainer from "./components/tasks/TaskContainer";
-import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
-import {
-  GET_TASKS_ERROR,
-  GET_TASKS_LOADING,
-  GET_TASKS_SUCCESS,
-} from "./features/tasks/tasksSlice";
+import { getTasks } from "./features/tasks/getTasksSlice";
 
 function App() {
   const classes = useStyles();
 
-  const tasks = useSelector((state) => state.tasks);
   const dispatch = useDispatch();
+  const tasks = useSelector((state) => state.getTasks);
+  const addTask = useSelector((state) => state.addTask);
 
   useEffect(() => {
-    const getTasks = async () => {
-      try {
-        dispatch(GET_TASKS_LOADING());
-        const { data } = await axios.get("/tasks");
-        dispatch(GET_TASKS_SUCCESS(data));
-      } catch (err) {
-        dispatch(GET_TASKS_ERROR(err));
-      }
-    };
-
-    getTasks();
-  }, [dispatch]);
+    dispatch(getTasks());
+  }, [dispatch, addTask]);
 
   return (
     <div className={classes.root}>
       <Header />
 
       <div className={classes.mainContainer}>
-        {/* <Timer /> */}
-        {tasks.error ? (
-          <p>There was an error</p>
-        ) : tasks.isLoading ? (
-          <p>loading...</p>
-        ) : (
-          <TaskContainer />
-        )}
+        <TaskContainer tasks={tasks} />
       </div>
     </div>
   );

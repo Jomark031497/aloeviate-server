@@ -1,6 +1,8 @@
 import { Button, Card, TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { addTask } from "../../features/tasks/addTaskSlice";
 
 const AddTask = () => {
   const classes = useStyles();
@@ -8,14 +10,20 @@ const AddTask = () => {
   const [task, setTask] = useState({
     name: "",
     duration: 0,
+    elapsedTime: 0,
+    isCompleted: false,
   });
 
   const [open, setOpen] = useState(false);
 
-  const handleSubmit = (e) => {
+  const dispatch = useDispatch();
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (task.name === "") return;
+
+    dispatch(addTask(task));
 
     closeAddTask();
   };
