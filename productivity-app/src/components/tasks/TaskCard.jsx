@@ -10,14 +10,17 @@ import {
 import ArrowUpIcon from "@material-ui/icons/ArrowDropUp";
 import ArrowDownIcon from "@material-ui/icons/ArrowDropDown";
 import { makeStyles } from "@material-ui/styles";
-
+import { deleteTask } from "../../features/tasks/deleteTaskSlice";
 import { timeFormatter } from "../../utils/timeParser";
+import { useDispatch } from "react-redux";
 
 const TaskCard = ({ task }) => {
   const classes = useStyles();
 
+  const dispatch = useDispatch();
+
   const handleRemove = () => {
-    // dispatch({ type: "REMOVE_TASK", payload: { id: task.id } });
+    dispatch(deleteTask(task._id));
   };
 
   const handleComplete = () => {
