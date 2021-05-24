@@ -1,12 +1,9 @@
 import { Button, Card, TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import { useContext, useState } from "react";
-import { TaskContext } from "../../context/TaskContext";
+import { useState } from "react";
 
 const AddTask = () => {
   const classes = useStyles();
-
-  const { dispatch } = useContext(TaskContext);
 
   const [task, setTask] = useState({
     name: "",
@@ -19,10 +16,7 @@ const AddTask = () => {
     e.preventDefault();
 
     if (task.name === "") return;
-    dispatch({
-      type: "ADD_TASK",
-      payload: { name: task.name, duration: parseInt(task.duration) * 60 },
-    });
+
     closeAddTask();
   };
 

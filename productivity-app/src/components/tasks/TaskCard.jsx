@@ -10,30 +10,26 @@ import {
 import ArrowUpIcon from "@material-ui/icons/ArrowDropUp";
 import ArrowDownIcon from "@material-ui/icons/ArrowDropDown";
 import { makeStyles } from "@material-ui/styles";
-import { useContext } from "react";
-import { TaskContext } from "../../context/TaskContext";
 
 import { timeFormatter } from "../../utils/timeParser";
 
 const TaskCard = ({ task }) => {
   const classes = useStyles();
 
-  const { dispatch } = useContext(TaskContext);
-
   const handleRemove = () => {
-    dispatch({ type: "REMOVE_TASK", payload: { id: task.id } });
+    // dispatch({ type: "REMOVE_TASK", payload: { id: task.id } });
   };
 
   const handleComplete = () => {
     if (task.isCompleted) return;
     console.log("completing task");
-    dispatch({ type: "COMPLETE_TASK", payload: { id: task.id } });
+    // dispatch({ type: "COMPLETE_TASK", payload: { id: task.id } });
   };
 
   const handleReset = () => {
     if (!task.isCompleted) return;
     console.log("resetting task");
-    dispatch({ type: "RESET_TASK", payload: { id: task.id } });
+    // dispatch({ type: "RESET_TASK", payload: { id: task.id } });
   };
 
   return (

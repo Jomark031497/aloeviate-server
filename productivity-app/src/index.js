@@ -2,7 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
 import { createMuiTheme, CssBaseline, ThemeProvider } from "@material-ui/core";
-import TaskContextProvider from "./context/TaskContext";
+import store from "./app/store";
+import { Provider as ReduxProvider } from "react-redux";
 
 const theme = createMuiTheme({
   palette: {
@@ -21,12 +22,12 @@ const theme = createMuiTheme({
 
 ReactDOM.render(
   <React.StrictMode>
-    <TaskContextProvider>
+    <ReduxProvider store={store}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <App />
       </ThemeProvider>
-    </TaskContextProvider>
+    </ReduxProvider>
   </React.StrictMode>,
   document.getElementById("root")
 );
