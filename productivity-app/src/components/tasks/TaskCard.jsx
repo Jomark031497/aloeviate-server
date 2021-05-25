@@ -13,6 +13,7 @@ import { makeStyles } from "@material-ui/styles";
 import { deleteTask } from "../../features/tasks/deleteTaskSlice";
 import { timeFormatter } from "../../utils/timeParser";
 import { useDispatch } from "react-redux";
+import { updateTask } from "../../features/tasks/updateTaskSlice";
 
 const TaskCard = ({ task }) => {
   const classes = useStyles();
@@ -27,12 +28,22 @@ const TaskCard = ({ task }) => {
     if (task.isCompleted) return;
     console.log("completing task");
     // dispatch({ type: "COMPLETE_TASK", payload: { id: task.id } });
+    const taskToComplete = {
+      ...task,
+      isCompleted: true,
+    };
+    dispatch(updateTask(taskToComplete));
   };
 
   const handleReset = () => {
     if (!task.isCompleted) return;
     console.log("resetting task");
-    // dispatch({ type: "RESET_TASK", payload: { id: task.id } });
+    const taskToReset = {
+      ...task,
+      isCompleted: false,
+      elapsedTime: 0,
+    };
+    dispatch(updateTask(taskToReset));
   };
 
   return (
