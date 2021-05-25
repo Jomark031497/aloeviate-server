@@ -6,7 +6,6 @@ require("dotenv").config();
 const tasks = require("./routes/tasks.routes");
 
 const app = express();
-const PORT = process.env.PORT;
 
 // middlewares
 
@@ -19,5 +18,18 @@ app.use("/tasks", tasks);
 
 // connecting to mongoDB
 dbConnect();
+
+if (process.env.NODE_ENV === "production") {
+  // set a static folder
+  app.use(express.static("../productivity-app/build"));
+
+  app.get("*", (req, res) => {
+    res.sendFile(
+      path.resolve(__dirname, "../productivity-app", "build", "index.html")
+    );
+  });
+}
+
+const PORT = process.env.PORT;
 
 app.listen(PORT, () => console.log(`Listening at port ${PORT}`));

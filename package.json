@@ -1,0 +1,21 @@
+{
+  "name": "aloeviate",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "client": "npm run start --prefix productivity-app",
+    "server": "npm run dev --prefix backend",
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix productivity-app && npm run build --prefix productivity-app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jomark031497/productivity-app.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jomark031497/productivity-app/issues"
+  },
+  "homepage": "https://github.com/Jomark031497/productivity-app#readme"
+}
