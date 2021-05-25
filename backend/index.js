@@ -25,6 +25,12 @@ if (process.env.NODE_ENV === "production") {
   app.use(express.static("../productivity-app/build"));
 }
 
+app.get("*", (req, res) => {
+  res.sendFile(
+    path.resolve(__dirname, "../productivity-app", "build", "index.html")
+  );
+});
+
 const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => console.log(`Listening at port ${PORT}`));
