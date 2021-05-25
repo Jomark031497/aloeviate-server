@@ -4,9 +4,12 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "client": "npm run start --prefix productivity-app",
+    "build": "cd productivity-app && npm run build",
     "server": "npm run dev --prefix backend",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix productivity-app && npm run build --prefix productivity-app"
+    "install-client": "cd client && npm install",
+    "client": "npm run start --prefix productivity-app",
+    "heroku-postbuild": "npm run install-client && npm run build",
+    "start": "cd backend && npm start"
   },
   "repository": {
     "type": "git",
