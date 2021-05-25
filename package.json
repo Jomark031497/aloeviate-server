@@ -15,6 +15,9 @@
     "type": "git",
     "url": "git+https://github.com/Jomark031497/productivity-app.git"
   },
+  "engines": {
+    "node": "14.16.1"
+  },
   "author": "",
   "license": "ISC",
   "bugs": {
