@@ -1,11 +1,11 @@
 const express = require("express");
 const cors = require("cors");
 const dbConnect = require("./config/database");
-require("dotenv").config();
+const dotenv = require("dotenv");
 const path = require("path");
 
 const tasks = require("./routes/tasks.routes");
-
+dotenv.config();
 const app = express();
 
 // middlewares
