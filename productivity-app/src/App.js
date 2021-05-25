@@ -12,10 +12,11 @@ function App() {
   const tasks = useSelector((state) => state.getTasks);
   const addTask = useSelector((state) => state.addTask);
   const deleteTask = useSelector((state) => state.deleteTask);
+  const updateTask = useSelector((state) => state.updateTask);
 
   useEffect(() => {
     dispatch(getTasks());
-  }, [dispatch, addTask.data, deleteTask.data]);
+  }, [dispatch, addTask.data, deleteTask.data, updateTask.data]);
 
   return (
     <div className={classes.root}>

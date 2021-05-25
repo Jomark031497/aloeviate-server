@@ -1,20 +1,25 @@
 import { IconButton, makeStyles, Typography } from "@material-ui/core";
 import PlayIcon from "@material-ui/icons/PlayCircleFilledWhiteOutlined";
 import PauseIcon from "@material-ui/icons/PauseCircleOutline";
-import { TaskContext } from "../../context/TaskContext";
-import { useContext, useEffect, useRef, useState } from "react";
+
+import { useEffect, useRef, useState } from "react";
 import { timeFormatter, timeToSecs } from "../../utils/timeParser";
 import useSound from "use-sound";
 import dingSound from "../../assets/ding.mp3";
 import backgroundSound from "../../assets/DoIWannaKnow.mp3";
+import { useDispatch, useSelector } from "react-redux";
+import { updateTask } from "../../features/tasks/updateTaskSlice";
 
 const Timer = () => {
   const classes = useStyles();
-  const { tasks, dispatch } = useContext(TaskContext);
 
   const [active, setActive] = useState(false);
   const [activeTask, setActiveTask] = useState("");
   const timeRef = useRef();
+
+  const dispatch = useDispatch();
+
+  const tasks = useSelector((state) => state.getTasks.data);
 
   const [ding] = useSound(dingSound);
   const [background, { stop, isPlaying, pause }] = useSound(backgroundSound, {
@@ -50,13 +55,8 @@ const Timer = () => {
       ...activeTask,
       elapsedTime: activeTask.duration - timeToSecs(timeRef.current.innerHTML),
     });
-    dispatch({
-      type: "UPDATE_ELAPSED",
-      payload: {
-        id: activeTask.id,
-        elapsedTime: timeToSecs(timeRef.current.innerHTML),
-      },
-    });
+
+    dispatch(updateTask(activeTask));
   };
 
   useEffect(() => {
@@ -83,9 +83,14 @@ const Timer = () => {
           // toggle the active state
           setActive((prev) => !prev);
           // update to complete the task
-          dispatch({ type: "COMPLETE_TASK", payload: { id: activeTask.id } });
-          // remove the current task
+          const taskToComplete = {
+            ...activeTask,
+            isCompleted: true,
+          };
+          dispatch(updateTask(taskToComplete));
+
           setActiveTask("");
+          // remove the current task
           // play the ding audio
           ding();
           stop();

@@ -23,7 +23,11 @@ const AddTask = () => {
 
     if (task.name === "") return;
 
-    dispatch(addTask(task));
+    const taskToAdd = {
+      ...task,
+      duration: task.duration * 60,
+    };
+    dispatch(addTask(taskToAdd));
 
     closeAddTask();
   };
