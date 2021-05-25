@@ -23,6 +23,7 @@ dbConnect();
 if (process.env.NODE_ENV === "production") {
   // set a static folder
   app.use(express.static("../productivity-app/build"));
+  app.use(express.static(path.join(__dirname, "../productivity-app/build")));
 
   app.get("*", (req, res) => {
     res.sendFile(
