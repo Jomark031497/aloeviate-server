@@ -7,8 +7,9 @@
     "client-build": "cd productivity-app && npm run build",
     "server": "npm run dev --prefix backend",
     "install-client": "cd productivity-app && npm install",
+    "install-server": "cd backend && npm install",
     "client": "npm run start --prefix productivity-app",
-    "heroku-postbuild": " npm run install-client && npm run client-build",
+    "heroku-postbuild": " npm run install-client && npm run install-server && npm run client-build",
     "start": "cd backend && npm start"
   },
   "repository": {
