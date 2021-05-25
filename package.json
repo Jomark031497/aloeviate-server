@@ -6,7 +6,7 @@
   "scripts": {
     "client-build": "cd productivity-app && npm run build",
     "server": "npm run dev --prefix backend",
-    "install-client": "cd client && npm install",
+    "install-client": "cd productivity-app && npm install",
     "client": "npm run start --prefix productivity-app",
     "heroku-postbuild": " npm run install-client && npm run client-build",
     "start": "cd backend && npm start"
