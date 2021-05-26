@@ -56,7 +56,12 @@ const Timer = () => {
       elapsedTime: activeTask.duration - timeToSecs(timeRef.current.innerHTML),
     });
 
-    dispatch(updateTask(activeTask));
+    const updateElapsed = {
+      ...activeTask,
+      elapsedTime: activeTask.duration - timeToSecs(timeRef.current.innerHTML),
+    };
+
+    dispatch(updateTask(updateElapsed));
   };
 
   useEffect(() => {

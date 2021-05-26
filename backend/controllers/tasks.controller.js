@@ -47,7 +47,6 @@ const deleteTask = async (req, res) => {
 };
 
 const updateTask = async (req, res) => {
-  console.log(req.body);
   try {
     let task = await Task.findById(req.params.id);
     if (!task)
