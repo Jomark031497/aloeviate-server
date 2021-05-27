@@ -26,24 +26,11 @@ const TaskCard = ({ task }) => {
 
   const handleComplete = () => {
     if (task.isCompleted) return;
-    console.log("completing task");
-    // dispatch({ type: "COMPLETE_TASK", payload: { id: task.id } });
-    const taskToComplete = {
-      ...task,
-      isCompleted: true,
-    };
-    dispatch(updateTask(taskToComplete));
+    dispatch(updateTask({ ...task, isCompleted: true }));
   };
 
   const handleReset = () => {
-    if (!task.isCompleted) return;
-    console.log("resetting task");
-    const taskToReset = {
-      ...task,
-      isCompleted: false,
-      elapsedTime: 0,
-    };
-    dispatch(updateTask(taskToReset));
+    dispatch(updateTask({ ...task, isCompleted: false, elapsedTime: 0 }));
   };
 
   return (

@@ -1,8 +1,11 @@
+import { CircularProgress } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Header from "./components/layouts/Header";
-import TaskContainer from "./components/tasks/TaskContainer";
+import AddTask from "./components/tasks/AddTask";
+import TaskCard from "./components/tasks/TaskCard";
+import Timer from "./components/timer/Timer";
 import { getTasks } from "./features/tasks/getTasksSlice";
 
 function App() {
@@ -10,9 +13,7 @@ function App() {
 
   const dispatch = useDispatch();
   const tasks = useSelector((state) => state.getTasks);
-  const addTask = useSelector((state) => state.addTask);
-  const deleteTask = useSelector((state) => state.deleteTask);
-  const updateTask = useSelector((state) => state.updateTask);
+  const { addTask, deleteTask, updateTask } = useSelector((state) => state);
 
   useEffect(() => {
     dispatch(getTasks());
@@ -23,7 +24,13 @@ function App() {
       <Header />
 
       <div className={classes.mainContainer}>
-        <TaskContainer tasks={tasks} />
+        <Timer />
+        {!tasks.error && tasks.isLoading ? (
+          <CircularProgress />
+        ) : (
+          tasks.data.map((task) => <TaskCard task={task} key={task._id} />)
+        )}
+        <AddTask />
       </div>
     </div>
   );

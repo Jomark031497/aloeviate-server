@@ -1,128 +1,126 @@
 import { IconButton, makeStyles, Typography } from "@material-ui/core";
 import PlayIcon from "@material-ui/icons/PlayCircleFilledWhiteOutlined";
 import PauseIcon from "@material-ui/icons/PauseCircleOutline";
-
 import { useEffect, useRef, useState } from "react";
-import { timeFormatter, timeToSecs } from "../../utils/timeParser";
-import useSound from "use-sound";
-import dingSound from "../../assets/ding.mp3";
-import backgroundSound from "../../assets/DoIWannaKnow.mp3";
 import { useDispatch, useSelector } from "react-redux";
+import { timeFormatter, timeToSecs } from "../../utils/timeParser";
 import { updateTask } from "../../features/tasks/updateTaskSlice";
 
 const Timer = () => {
   const classes = useStyles();
-
-  const [active, setActive] = useState(false);
-  const [activeTask, setActiveTask] = useState("");
-  const timeRef = useRef();
-
   const dispatch = useDispatch();
 
   const tasks = useSelector((state) => state.getTasks.data);
 
-  const [ding] = useSound(dingSound);
-  const [background, { stop, isPlaying, pause }] = useSound(backgroundSound, {
-    volume: 0.25,
-    loop: true,
-  });
+  const [timerActive, setTimerActive] = useState(false);
+  const [activeTask, setActiveTask] = useState("");
+  const timeRef = useRef();
+  const taskNameRef = useRef();
 
   const startTimer = (e) => {
-    // button won't work if there are no tasks
     if (!tasks.length) return;
+    // get the first not completed task
+    const task = getFirstTask();
 
-    // fetch all tasks that are not completed yet
-    const filteredTasks = tasks.filter((task) => !task.isCompleted);
+    // return if all tasks are completed
+    if (!task) {
+      resetTimerRefs();
+    }
 
-    // if there are no tasks left, return
-    if (!filteredTasks.length) return;
+    if (!getFirstTask()) return;
 
-    // set the active state to true
-    setActive((prev) => !prev);
+    if (activeTask && !task.elapsedTime) {
+      // start the timer
+    } else {
+      // set the first incomplete task to the active task
+      setActiveTask(task);
+    }
 
-    // set the activeTask to the first task in the context
-    if (activeTask === "") setActiveTask(filteredTasks[0]);
+    // Start the countdown timer
+    setTimerActive(true);
   };
 
   const stopTimer = (e) => {
-    // toggle the active state
-    setActive((prev) => !prev);
-    if (isPlaying) {
-      pause();
-    }
-    // adding elapsed time so that when resuming, it will not start at the beginning
-    setActiveTask({
-      ...activeTask,
-      elapsedTime: activeTask.duration - timeToSecs(timeRef.current.innerHTML),
-    });
+    if (!activeTask) return;
+    const elapsedTime =
+      activeTask.duration - timeToSecs(timeRef.current.innerHTML);
 
-    const updateElapsed = {
-      ...activeTask,
-      elapsedTime: activeTask.duration - timeToSecs(timeRef.current.innerHTML),
-    };
+    dispatch(updateTask({ ...activeTask, elapsedTime }));
 
-    dispatch(updateTask(updateElapsed));
+    // stop/pause the timer
+    setTimerActive(false);
   };
 
   useEffect(() => {
-    // so that when you delete/complete a task, it will not continue the countdown
-    if (!tasks.length || activeTask.isCompleted) {
-      stop();
-      setActive(false);
-      setActiveTask("");
-    }
     // interval id
     let countdown;
 
-    // button state if it is active (play)
-    if (active) {
-      background();
-      // calculate the duration if ever there's an elapsed time already
+    const filterTask = tasks.filter((task) => activeTask._id === task._id);
+
+    if (!tasks.length || (filterTask.length && filterTask[0].isCompleted)) {
+      clearInterval(countdown);
+      resetTimerRefs();
+      setTimerActive(false);
+      setActiveTask("");
+    }
+
+    // if the timer is in active mode
+    if (timerActive && activeTask) {
+      // set the duration to the duration of the active task - the elapsed time
       let duration = activeTask.duration - activeTask.elapsedTime;
 
-      // the countdown
       countdown = setInterval(() => {
+        // clear the interval and stop the clock if it reaches zero
         if (duration <= 1) {
           clearInterval(countdown);
-
-          // toggle the active state
-          setActive((prev) => !prev);
-          // update to complete the task
-          const taskToComplete = {
-            ...activeTask,
-            isCompleted: true,
-          };
-          dispatch(updateTask(taskToComplete));
-
+          setTimerActive(false);
+          resetTimerRefs();
           setActiveTask("");
-          // remove the current task
-          // play the ding audio
-          ding();
-          stop();
+          dispatch(
+            updateTask({ ...activeTask, isCompleted: true, elapsedTime: 0 })
+          );
         }
-
         duration -= 1;
         timeRef.current.innerHTML = timeFormatter(duration);
       }, 1000);
     }
 
-    // cleanup
     return () => {
       clearInterval(countdown);
     };
-  }, [active, activeTask, dispatch, tasks, ding, background, stop]);
+  }, [timerActive, activeTask, tasks, dispatch]);
+
+  const getFirstTask = () => {
+    // check if there are tasks
+    if (!tasks.length) return;
+
+    // get all the incomplete tasks
+    const filterIncompleteTasks = tasks.filter((task) => !task.isCompleted);
+
+    // check if there are filtered tasks
+    if (!filterIncompleteTasks.length) return;
+
+    return filterIncompleteTasks[0];
+  };
+
+  const resetTimerRefs = () => {
+    timeRef.current.innerHTML = "00:00";
+    taskNameRef.current.innerHTML = "No Task";
+  };
 
   return (
     <div>
       <div className={classes.root}>
         <Typography variant="h3" ref={timeRef}>
-          {activeTask ? timeFormatter(activeTask.duration) : "00:00"}
+          {activeTask && activeTask
+            ? timeFormatter(activeTask.duration)
+            : "00:00"}
         </Typography>
-        <Typography variant="h6" className={classes.activeTaskName}>
-          {activeTask ? activeTask.name : "No Task Yet"}
+        <Typography variant="h6" className={classes.taskName} ref={taskNameRef}>
+          {activeTask && activeTask ? activeTask.name : "No Task"}
         </Typography>
 
-        {active ? (
+        {timerActive ? (
           <IconButton
             size="small"
             onClick={stopTimer}
@@ -154,7 +152,7 @@ const useStyles = makeStyles((theme) => ({
   icons: {
     fontSize: "3rem",
   },
-  activeTaskName: {
+  taskName: {
     background: theme.palette.primary.main,
     padding: "0.5rem 1rem",
     borderRadius: "0.5rem",

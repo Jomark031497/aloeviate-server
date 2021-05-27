@@ -2,13 +2,14 @@ const Task = require("../models/task.model");
 
 const addTask = async (req, res) => {
   try {
-    const { name, duration, isCompleted, elapsedTime } = req.body;
+    const { name, duration, isCompleted, elapsedTime, isActive } = req.body;
 
     const newTask = new Task({
       name,
       duration,
       isCompleted,
       elapsedTime,
+      isActive,
     });
 
     const saveTask = await newTask.save();
