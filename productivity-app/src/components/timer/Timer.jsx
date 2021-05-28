@@ -18,16 +18,17 @@ const Timer = () => {
   const taskNameRef = useRef();
 
   const startTimer = (e) => {
+    // return if there are no tasks at all
     if (!tasks.length) return;
-    // get the first not completed task
+
+    // get the first incomplete task
     const task = getFirstTask();
 
     // return if all tasks are completed
     if (!task) {
       resetTimerRefs();
+      return;
     }
-
-    if (!getFirstTask()) return;
 
     if (activeTask && !task.elapsedTime) {
       // start the timer
@@ -41,7 +42,10 @@ const Timer = () => {
   };
 
   const stopTimer = (e) => {
+    // return if there ar eno active tasks
     if (!activeTask) return;
+
+    // update the elapsed Time of the task
     const elapsedTime =
       activeTask.duration - timeToSecs(timeRef.current.innerHTML);
 
@@ -55,9 +59,20 @@ const Timer = () => {
     // interval id
     let countdown;
 
+    // get the id of the current task
     const filterTask = tasks.filter((task) => activeTask._id === task._id);
 
+    // Since the when you reset the task, it will set all the durations to default (ie elapsed time to zero)
+    // this code will run, which will remove the bug where when you reset the task, it will use the duration - elapsedTime
+    if (filterTask.length && filterTask[0].elapsedTime === 0) {
+      timeRef.current.innerHTML = timeFormatter(filterTask[0].duration);
+      taskNameRef.current.innerHTML = filterTask[0].name;
+      setActiveTask(filterTask[0]);
+    }
+
+    // if task is completed, wil lreset the timer and stop
     if (!tasks.length || (filterTask.length && filterTask[0].isCompleted)) {
+      console.log("yow waddup");
       clearInterval(countdown);
       resetTimerRefs();
       setTimerActive(false);
