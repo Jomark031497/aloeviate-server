@@ -19,12 +19,10 @@ const strategy = new localStrategy(async (username, password, done) => {
 });
 
 passport.serializeUser((user, done) => {
-  console.log("serialize!");
   done(null, user.id, { message: "serialize" });
 });
 
 passport.deserializeUser(async (id, done) => {
-  console.log("deserialize!");
   try {
     let user = await User.findById(id);
     if (!user) return done(null, false, { message: "Incorrect username." });

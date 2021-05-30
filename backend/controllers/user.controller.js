@@ -48,7 +48,9 @@ const login = async (req, res) => {
     if (!hashedPassword)
       return res.status(401).json({ msg: "Wrong email or password" });
 
-    return res.status(200).json({ user: existingUser.username });
+    return res
+      .status(200)
+      .json({ username: req.user.username, id: req.user._id });
   } catch (err) {
     console.log(err);
     res.status(400).send(err);
@@ -58,7 +60,10 @@ const login = async (req, res) => {
 const logout = (req, res) => {
   try {
     req.logout();
-    res.status(200).json({ message: "logged out" });
+    res
+      .clearCookie("auth")
+      .status(200)
+      .json({ message: "cleared cookie and logged out" });
   } catch (err) {
     res.status(400).send(err);
   }

@@ -3,6 +3,7 @@ const cors = require("cors");
 const session = require("express-session");
 const passport = require("passport");
 const path = require("path");
+const cookieParser = require("cookie-parser");
 const strategy = require("./config/passport.setup");
 require("dotenv").config();
 
@@ -21,12 +22,17 @@ const dbConnect = require("./config/database");
 // middlewares
 app.use(express.json());
 app.use(cors());
+app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(
   session({
+    name: "auth",
     secret: process.env.SECRET,
     resave: false,
+    secure: true,
+    sameSite: true,
     saveUninitialized: true,
+    cookie: { maxAge: 24 * 60 * 60 * 1000 },
   })
 );
 
