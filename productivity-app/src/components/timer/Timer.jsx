@@ -72,7 +72,6 @@ const Timer = () => {
 
     // if task is completed, wil lreset the timer and stop
     if (!tasks.length || (filterTask.length && filterTask[0].isCompleted)) {
-      console.log("yow waddup");
       clearInterval(countdown);
       resetTimerRefs();
       setTimerActive(false);
