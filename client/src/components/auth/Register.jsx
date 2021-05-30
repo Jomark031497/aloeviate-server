@@ -1,25 +1,34 @@
-import { Box, Button, TextField } from "@material-ui/core";
+import { Box, Button, TextField, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { useState } from "react";
+import { registerUser } from "../../features/auth/registerUserSlice";
+import { useDispatch } from "react-redux";
+import { unwrapResult } from "@reduxjs/toolkit";
 
 const Register = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const [user, setUser] = useState({
     username: "",
     password: "",
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log(user);
+    dispatch(registerUser(user))
+      .then(unwrapResult)
+      .then((result) => {
+        console.log(result);
+      });
   };
   return (
     <div className={classes.root}>
       <Box component="form" onSubmit={handleSubmit} className={classes.form}>
+        <Typography variant="h4">Register</Typography>
         <TextField
-          variant="outlined"
+          variant="filled"
           label="Username"
           size="small"
           className={classes.textfields}
@@ -27,7 +36,7 @@ const Register = () => {
           onChange={(e) => setUser({ ...user, username: e.target.value })}
         />
         <TextField
-          variant="outlined"
+          variant="filled"
           label="Password"
           size="small"
           className={classes.textfields}
@@ -47,7 +56,6 @@ const useStyles = makeStyles((theme) => ({
     padding: "1rem",
   },
   form: {
-    background: "#cdcd",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",

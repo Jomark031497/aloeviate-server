@@ -3,9 +3,34 @@ import { makeStyles } from "@material-ui/styles";
 import Timer from "../timer/Timer";
 import TaskCard from "./TaskCard";
 import AddTask from "./AddTask";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { getTasks } from "../../features/tasks/getTasksSlice";
 
-const TasksContainer = ({ tasks }) => {
+const TasksContainer = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const tasks = useSelector((state) => state.getTasks);
+  const { addTask, deleteTask, updateTask, currentUser } = useSelector(
+    (state) => state
+  );
+
+  useEffect(() => {
+    try {
+      dispatch(getTasks());
+      console.log("rerender");
+    } catch (err) {
+      console.log(err.message);
+    }
+  }, [
+    dispatch,
+    addTask.data,
+    deleteTask.data,
+    updateTask.data,
+    currentUser.data,
+  ]);
+
   return (
     <div className={classes.mainContainer}>
       <Timer />

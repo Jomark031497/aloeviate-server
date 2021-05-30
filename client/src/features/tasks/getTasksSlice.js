@@ -22,6 +22,7 @@ export const getTasksSlice = createSlice({
     },
     [getTasks.rejected]: (state, action) => {
       state.status = "failed";
+      state.data = [];
     },
   },
 });

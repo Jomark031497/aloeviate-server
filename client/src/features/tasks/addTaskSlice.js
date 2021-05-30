@@ -16,7 +16,7 @@ export const addTaskSlice = createSlice({
     status: null,
   },
   extraReducers: {
-    [addTask.pending](state) {
+    [addTask.pending]: (state) => {
       state.status = "loading";
     },
     [addTask.fulfilled]: (state, action) => {
