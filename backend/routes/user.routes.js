@@ -8,4 +8,6 @@ router.post("/register", register);
 
 router.post("/login", passport.authenticate("local"), login);
 
+router.get("/logout", logout);
+
 module.exports = router;

@@ -2,9 +2,9 @@ const express = require("express");
 const cors = require("cors");
 const session = require("express-session");
 const passport = require("passport");
-require("dotenv").config();
 const path = require("path");
 const strategy = require("./config/passport.setup");
+require("dotenv").config();
 
 // routes
 const tasksRoute = require("./routes/tasks.routes");
