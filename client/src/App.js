@@ -1,6 +1,11 @@
 import { makeStyles } from "@material-ui/styles";
-import { useDispatch } from "react-redux";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 import { useEffect } from "react";
 import axios from "axios";
 import { setCurrentUser } from "./features/auth/currentUserSlice";
@@ -11,22 +16,21 @@ import Login from "./components/auth/Login";
 
 function App() {
   const classes = useStyles();
-
   const dispatch = useDispatch();
+  const currentUser = useSelector((state) => state.currentUser);
 
   useEffect(() => {
     const checkLogin = async () => {
       try {
-        const res = await axios.get("/users/me");
-
-        dispatch(setCurrentUser(res.data));
+        const { data } = await axios.get("/users/me");
+        dispatch(setCurrentUser(data));
       } catch (err) {
-        console.log(err.message);
+        console.log(err);
       }
     };
 
     checkLogin();
-  }, []);
+  }, [dispatch]);
 
   return (
     <div className={classes.root}>
@@ -36,7 +40,7 @@ function App() {
           <Route exact path="/register" component={Register} />
           <Route exact path="/login" component={Login} />
           <Route path="/">
-            <TaskContainer />
+            {currentUser.data ? <TaskContainer /> : <Redirect to="/login" />}
           </Route>
         </Switch>
       </Router>

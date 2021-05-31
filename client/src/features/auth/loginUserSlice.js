@@ -4,10 +4,8 @@ import axios from "axios";
 export const loginUser = createAsyncThunk(
   "users/loginUser",
   async (payload) => {
-    const res = await axios.post("/users/login", payload, {
-      headers: { "Content-Type": "application/json" },
-    });
-    return res.data;
+    const { data } = await axios.post("/users/login", payload);
+    return data;
   }
 );
 
@@ -16,15 +14,20 @@ export const loginUserSlice = createSlice({
   initialState: {
     data: "",
     status: null,
+    error: null,
   },
   extraReducers: {
-    [loginUser.pending]: (state) => {
-      state.status = "pending";
+    [loginUser.pending](state) {
+      state.status = "loading";
     },
-    [loginUser.fulfilled]: (state, action) => {
+    [loginUser.fulfilled](state, action) {
       state.data = action.payload;
+      state.error = null;
+      state.status = "success";
     },
-    [loginUser.rejected]: (state, action) => {
+    [loginUser.rejected](state, action) {
+      state.data = null;
+      state.status = action.payload;
       state.status = "failed";
     },
   },

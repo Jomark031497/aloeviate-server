@@ -19,7 +19,6 @@ const TasksContainer = () => {
   useEffect(() => {
     try {
       dispatch(getTasks());
-      console.log("rerender");
     } catch (err) {
       console.log(err.message);
     }

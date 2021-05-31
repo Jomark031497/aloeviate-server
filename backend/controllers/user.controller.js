@@ -29,7 +29,7 @@ const register = async (req, res) => {
 
     return res.status(200).json({ user: savedUser.username });
   } catch (err) {
-    res.status(500).send(err);
+    res.status(500).json({ error: err.message, status: "error" });
   }
 };
 
@@ -45,6 +45,7 @@ const login = async (req, res) => {
       password,
       existingUser.password
     );
+
     if (!hashedPassword)
       return res.status(401).json({ msg: "Wrong email or password" });
 
@@ -53,7 +54,8 @@ const login = async (req, res) => {
       .json({ username: req.user.username, id: req.user._id });
   } catch (err) {
     console.log(err);
-    res.status(400).send(err);
+
+    res.status(400).json({ error: err.message, status: "error" });
   }
 };
 
@@ -65,8 +67,12 @@ const logout = (req, res) => {
       .status(200)
       .json({ message: "cleared cookie and logged out" });
   } catch (err) {
-    res.status(400).send(err);
+    res.status(400).json({ error: err.message, status: "error" });
   }
 };
 
-module.exports = { login, register, logout };
+const me = (req, res) => {
+  res.send(req.user);
+};
+
+module.exports = { login, register, logout, me };

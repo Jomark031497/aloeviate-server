@@ -4,20 +4,15 @@ const session = require("express-session");
 const passport = require("passport");
 const path = require("path");
 const cookieParser = require("cookie-parser");
-const strategy = require("./config/passport.setup");
+
 require("dotenv").config();
 
-// routes
 const tasksRoute = require("./routes/tasks.routes");
 const userRoute = require("./routes/user.routes");
-const requireAuth = require("./middlewares/auth");
+const strategy = require("./config/passport.setup");
+const dbConnect = require("./config/database");
 
 const app = express();
-
-passport.use(strategy);
-
-// database connection
-const dbConnect = require("./config/database");
 
 // middlewares
 app.use(express.json());
@@ -29,8 +24,6 @@ app.use(
     name: "auth",
     secret: process.env.SECRET,
     resave: false,
-    secure: true,
-    sameSite: true,
     saveUninitialized: true,
     cookie: { maxAge: 24 * 60 * 60 * 1000 },
   })
@@ -39,6 +32,7 @@ app.use(
 // passport middleware
 app.use(passport.initialize());
 app.use(passport.session());
+require("./config/passport.setup")(passport);
 
 //routes
 app.use("/tasks", tasksRoute);
