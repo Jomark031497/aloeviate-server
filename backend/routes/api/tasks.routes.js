@@ -1,19 +1,42 @@
-const express = require("express");
-const router = express.Router();
+const router = require("express").Router();
+const requireAuth = require("../../middlewares/auth");
 const {
   addTask,
   showAllTasks,
   deleteTask,
   updateTask,
 } = require("../../controllers/tasks.controller");
-const requireAuth = require("../../middlewares/auth");
 
+/**
+ * METHOD:          POST
+ * DESC:            ADD TASK TO A USER
+ * COMPLETE ROUTE:  /api/users/task/:id
+ * PROTECTED:       YES
+ */
 router.post("/task/:id", addTask);
 
-router.get("/", requireAuth, showAllTasks);
+/**
+ * METHOD:          GET
+ * DESC:            GET ALL TASKS FROM A USER
+ * COMPLETE ROUTE:  /api/users/task/all/:id
+ * PROTECTED:       YES
+ */
+router.get("/task/all/:id", requireAuth, showAllTasks);
 
-router.delete("/:id", deleteTask);
+/**
+ * METHOD:          DELETE
+ * DESC:            DELETE A SPECIFIC TASK FROM A USER
+ * COMPLETE ROUTE:  /api/users/task/:id?task=:id
+ * PROTECTED:       YES
+ */
+router.delete("/task/:id", deleteTask);
 
-router.put("/:id", updateTask);
+/**
+ * METHOD:          PUT
+ * DESC:            UPDATE A SPECIFIC TASK FROM A USER
+ * COMPLETE ROUTE:  /api/users/task/:id?task=:id
+ * PROTECTED:       YES
+ */
+router.put("/task/:id", updateTask);
 
 module.exports = router;

@@ -1,12 +1,20 @@
-const Users = require("../models/user.model");
+const User = require("../models/user.model");
 
 const addTask = async (req, res) => {
   try {
-    const user = await Users.findById(req.params.id);
-
-    await user.tasks.push(req.body);
-
-    await user.save();
+    const user = await User.findByIdAndUpdate(
+      req.params.id,
+      {
+        $push: {
+          tasks: req.body,
+        },
+      },
+      {
+        new: true,
+        runValidators: true,
+        useFindAndModify: false,
+      }
+    );
 
     res.status(200).json({ tasks: user.tasks, msg: "success" });
   } catch (err) {
@@ -16,8 +24,9 @@ const addTask = async (req, res) => {
 
 const showAllTasks = async (req, res) => {
   try {
-    const Tasks = await Task.find();
-    res.json(Tasks);
+    const user = await User.findById(req.params.id);
+
+    res.status(200).json({ tasks: user.tasks });
   } catch (err) {
     res.status(400).json({ msg: err.message });
   }
@@ -25,18 +34,21 @@ const showAllTasks = async (req, res) => {
 
 const deleteTask = async (req, res) => {
   try {
-    const task = await Task.findById(req.params.id);
+    const user = await User.findByIdAndUpdate(
+      req.params.id,
+      {
+        $pull: {
+          tasks: { _id: req.query.task },
+        },
+      },
+      {
+        new: true,
+        runValidators: true,
+        useFindAndModify: false,
+      }
+    );
 
-    if (!task)
-      return res
-        .status(404)
-        .json({ success: false, message: "Task not found" });
-
-    await task.remove();
-
-    res
-      .status(200)
-      .json({ success: true, message: "Task successfully deleted" });
+    res.status(200).json({ user });
   } catch (err) {
     res.status(400).json({ msg: err.message });
   }
@@ -44,18 +56,29 @@ const deleteTask = async (req, res) => {
 
 const updateTask = async (req, res) => {
   try {
-    let task = await Task.findById(req.params.id);
-    if (!task)
-      return res
-        .status(404)
-        .json({ success: false, message: "Task not found" });
+    const { name, duration, elapsedTime, isCompleted, isActive } = req.body;
 
-    task = await Task.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true,
-      useFindAndModify: false,
-    });
-    res.status(200).json({ success: true, task });
+    const user = await User.findOneAndUpdate(
+      {
+        _id: req.params.id,
+        "tasks._id": req.query.task,
+      },
+      {
+        $set: {
+          "tasks.$.name": name,
+          "tasks.$.duration": duration,
+          "tasks.$.elapsedTime": elapsedTime,
+          "tasks.$.isCompleted": isCompleted,
+          "tasks.$.isActive": isActive,
+        },
+      },
+      {
+        new: true,
+        runValidators: true,
+        useFindAndModify: false,
+      }
+    );
+    res.status(200).json(user);
   } catch (err) {
     res.status(400).json({ msg: err.message });
   }
