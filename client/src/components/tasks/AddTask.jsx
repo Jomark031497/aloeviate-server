@@ -1,7 +1,7 @@
 import { Button, Card, TextField } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addTask } from "../../features/tasks/addTaskSlice";
 
 const AddTask = () => {
@@ -12,8 +12,9 @@ const AddTask = () => {
     duration: 0,
     elapsedTime: 0,
     isCompleted: false,
-    isActive: false,
   });
+
+  const currentUser = useSelector((state) => state.currentUser.data);
 
   const [open, setOpen] = useState(false);
 
@@ -28,7 +29,7 @@ const AddTask = () => {
       ...task,
       duration: task.duration * 60,
     };
-    dispatch(addTask(taskToAdd));
+    dispatch(addTask({ userId: currentUser._id, task: taskToAdd }));
 
     closeAddTask();
   };

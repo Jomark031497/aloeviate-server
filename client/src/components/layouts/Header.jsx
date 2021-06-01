@@ -27,7 +27,7 @@ const Header = () => {
 
   const handleLogout = async (e) => {
     try {
-      const res = await axios.get("/users/logout");
+      const res = await axios.get("/api/users/logout");
       console.log(res.data);
 
       dispatch(clearCurrentUser());

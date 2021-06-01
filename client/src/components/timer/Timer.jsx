@@ -10,7 +10,7 @@ const Timer = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const tasks = useSelector((state) => state.getTasks.data);
+  const tasks = useSelector((state) => state.getTasks);
 
   const [timerActive, setTimerActive] = useState(false);
   const [activeTask, setActiveTask] = useState("");
@@ -60,7 +60,9 @@ const Timer = () => {
     let countdown;
 
     // get the id of the current task
-    const filterTask = tasks.filter((task) => activeTask._id === task._id);
+    const filterTask = tasks.data.tasks.filter(
+      (task) => activeTask._id === task._id
+    );
 
     // Since the when you reset the task, it will set all the durations to default (ie elapsed time to zero)
     // this code will run, which will remove the bug where when you reset the task, it will use the duration - elapsedTime

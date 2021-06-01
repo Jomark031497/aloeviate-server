@@ -4,7 +4,7 @@ import axios from "axios";
 export const registerUser = createAsyncThunk(
   "users/registerUser",
   async (payload) => {
-    const res = await axios.post("/users/register", payload, {
+    const res = await axios.post("/api/users/register", payload, {
       headers: { "Content-Type": "application/json" },
     });
     return res.data;

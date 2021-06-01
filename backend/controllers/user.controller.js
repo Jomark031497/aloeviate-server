@@ -15,7 +15,7 @@ const register = async (req, res) => {
     // check if user is already registered in the database
     const user = await User.findOne({ username });
 
-    if (user) return res.status(400).json({ user: user.username });
+    if (user) return res.status(400).json({ msg: "username already exists!" });
 
     // hashing the password
     const salt = await bcrypt.genSalt();

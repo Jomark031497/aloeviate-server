@@ -1,6 +1,7 @@
 const User = require("../models/user.model");
 
 const addTask = async (req, res) => {
+  console.log(req.params.id);
   try {
     const user = await User.findByIdAndUpdate(
       req.params.id,

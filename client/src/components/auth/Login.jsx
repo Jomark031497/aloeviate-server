@@ -28,6 +28,8 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (!user.username || !user.password) return;
+
     dispatch(loginUser(user))
       .then(unwrapResult)
       .then((result) => {

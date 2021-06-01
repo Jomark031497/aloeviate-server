@@ -18,7 +18,7 @@ const TasksContainer = () => {
 
   useEffect(() => {
     try {
-      dispatch(getTasks());
+      dispatch(getTasks({ id: currentUser.data._id }));
     } catch (err) {
       console.log(err.message);
     }
@@ -32,12 +32,13 @@ const TasksContainer = () => {
 
   return (
     <div className={classes.mainContainer}>
-      <Timer />
-      {!tasks.error && tasks.isLoading ? (
-        <CircularProgress />
-      ) : (
-        tasks.data.map((task) => <TaskCard task={task} key={task._id} />)
-      )}
+      {/* <Timer /> */}
+      {tasks && tasks.status === "success"
+        ? tasks.data.tasks.map((task) => (
+            <TaskCard task={task} key={task._id} />
+          ))
+        : null}
+
       <AddTask />
     </div>
   );

@@ -38,6 +38,7 @@ const Register = () => {
         <TextField
           variant="filled"
           label="Password"
+          type="password"
           size="small"
           className={classes.textfields}
           value={user.password}

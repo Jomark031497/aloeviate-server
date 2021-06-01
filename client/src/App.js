@@ -22,7 +22,7 @@ function App() {
   useEffect(() => {
     const checkLogin = async () => {
       try {
-        const { data } = await axios.get("/users/me");
+        const { data } = await axios.get("/api/users/me");
         dispatch(setCurrentUser(data));
       } catch (err) {
         console.log(err);

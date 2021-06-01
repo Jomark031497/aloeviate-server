@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-export const getTasks = createAsyncThunk("tasks/getTasks", async () => {
-  const { data } = await axios.get("/tasks");
+export const getTasks = createAsyncThunk("tasks/getTasks", async ({ id }) => {
+  const { data } = await axios.get(`/api/users/task/all/${id}`);
   return data;
 });
 
