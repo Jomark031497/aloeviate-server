@@ -35,18 +35,18 @@ const register = async (req, res) => {
 };
 
 const login = async (req, res, next) => {
-  passport.authenticate("local", (err, user, info) => {
+  passport.authenticate("local", (err, user) => {
     if (err) {
-      return next(err);
+      return res.status(400).json(err);
     }
 
     if (!user) {
-      return res.json(info);
+      return res.status(400).json(err);
     }
 
     req.logIn(user, (err) => {
       if (err) {
-        return next(err);
+        return res.status(400).json(err);
       }
 
       return res.json({ _id: user._id, username: user.username });

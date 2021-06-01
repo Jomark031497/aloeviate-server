@@ -32,7 +32,6 @@ const Login = () => {
       .then(unwrapResult)
       .then((result) => {
         dispatch(setCurrentUser(result));
-        history.push("/");
       })
       .catch((err) => {
         console.log(err.message);
