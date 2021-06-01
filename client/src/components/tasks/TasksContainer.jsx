@@ -11,7 +11,7 @@ const TasksContainer = () => {
 
   return (
     <div className={classes.mainContainer}>
-      {/* <Timer /> */}
+      <Timer />
       {tasks && tasks.map((task) => <TaskCard task={task} key={task._id} />)}
 
       <AddTask />

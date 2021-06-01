@@ -18,7 +18,6 @@ function App() {
   const classes = useStyles();
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state.currentUser);
-  const loginUser = useSelector((state) => state);
 
   useEffect(() => {
     const checkLogin = async () => {

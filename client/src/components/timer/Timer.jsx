@@ -10,7 +10,7 @@ const Timer = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const tasks = useSelector((state) => state.getTasks);
+  const tasks = useSelector((state) => state.currentUser.data);
 
   const [timerActive, setTimerActive] = useState(false);
   const [activeTask, setActiveTask] = useState("");
@@ -19,7 +19,7 @@ const Timer = () => {
 
   const startTimer = (e) => {
     // return if there are no tasks at all
-    if (!tasks.length) return;
+    if (!tasks.tasks.length) return;
 
     // get the first incomplete task
     const task = getFirstTask();
@@ -49,7 +49,7 @@ const Timer = () => {
     const elapsedTime =
       activeTask.duration - timeToSecs(timeRef.current.innerHTML);
 
-    dispatch(updateTask({ ...activeTask, elapsedTime }));
+    dispatch(updateTask({ ...activeTask, userId: tasks._id, elapsedTime }));
 
     // stop/pause the timer
     setTimerActive(false);
@@ -60,9 +60,11 @@ const Timer = () => {
     let countdown;
 
     // get the id of the current task
-    const filterTask = tasks.data.tasks.filter(
+    const filterTask = tasks.tasks.filter(
       (task) => activeTask._id === task._id
     );
+
+    console.log(filterTask);
 
     // Since the when you reset the task, it will set all the durations to default (ie elapsed time to zero)
     // this code will run, which will remove the bug where when you reset the task, it will use the duration - elapsedTime
@@ -108,10 +110,12 @@ const Timer = () => {
 
   const getFirstTask = () => {
     // check if there are tasks
-    if (!tasks.length) return;
+    if (!tasks.tasks.length) return;
 
     // get all the incomplete tasks
-    const filterIncompleteTasks = tasks.filter((task) => !task.isCompleted);
+    const filterIncompleteTasks = tasks.tasks.filter(
+      (task) => !task.isCompleted
+    );
 
     // check if there are filtered tasks
     if (!filterIncompleteTasks.length) return;
