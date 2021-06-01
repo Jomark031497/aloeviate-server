@@ -1,7 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const passport = require("passport");
-const requireAuth = require("../middlewares/auth");
 
 const {
   login,
@@ -12,7 +10,7 @@ const {
 
 router.post("/register", register);
 
-router.post("/login", passport.authenticate("local"), login);
+router.post("/login", login);
 
 router.get("/logout", logout);
 

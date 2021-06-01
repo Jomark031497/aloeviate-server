@@ -1,5 +1,6 @@
 const User = require("../models/user.model");
 const bcrypt = require("bcrypt");
+const passport = require("passport");
 
 const register = async (req, res) => {
   try {
@@ -33,30 +34,24 @@ const register = async (req, res) => {
   }
 };
 
-const login = async (req, res) => {
-  try {
-    const { username, password } = req.body;
-    // check if user is already in the database
-    const existingUser = await User.findOne({ username });
-    if (!existingUser)
-      return res.status(401).json({ msg: "Wrong email or password" });
-    // de-hash password
-    const hashedPassword = await bcrypt.compare(
-      password,
-      existingUser.password
-    );
+const login = async (req, res, next) => {
+  passport.authenticate("local", (err, user, info) => {
+    if (err) {
+      return next(err);
+    }
 
-    if (!hashedPassword)
-      return res.status(401).json({ msg: "Wrong email or password" });
+    if (!user) {
+      return res.json(info);
+    }
 
-    return res
-      .status(200)
-      .json({ username: req.user.username, id: req.user._id });
-  } catch (err) {
-    console.log(err);
+    req.logIn(user, (err) => {
+      if (err) {
+        return next(err);
+      }
 
-    res.status(400).json({ error: err.message, status: "error" });
-  }
+      return res.json({ _id: user._id, username: user.username });
+    });
+  })(req, res, next);
 };
 
 const logout = (req, res) => {

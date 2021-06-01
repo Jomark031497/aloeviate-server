@@ -5,7 +5,7 @@ import { loginUser } from "../../features/auth/loginUserSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { setCurrentUser } from "../../features/auth/currentUserSlice";
-import { useHistory } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 const Login = () => {
   const classes = useStyles();
@@ -44,7 +44,7 @@ const Login = () => {
       <Box component="form" onSubmit={handleSubmit} className={classes.form}>
         <Typography variant="h4">Login</Typography>
         <TextField
-          variant="filled"
+          variant="outlined"
           label="Username"
           size="small"
           className={classes.textfields}
@@ -52,16 +52,24 @@ const Login = () => {
           onChange={(e) => setUser({ ...user, username: e.target.value })}
         />
         <TextField
-          variant="filled"
+          variant="outlined"
+          type="password"
           label="Password"
           size="small"
           className={classes.textfields}
           value={user.password}
           onChange={(e) => setUser({ ...user, password: e.target.value })}
         />
-        <Button variant="outlined" className={classes.buttons} type="submit">
-          Login
+        <Button
+          variant="contained"
+          color="primary"
+          className={classes.buttons}
+          type="submit"
+        >
+          Log In
         </Button>
+
+        <Link to="/register">Register to aloeviate</Link>
       </Box>
     </div>
   );
@@ -69,7 +77,7 @@ const Login = () => {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    padding: "1rem",
+    padding: "3rem 2rem",
   },
   form: {
     display: "flex",
@@ -77,10 +85,10 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
   },
   textfields: {
-    margin: "0.5rem auto",
+    margin: "1rem auto",
   },
   buttons: {
-    margin: "0.5rem auto",
+    margin: "0.5rem auto 1.5rem auto",
   },
 }));
 
