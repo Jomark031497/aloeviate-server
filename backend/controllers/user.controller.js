@@ -61,10 +61,11 @@ const login = async (req, res) => {
 
 const logout = (req, res) => {
   try {
+    if (!req.user) throw err;
     req.logout();
     res.status(200).json({ message: "cleared cookie and logged out" });
   } catch (err) {
-    res.status(400).json({ error: err.message, status: "error" });
+    res.status(400).json({ error: err, status: "error" });
   }
 };
 
