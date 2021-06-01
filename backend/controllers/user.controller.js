@@ -49,7 +49,11 @@ const login = async (req, res, next) => {
         return res.status(400).json(err);
       }
 
-      return res.json({ _id: user._id, username: user.username });
+      return res.json({
+        _id: user._id,
+        username: user.username,
+        tasks: user.tasks,
+      });
     });
   })(req, res, next);
 };
@@ -66,7 +70,11 @@ const logout = (req, res) => {
 
 const me = (req, res) => {
   if (req.user) {
-    res.status(200).json({ _id: req.user.id, username: req.user.username });
+    res.status(200).json({
+      _id: req.user.id,
+      username: req.user.username,
+      tasks: req.user.tasks,
+    });
   } else {
     res.status(200).send(false);
   }

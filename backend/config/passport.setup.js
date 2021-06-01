@@ -8,7 +8,6 @@ module.exports = (passport) => {
   });
 
   passport.deserializeUser(async (id, done) => {
-    console.log("desi");
     try {
       let user = await User.findById(id);
       if (!user)
