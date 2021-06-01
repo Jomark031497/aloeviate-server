@@ -62,10 +62,7 @@ const login = async (req, res) => {
 const logout = (req, res) => {
   try {
     req.logout();
-    res
-      .clearCookie("auth")
-      .status(200)
-      .json({ message: "cleared cookie and logged out" });
+    res.status(200).json({ message: "cleared cookie and logged out" });
   } catch (err) {
     res.status(400).json({ error: err.message, status: "error" });
   }
@@ -73,7 +70,7 @@ const logout = (req, res) => {
 
 const me = (req, res) => {
   if (req.user) {
-    res.status(200).json(req.user);
+    res.status(200).json({ _id: req.user.id, username: req.user.username });
   } else {
     res.status(200).send(false);
   }
