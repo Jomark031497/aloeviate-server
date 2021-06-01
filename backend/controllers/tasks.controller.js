@@ -56,7 +56,7 @@ const deleteTask = async (req, res) => {
 
 const updateTask = async (req, res) => {
   try {
-    const { name, duration, elapsedTime, isCompleted, isActive } = req.body;
+    const { name, duration, elapsedTime, isCompleted } = req.body;
 
     const user = await User.findOneAndUpdate(
       {
@@ -69,7 +69,6 @@ const updateTask = async (req, res) => {
           "tasks.$.duration": duration,
           "tasks.$.elapsedTime": elapsedTime,
           "tasks.$.isCompleted": isCompleted,
-          "tasks.$.isActive": isActive,
         },
       },
       {

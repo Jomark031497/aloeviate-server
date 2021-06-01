@@ -18,11 +18,7 @@ const taskSchema = Schema(
       required: true,
       default: false,
     },
-    isActive: {
-      type: Boolean,
-      required: true,
-      default: false,
-    },
+
     elapsedTime: {
       type: Number,
       default: 0,
