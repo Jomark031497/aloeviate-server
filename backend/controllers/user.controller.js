@@ -72,7 +72,11 @@ const logout = (req, res) => {
 };
 
 const me = (req, res) => {
-  res.send(req.user);
+  if (req.user) {
+    res.status(200).json(req.user);
+  } else {
+    res.status(200).send(false);
+  }
 };
 
 module.exports = { login, register, logout, me };

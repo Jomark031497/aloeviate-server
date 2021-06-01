@@ -1,14 +1,24 @@
 import { Box, Button, TextField, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { loginUser } from "../../features/auth/loginUserSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { setCurrentUser } from "../../features/auth/currentUserSlice";
+import { useHistory } from "react-router-dom";
 
 const Login = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  let history = useHistory();
+
+  const currentUser = useSelector((state) => state.currentUser.data);
+
+  useEffect(() => {
+    if (currentUser) {
+      history.push("/");
+    }
+  }, [currentUser, history]);
 
   const [user, setUser] = useState({
     username: "",
@@ -22,6 +32,7 @@ const Login = () => {
       .then(unwrapResult)
       .then((result) => {
         dispatch(setCurrentUser(result));
+        history.push("/");
       })
       .catch((err) => {
         console.log(err.message);
