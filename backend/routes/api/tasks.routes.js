@@ -5,10 +5,10 @@ const {
   showAllTasks,
   deleteTask,
   updateTask,
-} = require("../controllers/tasks.controller");
-const requireAuth = require("../middlewares/auth");
+} = require("../../controllers/tasks.controller");
+const requireAuth = require("../../middlewares/auth");
 
-router.post("/", addTask);
+router.post("/task/:id", addTask);
 
 router.get("/", requireAuth, showAllTasks);
 

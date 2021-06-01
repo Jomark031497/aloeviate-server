@@ -7,6 +7,7 @@ const dbConnect = () => {
       useCreateIndex: true,
       useUnifiedTopology: true,
       useNewUrlParser: true,
+      useFindAndModify: true,
     },
     (err) => {
       if (err) return console.error(err);

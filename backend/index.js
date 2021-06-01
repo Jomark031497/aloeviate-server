@@ -7,9 +7,8 @@ const cookieParser = require("cookie-parser");
 
 require("dotenv").config();
 
-const tasksRoute = require("./routes/tasks.routes");
-const userRoute = require("./routes/user.routes");
-const strategy = require("./config/passport.setup");
+const tasksRoute = require("./routes/api/tasks.routes");
+const userRoute = require("./routes/api/user.routes");
 const dbConnect = require("./config/database");
 
 const app = express();
@@ -35,8 +34,8 @@ app.use(passport.session());
 require("./config/passport.setup")(passport);
 
 //routes
-app.use("/tasks", tasksRoute);
-app.use("/users", userRoute);
+app.use("/api/users", tasksRoute);
+app.use("/api/users", userRoute);
 
 // connecting to mongoDB
 dbConnect();

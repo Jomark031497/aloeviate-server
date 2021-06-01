@@ -6,7 +6,7 @@ const {
   register,
   logout,
   me,
-} = require("../controllers/user.controller");
+} = require("../../controllers/user.controller");
 
 router.post("/register", register);
 

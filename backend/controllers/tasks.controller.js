@@ -1,19 +1,14 @@
-const Task = require("../models/task.model");
+const Users = require("../models/user.model");
 
 const addTask = async (req, res) => {
   try {
-    const { name, duration, isCompleted, elapsedTime, isActive } = req.body;
+    const user = await Users.findById(req.params.id);
 
-    const newTask = new Task({
-      name,
-      duration,
-      isCompleted,
-      elapsedTime,
-      isActive,
-    });
+    await user.tasks.push(req.body);
 
-    const saveTask = await newTask.save();
-    res.json(saveTask);
+    await user.save();
+
+    res.status(200).json({ tasks: user.tasks, msg: "success" });
   } catch (err) {
     res.status(400).json({ msg: err.message });
   }
