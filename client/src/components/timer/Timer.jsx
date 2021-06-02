@@ -5,10 +5,21 @@ import { useEffect, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { timeFormatter, timeToSecs } from "../../utils/timeParser";
 import { updateTask } from "../../features/tasks/updateTaskSlice";
+import getFirstTask from "../utils/getFirstTask";
+import dingSound from "../../assets/ding.mp3";
+import bgSound from "../../assets/DoIWannaKnow.mp3";
+import useSound from "use-sound";
 
 const Timer = () => {
   const classes = useStyles();
+
   const dispatch = useDispatch();
+  const [dingPlay] = useSound(dingSound);
+  const [bgPlay, { stop, isPlaying }] = useSound(bgSound, {
+    loop: true,
+    volume: 0.1,
+    interrupt: true,
+  });
 
   const currentUser = useSelector((state) => state.currentUser.data);
 
@@ -22,7 +33,7 @@ const Timer = () => {
     if (!currentUser.tasks.length) return;
 
     // get the first incomplete task
-    const task = getFirstTask();
+    const task = getFirstTask(currentUser.tasks);
 
     // return if all tasks are completed
     if (!task) {
@@ -47,17 +58,19 @@ const Timer = () => {
     if (!activeTask) return;
 
     // update the elapsed Time of the task
-    const elapsedTime =
-      activeTask.duration - timeToSecs(timeRef.current.innerHTML);
-
     dispatch(
       updateTask({
         userId: currentUser._id,
         taskId: activeTask._id,
-        task: { ...activeTask, elapsedTime },
+        task: {
+          ...activeTask,
+          elapsedTime:
+            activeTask.duration - timeToSecs(timeRef.current.innerHTML),
+        },
       })
     );
 
+    stop();
     // stop/pause the timer
     setTimerActive(false);
   };
@@ -71,11 +84,13 @@ const Timer = () => {
       (task) => activeTask._id === task._id
     );
 
-    // Since the when you reset the task, it will set all the durations to default (ie elapsed time to zero)
+    // Since when you reset the task, it will set all the durations to default (ie elapsed time to zero)
     // this code will run, which will remove the bug where when you reset the task, it will use the duration - elapsedTime
     if (filterTask.length && filterTask[0].elapsedTime === 0) {
       timeRef.current.innerHTML = timeFormatter(filterTask[0].duration);
       taskNameRef.current.innerHTML = filterTask[0].name;
+      if (isPlaying) stop();
+
       setActiveTask(filterTask[0]);
     }
 
@@ -87,6 +102,7 @@ const Timer = () => {
       clearInterval(countdown);
       resetTimerRefs();
       setTimerActive(false);
+      stop();
       setActiveTask("");
     }
 
@@ -95,6 +111,7 @@ const Timer = () => {
       // set the duration to the duration of the active task - the elapsed time
       let duration = activeTask.duration - activeTask.elapsedTime;
 
+      bgPlay();
       countdown = setInterval(() => {
         // clear the interval and stop the clock if it reaches zero
         if (duration <= 1) {
@@ -103,8 +120,19 @@ const Timer = () => {
           resetTimerRefs();
           setActiveTask("");
           dispatch(
-            updateTask({ ...activeTask, isCompleted: true, elapsedTime: 0 })
+            updateTask({
+              userId: currentUser._id,
+              taskId: activeTask._id,
+              task: {
+                ...activeTask,
+                isCompleted: true,
+                elapsedTime: 0,
+              },
+            })
           );
+
+          dingPlay();
+          stop();
         }
         duration -= 1;
         timeRef.current.innerHTML = timeFormatter(duration);
@@ -114,22 +142,16 @@ const Timer = () => {
     return () => {
       clearInterval(countdown);
     };
-  }, [timerActive, activeTask, currentUser.tasks, dispatch]);
-
-  const getFirstTask = () => {
-    // check if there are tasks
-    if (!currentUser.tasks.length) return;
-
-    // get all the incomplete tasks
-    const filterIncompleteTasks = currentUser.tasks.filter(
-      (task) => !task.isCompleted
-    );
-
-    // check if there are filtered tasks
-    if (!filterIncompleteTasks.length) return;
-
-    return filterIncompleteTasks[0];
-  };
+  }, [
+    timerActive,
+    activeTask,
+    currentUser.tasks,
+    dispatch,
+    currentUser._id,
+    bgPlay,
+    dingPlay,
+    stop,
+  ]);
 
   const resetTimerRefs = () => {
     timeRef.current.innerHTML = "00:00";

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { registerUser } from "../../features/auth/registerUserSlice";
 import { useDispatch } from "react-redux";
 import { unwrapResult } from "@reduxjs/toolkit";
+import { Link } from "react-router-dom";
 
 const Register = () => {
   const classes = useStyles();
@@ -47,6 +48,8 @@ const Register = () => {
         <Button variant="outlined" className={classes.buttons} type="submit">
           Register
         </Button>
+
+        <Link to="/login">Already have an account? Sign in </Link>
       </Box>
     </div>
   );
@@ -54,18 +57,19 @@ const Register = () => {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    padding: "1rem",
+    padding: "3rem 2rem",
   },
   form: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+    textAlign: "center",
   },
   textfields: {
-    margin: "0.5rem auto",
+    margin: "1rem auto",
   },
   buttons: {
-    margin: "0.5rem auto",
+    margin: "0.5rem auto 1.5rem auto",
   },
 }));
 
