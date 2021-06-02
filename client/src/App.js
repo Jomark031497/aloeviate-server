@@ -43,7 +43,11 @@ function App() {
           <Route exact path="/register" component={Register} />
           <Route exact path="/login" component={Login} />
           <Route path="/">
-            {currentUser.data ? <TaskContainer /> : <Redirect to="/login" />}
+            {currentUser.data ? (
+              <TaskContainer currentUser={currentUser} />
+            ) : (
+              <Redirect to="/login" />
+            )}
           </Route>
         </Switch>
       </Router>

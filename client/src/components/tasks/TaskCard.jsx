@@ -11,9 +11,9 @@ import ArrowUpIcon from "@material-ui/icons/ArrowDropUp";
 import ArrowDownIcon from "@material-ui/icons/ArrowDropDown";
 import { makeStyles } from "@material-ui/styles";
 import { deleteTask } from "../../features/tasks/deleteTaskSlice";
-import { timeFormatter } from "../../utils/timeParser";
 import { useDispatch, useSelector } from "react-redux";
 import { updateTask } from "../../features/tasks/updateTaskSlice";
+import timeFormatter from "../utils/timeFormatter";
 
 const TaskCard = ({ task }) => {
   const classes = useStyles();
@@ -37,7 +37,6 @@ const TaskCard = ({ task }) => {
   };
 
   const handleReset = () => {
-    console.log(currentUser.data._id, task);
     dispatch(
       updateTask({
         userId: currentUser.data._id,

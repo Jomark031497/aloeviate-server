@@ -2,15 +2,16 @@ import { IconButton, makeStyles, Typography } from "@material-ui/core";
 import PlayIcon from "@material-ui/icons/PlayCircleFilledWhiteOutlined";
 import PauseIcon from "@material-ui/icons/PauseCircleOutline";
 import { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { timeFormatter, timeToSecs } from "../../utils/timeParser";
+import { useDispatch } from "react-redux";
 import { updateTask } from "../../features/tasks/updateTaskSlice";
 import getFirstTask from "../utils/getFirstTask";
 import dingSound from "../../assets/ding.mp3";
 import bgSound from "../../assets/DoIWannaKnow.mp3";
 import useSound from "use-sound";
+import timeToSecs from "../utils/timeToSecs";
+import timeFormatter from "../utils/timeFormatter";
 
-const Timer = () => {
+const Timer = ({ currentUser }) => {
   const classes = useStyles();
 
   const dispatch = useDispatch();
@@ -21,7 +22,7 @@ const Timer = () => {
     interrupt: true,
   });
 
-  const currentUser = useSelector((state) => state.currentUser.data);
+  // const currentUser = useSelector((state) => state.currentUser.data);
 
   const [timerActive, setTimerActive] = useState(false);
   const [activeTask, setActiveTask] = useState("");
@@ -30,10 +31,10 @@ const Timer = () => {
 
   const startTimer = (e) => {
     // return if there are no tasks at all
-    if (!currentUser.tasks.length) return;
+    if (!currentUser.data.tasks.length) return;
 
     // get the first incomplete task
-    const task = getFirstTask(currentUser.tasks);
+    const task = getFirstTask(currentUser.data.tasks);
 
     // return if all tasks are completed
     if (!task) {
@@ -56,10 +57,11 @@ const Timer = () => {
     // return if there ar eno active tasks
     if (!activeTask) return;
 
+    console.log(activeTask.duration - timeToSecs(timeRef.current.innerHTML));
     // update the elapsed Time of the task
     dispatch(
       updateTask({
-        userId: currentUser._id,
+        userId: currentUser.data._id,
         taskId: activeTask._id,
         task: {
           ...activeTask,
@@ -79,7 +81,7 @@ const Timer = () => {
     let countdown;
 
     // get the id of the current task
-    const filterTask = currentUser.tasks.filter(
+    const filterTask = currentUser.data.tasks.filter(
       (task) => activeTask._id === task._id
     );
 
@@ -94,7 +96,7 @@ const Timer = () => {
 
     // if task is completed, wil lreset the timer and stop
     if (
-      !currentUser.tasks.length ||
+      !currentUser.data.tasks.length ||
       (filterTask.length && filterTask[0].isCompleted)
     ) {
       clearInterval(countdown);
@@ -140,10 +142,10 @@ const Timer = () => {
     return () => {
       clearInterval(countdown);
     };
+    // eslint-disable-next-line
   }, [
     timerActive,
     activeTask,
-    currentUser.tasks,
     dispatch,
     currentUser._id,
     bgPlay,
