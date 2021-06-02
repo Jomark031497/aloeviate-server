@@ -13,7 +13,7 @@ const {
  * COMPLETE ROUTE:  /api/users/task/:id
  * PROTECTED:       YES
  */
-router.post("/task/:id", addTask);
+router.post("/task/:id", requireAuth, addTask);
 
 /**
  * METHOD:          GET
@@ -29,7 +29,7 @@ router.get("/task/all/:id", requireAuth, showAllTasks);
  * COMPLETE ROUTE:  /api/users/task/:id?task=:id
  * PROTECTED:       YES
  */
-router.delete("/task/:id", deleteTask);
+router.delete("/task/:id", requireAuth, deleteTask);
 
 /**
  * METHOD:          PUT
@@ -37,6 +37,6 @@ router.delete("/task/:id", deleteTask);
  * COMPLETE ROUTE:  /api/users/task/:id?task=:id
  * PROTECTED:       YES
  */
-router.put("/task/:id", updateTask);
+router.put("/task/:id", requireAuth, updateTask);
 
 module.exports = router;
