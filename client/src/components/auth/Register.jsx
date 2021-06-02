@@ -68,7 +68,6 @@ const Register = () => {
                   size="small"
                   onClick={handleShowPassword}
                   onMouseDown={handleHidePassword}
-                  onMouseUp={handleHidePassword}
                 >
                   {showPassword ? <Visibility /> : <VisibilityOff />}
                 </IconButton>
