@@ -21,13 +21,7 @@ const Login = () => {
   const dispatch = useDispatch();
   let history = useHistory();
 
-  const currentUser = useSelector((state) => state.currentUser.data);
-
-  useEffect(() => {
-    if (currentUser) {
-      history.push("/");
-    }
-  }, [currentUser, history]);
+  const [current, setCurrent] = useState("");
 
   const [user, setUser] = useState({
     username: "",
@@ -45,12 +39,17 @@ const Login = () => {
     dispatch(loginUser(user))
       .then(unwrapResult)
       .then((result) => {
-        dispatch(setCurrentUser(result));
+        setCurrent(result);
       })
       .catch((err) => {
         console.log(err.message);
       });
   };
+
+  useEffect(() => {
+    dispatch(setCurrentUser(current));
+    if (current) history.push("/");
+  }, [current, dispatch, history]);
 
   return (
     <div className={classes.root}>
