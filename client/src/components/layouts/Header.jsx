@@ -111,7 +111,9 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     color: theme.palette.secondary.main,
+    background: "#fff",
   },
+  avatarName: {},
   accountIcon: {
     fontSize: "3rem",
     fill: theme.palette.secondary.main,
