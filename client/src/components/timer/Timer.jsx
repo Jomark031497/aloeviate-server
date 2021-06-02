@@ -10,7 +10,7 @@ const Timer = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const tasks = useSelector((state) => state.currentUser.data);
+  const currentUser = useSelector((state) => state.currentUser.data);
 
   const [timerActive, setTimerActive] = useState(false);
   const [activeTask, setActiveTask] = useState("");
@@ -19,7 +19,7 @@ const Timer = () => {
 
   const startTimer = (e) => {
     // return if there are no tasks at all
-    if (!tasks.tasks.length) return;
+    if (!currentUser.tasks.length) return;
 
     // get the first incomplete task
     const task = getFirstTask();
@@ -31,6 +31,7 @@ const Timer = () => {
     }
 
     if (activeTask && !task.elapsedTime) {
+      console.log(" i ran 1");
       // start the timer
     } else {
       // set the first incomplete task to the active task
@@ -49,7 +50,13 @@ const Timer = () => {
     const elapsedTime =
       activeTask.duration - timeToSecs(timeRef.current.innerHTML);
 
-    dispatch(updateTask({ ...activeTask, userId: tasks._id, elapsedTime }));
+    dispatch(
+      updateTask({
+        userId: currentUser._id,
+        taskId: activeTask._id,
+        task: { ...activeTask, elapsedTime },
+      })
+    );
 
     // stop/pause the timer
     setTimerActive(false);
@@ -60,11 +67,9 @@ const Timer = () => {
     let countdown;
 
     // get the id of the current task
-    const filterTask = tasks.tasks.filter(
+    const filterTask = currentUser.tasks.filter(
       (task) => activeTask._id === task._id
     );
-
-    console.log(filterTask);
 
     // Since the when you reset the task, it will set all the durations to default (ie elapsed time to zero)
     // this code will run, which will remove the bug where when you reset the task, it will use the duration - elapsedTime
@@ -75,7 +80,10 @@ const Timer = () => {
     }
 
     // if task is completed, wil lreset the timer and stop
-    if (!tasks.length || (filterTask.length && filterTask[0].isCompleted)) {
+    if (
+      !currentUser.tasks.length ||
+      (filterTask.length && filterTask[0].isCompleted)
+    ) {
       clearInterval(countdown);
       resetTimerRefs();
       setTimerActive(false);
@@ -106,14 +114,14 @@ const Timer = () => {
     return () => {
       clearInterval(countdown);
     };
-  }, [timerActive, activeTask, tasks, dispatch]);
+  }, [timerActive, activeTask, currentUser.tasks, dispatch]);
 
   const getFirstTask = () => {
     // check if there are tasks
-    if (!tasks.tasks.length) return;
+    if (!currentUser.tasks.length) return;
 
     // get all the incomplete tasks
-    const filterIncompleteTasks = tasks.tasks.filter(
+    const filterIncompleteTasks = currentUser.tasks.filter(
       (task) => !task.isCompleted
     );
 

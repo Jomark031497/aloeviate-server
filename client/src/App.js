@@ -17,7 +17,10 @@ import Login from "./components/auth/Login";
 function App() {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const currentUser = useSelector((state) => state.currentUser);
+
+  const { currentUser, deleteTask, addTask, updateTask } = useSelector(
+    (state) => state
+  );
 
   useEffect(() => {
     const checkLogin = async () => {
@@ -25,12 +28,12 @@ function App() {
         const { data } = await axios.get("/api/users/me");
         dispatch(setCurrentUser(data));
       } catch (err) {
-        console.log(err);
+        console.log(err.message);
       }
     };
 
     checkLogin();
-  }, [dispatch]);
+  }, [dispatch, deleteTask.data, addTask.data, updateTask.data]);
 
   return (
     <div className={classes.root}>

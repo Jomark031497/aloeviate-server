@@ -3,8 +3,8 @@ import axios from "axios";
 
 export const deleteTask = createAsyncThunk(
   "tasks/deleteTask",
-  async (payload) => {
-    const res = await axios.delete(`/tasks/${payload}`);
+  async ({ userId, taskId }) => {
+    const res = await axios.delete(`/api/users/task/${userId}?task=${taskId}`);
 
     return res.data;
   }

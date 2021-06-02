@@ -4,9 +4,10 @@ import axios from "axios";
 export const updateTask = createAsyncThunk(
   "tasks/updateTask",
   async (payload) => {
-    const res = await axios.put(`/tasks/${payload.userId}`, payload, {
-      headers: { "Content-Type": "application/json" },
-    });
+    const res = await axios.put(
+      `/api/users/task/${payload.userId}?task=${payload.taskId}`,
+      payload.task
+    );
 
     return res.data;
   }

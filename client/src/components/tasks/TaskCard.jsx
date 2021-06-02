@@ -12,25 +12,39 @@ import ArrowDownIcon from "@material-ui/icons/ArrowDropDown";
 import { makeStyles } from "@material-ui/styles";
 import { deleteTask } from "../../features/tasks/deleteTaskSlice";
 import { timeFormatter } from "../../utils/timeParser";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { updateTask } from "../../features/tasks/updateTaskSlice";
 
 const TaskCard = ({ task }) => {
   const classes = useStyles();
 
   const dispatch = useDispatch();
+  const currentUser = useSelector((state) => state.currentUser);
 
   const handleRemove = () => {
-    dispatch(deleteTask(task._id));
+    dispatch(deleteTask({ userId: currentUser.data._id, taskId: task._id }));
   };
 
   const handleComplete = () => {
     if (task.isCompleted) return;
-    dispatch(updateTask({ ...task, isCompleted: true }));
+    dispatch(
+      updateTask({
+        userId: currentUser.data._id,
+        taskId: task._id,
+        task: { ...task, isCompleted: true },
+      })
+    );
   };
 
   const handleReset = () => {
-    dispatch(updateTask({ ...task, isCompleted: false, elapsedTime: 0 }));
+    console.log(currentUser.data._id, task);
+    dispatch(
+      updateTask({
+        userId: currentUser.data._id,
+        taskId: task._id,
+        task: { ...task, isCompleted: false, elapsedTime: 0 },
+      })
+    );
   };
 
   return (

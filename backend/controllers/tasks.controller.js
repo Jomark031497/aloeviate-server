@@ -56,6 +56,7 @@ const deleteTask = async (req, res) => {
 };
 
 const updateTask = async (req, res) => {
+  console.log(req.body);
   try {
     const { name, duration, elapsedTime, isCompleted } = req.body;
 
