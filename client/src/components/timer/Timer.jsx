@@ -42,7 +42,6 @@ const Timer = () => {
     }
 
     if (activeTask && !task.elapsedTime) {
-      console.log(" i ran 1");
       // start the timer
     } else {
       // set the first incomplete task to the active task
@@ -90,7 +89,6 @@ const Timer = () => {
       timeRef.current.innerHTML = timeFormatter(filterTask[0].duration);
       taskNameRef.current.innerHTML = filterTask[0].name;
       if (isPlaying) stop();
-
       setActiveTask(filterTask[0]);
     }
 
@@ -151,6 +149,7 @@ const Timer = () => {
     bgPlay,
     dingPlay,
     stop,
+    isPlaying,
   ]);
 
   const resetTimerRefs = () => {
