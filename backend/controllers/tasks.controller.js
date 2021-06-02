@@ -17,7 +17,11 @@ const addTask = async (req, res) => {
       }
     );
 
-    res.status(200).json({ tasks: user.tasks, msg: "success" });
+    res.status(200).json({
+      tasks: user.tasks,
+      msg: "Task successfully added",
+      status: true,
+    });
   } catch (err) {
     res.status(400).json({ msg: err.message });
   }
@@ -49,7 +53,7 @@ const deleteTask = async (req, res) => {
       }
     );
 
-    res.status(200).json({ user });
+    res.status(200).json({ msg: "Task successfully deleted", status: true });
   } catch (err) {
     res.status(400).json({ msg: err.message });
   }
@@ -79,7 +83,9 @@ const updateTask = async (req, res) => {
         useFindAndModify: false,
       }
     );
-    res.status(200).json(user);
+    res
+      .status(200)
+      .json({ message: "Task successfully updated", status: true });
   } catch (err) {
     res.status(400).json({ msg: err.message });
   }
