@@ -29,7 +29,7 @@ const Register = () => {
       <Box component="form" onSubmit={handleSubmit} className={classes.form}>
         <Typography variant="h4">Register</Typography>
         <TextField
-          variant="filled"
+          variant="outlined"
           label="Username"
           size="small"
           className={classes.textfields}
@@ -37,7 +37,7 @@ const Register = () => {
           onChange={(e) => setUser({ ...user, username: e.target.value })}
         />
         <TextField
-          variant="filled"
+          variant="outlined"
           label="Password"
           type="password"
           size="small"
