@@ -1,4 +1,11 @@
-import { Box, Button, TextField, Typography } from "@material-ui/core";
+import {
+  Box,
+  Button,
+  IconButton,
+  InputAdornment,
+  TextField,
+  Typography,
+} from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { useEffect, useState } from "react";
 import { loginUser } from "../../features/auth/loginUserSlice";
@@ -6,6 +13,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { setCurrentUser } from "../../features/auth/currentUserSlice";
 import { Link, useHistory } from "react-router-dom";
+import Visibility from "@material-ui/icons/Visibility";
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
 
 const Login = () => {
   const classes = useStyles();
@@ -24,6 +33,10 @@ const Login = () => {
     username: "",
     password: "",
   });
+
+  const [showPassword, setShowPassword] = useState(false);
+  const handleShowPassword = () => setShowPassword(!showPassword);
+  const handleHidePassword = () => setShowPassword(!showPassword);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -47,6 +60,7 @@ const Login = () => {
           variant="outlined"
           label="Username"
           size="small"
+          fullWidth
           className={classes.textfields}
           value={user.username}
           onChange={(e) => setUser({ ...user, username: e.target.value })}
@@ -56,9 +70,24 @@ const Login = () => {
           type="password"
           label="Password"
           size="small"
+          fullWidth
           className={classes.textfields}
           value={user.password}
           onChange={(e) => setUser({ ...user, password: e.target.value })}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment>
+                <IconButton
+                  size="small"
+                  onClick={handleShowPassword}
+                  onMouseDown={handleHidePassword}
+                  onMouseUp={handleHidePassword}
+                >
+                  {showPassword ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              </InputAdornment>
+            ),
+          }}
         />
         <Button
           variant="contained"
