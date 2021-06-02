@@ -14,21 +14,21 @@ import { useSelector } from "react-redux";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { clearCurrentUser } from "../../features/auth/currentUserSlice";
+import nameSplicer from "../utils/nameSplicer";
 
 const Header = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState(null);
 
-  const currentUser = useSelector((state) => state.currentUser);
+  const currentUser = useSelector((state) => state.currentUser.data);
 
   const handleMenu = (e) => setAnchorEl(e.currentTarget);
   const handleClose = (e) => setAnchorEl(null);
 
   const handleLogout = async (e) => {
     try {
-      const res = await axios.get("/api/users/logout");
-      console.log(res.data);
+      await axios.get("/api/users/logout");
 
       dispatch(clearCurrentUser());
     } catch (err) {
@@ -38,22 +38,27 @@ const Header = () => {
     }
   };
 
-  const nameSplicer = (name) => name.charAt(0).toUpperCase();
-
   return (
     <>
       <AppBar>
         <Toolbar>
-          <Typography variant="h5" className={classes.projectName}>
-            aloeviate.
-          </Typography>
+          <div className={classes.logoContainer}>
+            <Typography
+              variant="h5"
+              className={classes.projectName}
+              component={Link}
+              to="/"
+            >
+              aloeviate.
+            </Typography>
+          </div>
 
           <div>
             <Avatar className={classes.avatar} onClick={handleMenu}>
-              {currentUser.data ? (
-                nameSplicer(currentUser.data.username)
+              {currentUser ? (
+                nameSplicer(currentUser.username)
               ) : (
-                <AccountIcon />
+                <AccountIcon className={classes.accountIcon} />
               )}
             </Avatar>
 
@@ -64,9 +69,6 @@ const Header = () => {
             >
               {!currentUser ? (
                 <div>
-                  <MenuItem onClick={handleClose} component={Link} to="/">
-                    Tasks
-                  </MenuItem>
                   <MenuItem
                     onClick={handleClose}
                     component={Link}
@@ -98,12 +100,22 @@ const Header = () => {
 
 const useStyles = makeStyles((theme) => ({
   offset: theme.mixins.toolbar,
+  logoContainer: {
+    flex: "1",
+  },
   projectName: {
     letterSpacing: "0.2rem",
-    flex: "1",
+
+    textDecoration: "none",
+    color: "#000",
   },
   avatar: {
     color: theme.palette.secondary.main,
+  },
+  accountIcon: {
+    fontSize: "3rem",
+    fill: theme.palette.secondary.main,
+    background: "#fff",
   },
 }));
 
