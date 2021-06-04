@@ -33,24 +33,14 @@ const register = async (req, res) => {
     res.status(500).json({ error: err.message, status: "error" });
   }
 };
+const login = (req, res, next) => {
+  passport.authenticate("local", function (err, user, info) {
+    if (err) return next(err);
+    if (!user) return res.status(400).json(info);
 
-const login = async (req, res, next) => {
-  passport.authenticate("local", (err, user) => {
-    if (err) {
-      return res.status(400).json(err);
-    }
-
-    if (!user) {
-      return res.status(400).json(err);
-    }
-
-    req.logIn(user, (err) => {
-      if (err) {
-        return res.status(400).json(err);
-      }
-
+    req.logIn(user, function (err) {
+      if (err) return next(err);
       return res.json({
-        _id: user._id,
         username: user.username,
         tasks: user.tasks,
       });

@@ -8,9 +8,7 @@ import {
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { useEffect, useState } from "react";
-import { loginUser } from "../../features/auth/loginUserSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { unwrapResult } from "@reduxjs/toolkit";
 import { setCurrentUser } from "../../features/auth/currentUserSlice";
 import { Link, useHistory } from "react-router-dom";
 import Visibility from "@material-ui/icons/Visibility";
@@ -21,7 +19,13 @@ const Login = () => {
   const dispatch = useDispatch();
   let history = useHistory();
 
-  const [current, setCurrent] = useState("");
+  const currentUser = useSelector((state) => state.currentUser.data);
+
+  useEffect(() => {
+    if (currentUser) {
+      history.push("/");
+    }
+  }, [currentUser, history]);
 
   const [user, setUser] = useState({
     username: "",
@@ -36,20 +40,24 @@ const Login = () => {
     e.preventDefault();
 
     if (!user.username || !user.password) return;
-    dispatch(loginUser(user))
-      .then(unwrapResult)
-      .then((result) => {
-        setCurrent(result);
-      })
-      .catch((err) => {
-        console.log(err.message);
-      });
-  };
 
-  useEffect(() => {
-    dispatch(setCurrentUser(current));
-    if (current) history.push("/");
-  }, [current, dispatch, history]);
+    // while this one always returns Error: request failed with a status code 400
+    try {
+      const res = await fetch("/api/users/login", {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(user),
+      });
+      const data = await res.json();
+      console.log(data);
+      dispatch(setCurrentUser(data));
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <div className={classes.root}>

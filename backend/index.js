@@ -4,9 +4,7 @@ const session = require("express-session");
 const passport = require("passport");
 const path = require("path");
 const cookieParser = require("cookie-parser");
-
 require("dotenv").config();
-
 const tasksRoute = require("./routes/api/tasks.routes");
 const userRoute = require("./routes/api/user.routes");
 const dbConnect = require("./config/database");
@@ -15,9 +13,17 @@ const app = express();
 
 // middlewares
 app.use(express.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: "http://localhost:5000",
+    credentials: true,
+    allowedHeaders: "X-Requested-With, Content-Type, Authorization",
+    methods: "GET, POST, PATCH, PUT, POST, DELETE, OPTIONS",
+  })
+);
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
+
 app.use(
   session({
     name: "auth",
@@ -27,7 +33,6 @@ app.use(
     cookie: { maxAge: 24 * 60 * 60 * 1000 },
   })
 );
-
 // passport middleware
 app.use(passport.initialize());
 app.use(passport.session());

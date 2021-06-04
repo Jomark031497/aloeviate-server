@@ -1,10 +1,18 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
 
 export const loginUser = createAsyncThunk(
   "users/loginUser",
   async (payload) => {
-    const { data } = await axios.post("/api/users/login", payload);
+    const res = await fetch("/api/users/login", {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+    const data = await res.json();
+
     return data;
   }
 );
@@ -14,20 +22,17 @@ export const loginUserSlice = createSlice({
   initialState: {
     data: "",
     status: null,
-    error: null,
   },
   extraReducers: {
-    [loginUser.pending](state) {
+    [loginUser.pending]: (state) => {
       state.status = "loading";
     },
-    [loginUser.fulfilled](state, action) {
+    [loginUser.fulfilled]: (state, action) => {
       state.data = action.payload;
-      state.error = null;
       state.status = "success";
     },
-    [loginUser.rejected](state, action) {
-      state.data = null;
-      state.status = action.payload;
+    [loginUser.rejected]: (state, action) => {
+      state.data = action.payload;
       state.status = "failed";
     },
   },

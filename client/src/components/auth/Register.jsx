@@ -30,11 +30,16 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    try {
+    } catch (err) {}
 
     dispatch(registerUser(user))
       .then(unwrapResult)
       .then((result) => {
         console.log(result);
+      })
+      .catch((err) => {
+        console.log(err);
       });
   };
   return (
