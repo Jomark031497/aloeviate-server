@@ -74,7 +74,7 @@ const Login = () => {
         />
         <TextField
           variant="outlined"
-          type="password"
+          type={showPassword ? "text" : "password"}
           label="Password"
           size="small"
           fullWidth
@@ -88,6 +88,7 @@ const Login = () => {
                   size="small"
                   onClick={handleShowPassword}
                   onMouseDown={handleHidePassword}
+                  onMouseUp={handleShowPassword}
                 >
                   {showPassword ? <Visibility /> : <VisibilityOff />}
                 </IconButton>

@@ -16,7 +16,7 @@ router.post("/login", (req, res, next) => {
     if (err) throw err;
 
     if (!user) {
-      res.status(400).json(info);
+      res.status(403).json(info);
     } else {
       req.logIn(user, (err) => {
         if (err) throw err;
