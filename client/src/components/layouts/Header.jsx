@@ -21,7 +21,7 @@ const Header = () => {
   const dispatch = useDispatch();
   const [anchorEl, setAnchorEl] = useState(null);
 
-  const currentUser = useSelector((state) => state.currentUser.data);
+  const currentUser = useSelector((state) => state.currentUser);
 
   const handleMenu = (e) => setAnchorEl(e.currentTarget);
   const handleClose = (e) => setAnchorEl(null);
@@ -55,8 +55,8 @@ const Header = () => {
 
           <div>
             <Avatar className={classes.avatar} onClick={handleMenu}>
-              {currentUser.error ? (
-                "H"
+              {currentUser.data !== "" ? (
+                nameSplicer(currentUser.data.username)
               ) : (
                 <AccountIcon className={classes.accountIcon} />
               )}
