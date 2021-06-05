@@ -11,13 +11,14 @@ import { useState } from "react";
 import { registerUser } from "../../features/auth/registerUserSlice";
 import { useDispatch } from "react-redux";
 import { unwrapResult } from "@reduxjs/toolkit";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 
 const Register = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const [user, setUser] = useState({
     username: "",
@@ -36,7 +37,7 @@ const Register = () => {
     dispatch(registerUser(user))
       .then(unwrapResult)
       .then((result) => {
-        console.log(result);
+        history.push("/login");
       })
       .catch((err) => {
         console.log(err);

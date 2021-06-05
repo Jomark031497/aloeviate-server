@@ -1,5 +1,4 @@
 const router = require("express").Router();
-const { requireAuth } = require("../../middlewares/auth");
 const {
   addTask,
   showAllTasks,
@@ -13,7 +12,7 @@ const {
  * COMPLETE ROUTE:  /api/users/task/:id
  * PROTECTED:       YES
  */
-router.post("/task/:id", requireAuth, addTask);
+router.post("/task/:id", addTask);
 
 /**
  * METHOD:          GET
@@ -21,7 +20,7 @@ router.post("/task/:id", requireAuth, addTask);
  * COMPLETE ROUTE:  /api/users/task/all/:id
  * PROTECTED:       YES
  */
-router.get("/task/all/:id", requireAuth, showAllTasks);
+router.get("/task/all/:id", showAllTasks);
 
 /**
  * METHOD:          DELETE
@@ -29,7 +28,7 @@ router.get("/task/all/:id", requireAuth, showAllTasks);
  * COMPLETE ROUTE:  /api/users/task/:id?task=:id
  * PROTECTED:       YES
  */
-router.delete("/task/:id", requireAuth, deleteTask);
+router.delete("/task/:id", deleteTask);
 
 /**
  * METHOD:          PUT
@@ -37,6 +36,6 @@ router.delete("/task/:id", requireAuth, deleteTask);
  * COMPLETE ROUTE:  /api/users/task/:id?task=:id
  * PROTECTED:       YES
  */
-router.put("/task/:id", requireAuth, updateTask);
+router.put("/task/:id", updateTask);
 
 module.exports = router;

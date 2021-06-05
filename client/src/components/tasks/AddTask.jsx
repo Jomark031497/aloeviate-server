@@ -29,6 +29,8 @@ const AddTask = ({ userId }) => {
       ...task,
       duration: task.duration * 60,
     };
+
+    console.log(taskToAdd, userId);
     dispatch(addTask({ userId, task: taskToAdd }));
 
     closeAddTask();

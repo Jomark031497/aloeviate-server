@@ -55,8 +55,8 @@ const Header = () => {
 
           <div>
             <Avatar className={classes.avatar} onClick={handleMenu}>
-              {currentUser ? (
-                nameSplicer(currentUser.username)
+              {currentUser.error ? (
+                "H"
               ) : (
                 <AccountIcon className={classes.accountIcon} />
               )}

@@ -9,10 +9,15 @@ import {
 import { makeStyles } from "@material-ui/styles";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setCurrentUser } from "../../features/auth/currentUserSlice";
+import {
+  clearCurrentUser,
+  setCurrentUser,
+} from "../../features/auth/currentUserSlice";
 import { Link, useHistory } from "react-router-dom";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import { loginUser } from "../../features/auth/loginUserSlice";
+import { unwrapResult } from "@reduxjs/toolkit";
 
 const Login = () => {
   const classes = useStyles();
@@ -32,6 +37,8 @@ const Login = () => {
     password: "",
   });
 
+  const [error, setError] = useState("");
+
   const [showPassword, setShowPassword] = useState(false);
   const handleShowPassword = () => setShowPassword(!showPassword);
   const handleHidePassword = () => setShowPassword(!showPassword);
@@ -41,22 +48,17 @@ const Login = () => {
 
     if (!user.username || !user.password) return;
 
-    // while this one always returns Error: request failed with a status code 400
-    try {
-      const res = await fetch("/api/users/login", {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(user),
+    dispatch(loginUser(user))
+      .then(unwrapResult)
+      .then((res) => {
+        dispatch(setCurrentUser(res));
+        setError("");
+      })
+      .catch((err) => {
+        if (err.name === "Error") {
+          setError("Wrong username or password");
+        }
       });
-      const data = await res.json();
-      console.log(data);
-      dispatch(setCurrentUser(data));
-    } catch (err) {
-      console.log(err);
-    }
   };
 
   return (
@@ -72,6 +74,7 @@ const Login = () => {
           value={user.username}
           onChange={(e) => setUser({ ...user, username: e.target.value })}
         />
+
         <TextField
           variant="outlined"
           type={showPassword ? "text" : "password"}
@@ -96,6 +99,8 @@ const Login = () => {
             ),
           }}
         />
+
+        {error ? <div>{error}</div> : null}
         <Button
           variant="contained"
           color="primary"

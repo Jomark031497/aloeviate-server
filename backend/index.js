@@ -1,49 +1,43 @@
 const express = require("express");
 const cors = require("cors");
-const session = require("express-session");
-const passport = require("passport");
 const path = require("path");
 const cookieParser = require("cookie-parser");
+const mongoose = require("mongoose");
 require("dotenv").config();
 const tasksRoute = require("./routes/api/tasks.routes");
 const userRoute = require("./routes/api/user.routes");
 const dbConnect = require("./config/database");
+const session = require("express-session");
+const passport = require("passport");
 
 const app = express();
 
 // middlewares
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use(
   cors({
-    origin: "http://localhost:5000",
+    origin: "http://localhost:3000",
     credentials: true,
-    allowedHeaders: "X-Requested-With, Content-Type, Authorization",
-    methods: "GET, POST, PATCH, PUT, POST, DELETE, OPTIONS",
   })
 );
-app.use(cookieParser());
-app.use(express.urlencoded({ extended: false }));
-
 app.use(
   session({
-    name: "auth",
     secret: process.env.SECRET,
     resave: true,
     saveUninitialized: true,
-    cookie: { maxAge: 24 * 60 * 60 * 1000 },
   })
 );
-// passport middleware
+app.use(cookieParser(process.env.SECRET));
 app.use(passport.initialize());
 app.use(passport.session());
-require("./config/passport.setup")(passport);
-
-//routes
-app.use("/api/users", tasksRoute);
-app.use("/api/users", userRoute);
+require("./config/passport.config")(passport);
 
 // connecting to mongoDB
-dbConnect();
+dbConnect(mongoose);
+
+app.use("/api/users", userRoute);
+app.use("/api/users", tasksRoute);
 
 // for deploying to heroku
 if (process.env.NODE_ENV === "production") {

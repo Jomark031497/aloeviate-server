@@ -1,6 +1,4 @@
-const mongoose = require("mongoose");
-
-const dbConnect = () => {
+const dbConnect = (mongoose) => {
   mongoose.connect(
     process.env.DB_URI,
     {

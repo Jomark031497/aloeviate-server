@@ -1,50 +1,44 @@
 const User = require("../models/user.model");
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const passport = require("passport");
 
 const register = async (req, res) => {
   try {
-    const { username, password } = req.body;
-
-    // validation
-    if (!username || !password)
-      return res
-        .status(400)
-        .json({ message: "Please enter all required fields" });
-
-    // check if user is already registered in the database
+    const { username, password, next } = req.body;
     const user = await User.findOne({ username });
+    if (user)
+      return res.json({ msg: "An account with this email already exists." });
 
-    if (user) return res.status(400).json({ msg: "username already exists!" });
-
-    // hashing the password
     const salt = await bcrypt.genSalt();
-    const hashedPassword = await bcrypt.hash(password, salt);
+    const passwordHash = await bcrypt.hash(password, salt);
 
     const newUser = new User({
       username,
-      password: hashedPassword,
+      password: passwordHash,
     });
 
-    const savedUser = await newUser.save();
+    await newUser.save();
 
-    return res.status(200).json({ user: savedUser.username });
+    res.json({
+      id: newUser._id,
+      username: newUser.username,
+      tasks: newUser.tasks,
+    });
   } catch (err) {
-    res.status(500).json({ error: err.message, status: "error" });
+    res.json({ error: err.message, status: "error" });
   }
 };
-const login = (req, res, next) => {
-  passport.authenticate("local", function (err, user, info) {
-    if (err) return next(err);
-    if (!user) return res.status(400).json(info);
-
-    req.logIn(user, function (err) {
-      if (err) return next(err);
-      return res.json({
-        username: user.username,
-        tasks: user.tasks,
+const login = async (req, res, next) => {
+  passport.authenticate("local", (err, user, info) => {
+    if (err) throw err;
+    if (!user) res.status(400).send("No User Exists");
+    else {
+      req.logIn(user, (err) => {
+        if (err) throw err;
+        res.json({ _id: user._id, username: user.username, tasks: user.tasks });
       });
-    });
+    }
   })(req, res, next);
 };
 
@@ -66,7 +60,7 @@ const me = (req, res) => {
       tasks: req.user.tasks,
     });
   } else {
-    res.status(200).send(false);
+    res.status(200).send("");
   }
 };
 
