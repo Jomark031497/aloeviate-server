@@ -14,6 +14,7 @@ import { unwrapResult } from "@reduxjs/toolkit";
 import { Link, useHistory } from "react-router-dom";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
+import { Alert } from "@material-ui/lab";
 
 const Register = () => {
   const classes = useStyles();
@@ -24,6 +25,7 @@ const Register = () => {
     username: "",
     password: "",
   });
+  const [error, setError] = useState("");
 
   const [showPassword, setShowPassword] = useState(false);
   const handleShowPassword = () => setShowPassword(!showPassword);
@@ -41,6 +43,9 @@ const Register = () => {
       })
       .catch((err) => {
         console.log(err);
+        if (err.name === "Error") {
+          setError("Username already exists, please pick another username");
+        }
       });
   };
   return (
@@ -84,6 +89,19 @@ const Register = () => {
             ),
           }}
         />
+        {error ? (
+          <Alert
+            severity="error"
+            variant="outlined"
+            onClose={() => {
+              setError("");
+            }}
+          >
+            <Typography variant="body2" className={classes.errorText}>
+              {error}
+            </Typography>
+          </Alert>
+        ) : null}
 
         <Button variant="outlined" className={classes.buttons} type="submit">
           Register
