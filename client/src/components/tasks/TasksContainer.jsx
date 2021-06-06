@@ -2,15 +2,36 @@ import { makeStyles } from "@material-ui/styles";
 import Timer from "../timer/Timer";
 import TaskCard from "./TaskCard";
 import AddTask from "./AddTask";
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import axios from "axios";
+import { setCurrentUser } from "../../features/auth/currentUserSlice";
 
-const TasksContainer = ({ currentUser }) => {
+const TasksContainer = () => {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
-  // const tasks = useSelector((state) => state.currentUser.data.tasks);
+  const { currentUser, addTask, updateTask, deleteTask } = useSelector(
+    (state) => state
+  );
+
+  useEffect(() => {
+    const getCurrentUser = async () => {
+      console.log("UseEffect in taskContainer ran!");
+      try {
+        const { data } = await axios.get("/api/users/me");
+        dispatch(setCurrentUser(data));
+      } catch (err) {
+        console.log(err);
+      }
+    };
+
+    getCurrentUser();
+  }, [dispatch, addTask.data, updateTask.data, deleteTask.data]);
 
   return (
     <div className={classes.mainContainer}>
-      <Timer currentUser={currentUser} />
+      <Timer />
       {currentUser.data.tasks &&
         currentUser.data.tasks.map((task) => (
           <TaskCard task={task} key={task._id} userID={currentUser.data._id} />

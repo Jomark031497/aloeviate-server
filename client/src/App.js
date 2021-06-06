@@ -18,13 +18,10 @@ function App() {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const { currentUser, deleteTask, addTask, updateTask } = useSelector(
-    (state) => state
-  );
+  const { currentUser } = useSelector((state) => state);
 
   useEffect(() => {
     const checkLogin = async () => {
-      console.log("i was called");
       try {
         const { data } = await axios.get("/api/users/me");
         dispatch(setCurrentUser(data));
@@ -34,7 +31,7 @@ function App() {
     };
 
     checkLogin();
-  }, [dispatch, deleteTask.data, addTask.data, updateTask.data]);
+  }, [dispatch]);
 
   return (
     <div className={classes.root}>
@@ -44,11 +41,7 @@ function App() {
           <Route exact path="/register" component={Register} />
           <Route exact path="/login" component={Login} />
           <Route path="/">
-            {currentUser.data ? (
-              <TaskContainer currentUser={currentUser} />
-            ) : (
-              <Redirect to="/login" />
-            )}
+            {currentUser.data ? <TaskContainer /> : <Redirect to="/login" />}
           </Route>
         </Switch>
       </Router>
