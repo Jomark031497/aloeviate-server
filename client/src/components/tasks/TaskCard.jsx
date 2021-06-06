@@ -128,6 +128,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     padding: "0rem 1rem",
+    minWidth: "75px",
   },
   taskNameContainer: {
     display: "flex",
