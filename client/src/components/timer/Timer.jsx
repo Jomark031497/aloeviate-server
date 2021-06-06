@@ -77,34 +77,6 @@ const Timer = ({ currentUser }) => {
     // interval id
     let countdown;
 
-    // get the id of the current task
-    const filterTask = currentUser.data.tasks.filter(
-      (task) => activeTask._id === task._id
-    );
-
-    // Since when you reset the task, it will set all the durations to default (ie elapsed time to zero)
-    // this code will run, which will remove the bug where when you reset the task, it will use the duration - elapsedTime
-    if (filterTask.length && filterTask[0].elapsedTime === 0) {
-      timeRef.current.innerHTML = timeFormatter(filterTask[0].duration);
-      taskNameRef.current.innerHTML = filterTask[0].name;
-      if (isPlaying) stop();
-      setActiveTask(filterTask[0]);
-    }
-
-    console.log(currentUser.data.tasks.length);
-    // if task is completed, wil lreset the timer and stop
-    if (
-      !currentUser.data.tasks.length ||
-      (filterTask.length && filterTask[0].isCompleted)
-    ) {
-      console.log(" i was run");
-      clearInterval(countdown);
-      resetTimerRefs();
-      setTimerActive(false);
-      stop();
-      setActiveTask("");
-    }
-
     // if the timer is in active mode
     if (timerActive && activeTask) {
       // set the duration to the duration of the active task - the elapsed time

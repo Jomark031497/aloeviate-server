@@ -9,15 +9,13 @@ import {
 import { makeStyles } from "@material-ui/styles";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  clearCurrentUser,
-  setCurrentUser,
-} from "../../features/auth/currentUserSlice";
+import { setCurrentUser } from "../../features/auth/currentUserSlice";
 import { Link, useHistory } from "react-router-dom";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import { loginUser } from "../../features/auth/loginUserSlice";
 import { unwrapResult } from "@reduxjs/toolkit";
+import { Alert } from "@material-ui/lab";
 
 const Login = () => {
   const classes = useStyles();
@@ -100,7 +98,19 @@ const Login = () => {
           }}
         />
 
-        {error ? <div>{error}</div> : null}
+        {error ? (
+          <Alert
+            severity="error"
+            variant="outlined"
+            onClose={() => {
+              setError("");
+            }}
+          >
+            <Typography variant="body2" className={classes.errorText}>
+              {error}
+            </Typography>
+          </Alert>
+        ) : null}
         <Button
           variant="contained"
           color="primary"
@@ -130,6 +140,9 @@ const useStyles = makeStyles((theme) => ({
   },
   buttons: {
     margin: "0.5rem auto 1.5rem auto",
+  },
+  errorText: {
+    fontSize: "0.7rem",
   },
 }));
 

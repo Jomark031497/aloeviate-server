@@ -24,6 +24,7 @@ function App() {
 
   useEffect(() => {
     const checkLogin = async () => {
+      console.log("i was called");
       try {
         const { data } = await axios.get("/api/users/me");
         dispatch(setCurrentUser(data));
