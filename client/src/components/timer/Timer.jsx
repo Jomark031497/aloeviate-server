@@ -6,17 +6,22 @@ import { useDispatch, useSelector } from "react-redux";
 import { updateTask } from "../../features/tasks/updateTaskSlice";
 import getFirstTask from "../utils/getFirstTask";
 import dingSound from "../../assets/ding.mp3";
-import bgSound from "../../assets/DoIWannaKnow.mp3";
 import useSound from "use-sound";
 import timeToSecs from "../utils/timeToSecs";
 import timeFormatter from "../utils/timeFormatter";
+
+import lofi from "../../assets/lofi.mp3";
+import jazz from "../../assets/jazz.m4a";
+import classical from "../../assets/classical.m4a";
 
 const Timer = () => {
   const classes = useStyles();
 
   const dispatch = useDispatch();
   const [dingPlay] = useSound(dingSound);
-  const [bgPlay, { stop, isPlaying }] = useSound(bgSound, {
+  const [song, setSong] = useState(jazz);
+
+  const [play, { stop, isPlaying }] = useSound(song, {
     loop: true,
     interrupt: true,
   });
@@ -27,6 +32,16 @@ const Timer = () => {
   const [activeTask, setActiveTask] = useState("");
   const timeRef = useRef();
   const taskNameRef = useRef();
+
+  const setCurrentBackground = (e) => {
+    setSong("");
+    if (isPlaying) stop();
+
+    stop();
+    if (e.target.value === "jazz") setSong(jazz);
+    if (e.target.value === "lofi") setSong(lofi);
+    if (e.target.value === "classical") setSong(classical);
+  };
 
   const startTimer = (e) => {
     if (!currentUser.data.tasks.length) return;
@@ -102,7 +117,7 @@ const Timer = () => {
     if (timerActive && activeTask) {
       // set the duration to the duration of the active task - the elapsed time
       let duration = activeTask.duration - activeTask.elapsedTime;
-      if (!isPlaying) bgPlay();
+      if (!isPlaying) play();
 
       countdown = setInterval(() => {
         // clear the interval and stop the clock if it reaches zero
@@ -139,7 +154,7 @@ const Timer = () => {
     activeTask,
     dispatch,
     currentUser,
-    bgPlay,
+    play,
     dingPlay,
     stop,
     isPlaying,
@@ -153,6 +168,17 @@ const Timer = () => {
   return (
     <div>
       <div className={classes.root}>
+        <div style={{ pointerEvents: timerActive ? "none" : "" }}>
+          <button value="lofi" onClick={setCurrentBackground}>
+            Lofi
+          </button>
+          <button value="jazz" onClick={setCurrentBackground}>
+            Jazz
+          </button>
+          <button value="classical" onClick={setCurrentBackground}>
+            Classical
+          </button>
+        </div>
         <Typography variant="h3" ref={timeRef}>
           {activeTask && activeTask
             ? timeFormatter(activeTask.duration)
