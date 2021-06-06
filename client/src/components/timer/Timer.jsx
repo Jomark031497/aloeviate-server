@@ -64,6 +64,8 @@ const Timer = () => {
       })
     );
 
+    if (isPlaying) stop();
+
     stop();
     // stop/pause the timer
     setTimerActive(false);
@@ -78,7 +80,6 @@ const Timer = () => {
     );
 
     if (!filterIncompleteTasks.length) {
-      console.log("useEffect in timer ran");
       stop();
       clearInterval(countdown);
       setTimerActive(false);
@@ -99,9 +100,9 @@ const Timer = () => {
 
     // if the timer is in active mode
     if (timerActive && activeTask) {
-      bgPlay();
       // set the duration to the duration of the active task - the elapsed time
       let duration = activeTask.duration - activeTask.elapsedTime;
+      if (!isPlaying) bgPlay();
 
       countdown = setInterval(() => {
         // clear the interval and stop the clock if it reaches zero

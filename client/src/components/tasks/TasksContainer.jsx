@@ -17,7 +17,6 @@ const TasksContainer = () => {
 
   useEffect(() => {
     const getCurrentUser = async () => {
-      console.log("UseEffect in taskContainer ran!");
       try {
         const { data } = await axios.get("/api/users/me");
         dispatch(setCurrentUser(data));
