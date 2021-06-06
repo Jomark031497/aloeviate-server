@@ -18,7 +18,6 @@ const Timer = ({ currentUser }) => {
   const [dingPlay] = useSound(dingSound);
   const [bgPlay, { stop, isPlaying }] = useSound(bgSound, {
     loop: true,
-    volume: 0.1,
     interrupt: true,
   });
 
@@ -56,8 +55,6 @@ const Timer = ({ currentUser }) => {
   const stopTimer = (e) => {
     // return if there ar eno active tasks
     if (!activeTask) return;
-
-    console.log(activeTask.duration - timeToSecs(timeRef.current.innerHTML));
     // update the elapsed Time of the task
     dispatch(
       updateTask({
@@ -94,11 +91,13 @@ const Timer = ({ currentUser }) => {
       setActiveTask(filterTask[0]);
     }
 
+    console.log(currentUser.data.tasks.length);
     // if task is completed, wil lreset the timer and stop
     if (
       !currentUser.data.tasks.length ||
       (filterTask.length && filterTask[0].isCompleted)
     ) {
+      console.log(" i was run");
       clearInterval(countdown);
       resetTimerRefs();
       setTimerActive(false);

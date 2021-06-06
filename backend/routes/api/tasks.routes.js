@@ -5,6 +5,7 @@ const {
   deleteTask,
   updateTask,
 } = require("../../controllers/tasks.controller");
+const requireAuth = require("../../middlewares/requireAuth");
 
 /**
  * METHOD:          POST
@@ -12,7 +13,7 @@ const {
  * COMPLETE ROUTE:  /api/users/task/:id
  * PROTECTED:       YES
  */
-router.post("/task/:id", addTask);
+router.post("/task/:id", requireAuth, addTask);
 
 /**
  * METHOD:          GET
@@ -20,7 +21,7 @@ router.post("/task/:id", addTask);
  * COMPLETE ROUTE:  /api/users/task/all/:id
  * PROTECTED:       YES
  */
-router.get("/task/all/:id", showAllTasks);
+router.get("/task/all/:id", requireAuth, showAllTasks);
 
 /**
  * METHOD:          DELETE
@@ -28,7 +29,7 @@ router.get("/task/all/:id", showAllTasks);
  * COMPLETE ROUTE:  /api/users/task/:id?task=:id
  * PROTECTED:       YES
  */
-router.delete("/task/:id", deleteTask);
+router.delete("/task/:id", requireAuth, deleteTask);
 
 /**
  * METHOD:          PUT
@@ -36,6 +37,6 @@ router.delete("/task/:id", deleteTask);
  * COMPLETE ROUTE:  /api/users/task/:id?task=:id
  * PROTECTED:       YES
  */
-router.put("/task/:id", updateTask);
+router.put("/task/:id", requireAuth, updateTask);
 
 module.exports = router;

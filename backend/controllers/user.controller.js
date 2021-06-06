@@ -3,9 +3,9 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const passport = require("passport");
 
-const register = async (req, res) => {
+const register = async (req, res, next) => {
   try {
-    const { username, password, next } = req.body;
+    const { username, password } = req.body;
     const user = await User.findOne({ username });
     if (user)
       return res.json({ msg: "An account with this email already exists." });
@@ -20,11 +20,20 @@ const register = async (req, res) => {
 
     await newUser.save();
 
-    res.json({
-      id: newUser._id,
-      username: newUser.username,
-      tasks: newUser.tasks,
-    });
+    passport.authenticate("local", (err, user, info) => {
+      if (err) throw err;
+      if (!user) res.status(400).send("No User Exists");
+      else {
+        req.logIn(user, (err) => {
+          if (err) throw err;
+          res.json({
+            _id: user._id,
+            username: user.username,
+            tasks: user.tasks,
+          });
+        });
+      }
+    })(req, res, next);
   } catch (err) {
     res.json({ error: err.message, status: "error" });
   }
@@ -60,7 +69,7 @@ const me = (req, res) => {
       tasks: req.user.tasks,
     });
   } else {
-    res.status(200).send("");
+    res.status(400).json({ message: "no user currently logged in" });
   }
 };
 
