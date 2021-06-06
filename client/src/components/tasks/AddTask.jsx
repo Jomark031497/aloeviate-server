@@ -49,6 +49,7 @@ const AddTask = ({ userId }) => {
             <TextField
               label="Task Name"
               size="small"
+              required
               autoFocus={true}
               className={classes.textfields}
               value={task.name}
@@ -58,6 +59,7 @@ const AddTask = ({ userId }) => {
               label="Duration"
               type="number"
               size="small"
+              required
               className={classes.textfields}
               value={task.duration}
               onChange={(e) => setTask({ ...task, duration: e.target.value })}

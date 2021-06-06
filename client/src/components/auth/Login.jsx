@@ -68,6 +68,7 @@ const Login = () => {
           label="Username"
           size="small"
           fullWidth
+          required
           className={classes.textfields}
           value={user.username}
           onChange={(e) => setUser({ ...user, username: e.target.value })}
@@ -79,6 +80,7 @@ const Login = () => {
           label="Password"
           size="small"
           fullWidth
+          required
           className={classes.textfields}
           value={user.password}
           onChange={(e) => setUser({ ...user, password: e.target.value })}
