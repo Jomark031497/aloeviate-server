@@ -47,9 +47,19 @@ const TaskCard = ({ task }) => {
   };
 
   return (
-    <Card className={classes.root}>
+    <Card
+      className={classes.root}
+      style={{
+        background: task.isCompleted ? "#cdcdcd" : "",
+      }}
+    >
       <CardContent className={classes.CardContent}>
-        <Box className={classes.remainingDuration}>
+        <Box
+          className={classes.remainingDuration}
+          style={{
+            background: task.isCompleted ? "#cdcdcd" : "",
+          }}
+        >
           <Typography variant="subtitle1">
             {timeFormatter(task.elapsedTime)}
           </Typography>
@@ -59,7 +69,9 @@ const TaskCard = ({ task }) => {
             variant="subtitle2"
             className={classes.taskName}
             color={task.isCompleted ? "textSecondary" : "textPrimary"}
-            style={{ textDecoration: task.isCompleted ? "line-through" : "" }}
+            style={{
+              textDecoration: task.isCompleted ? "line-through" : "",
+            }}
           >
             {task.name}
           </Typography>
@@ -74,7 +86,12 @@ const TaskCard = ({ task }) => {
           </Box>
         </Box>
       </CardContent>
-      <CardActions className={classes.cardActions}>
+      <CardActions
+        className={classes.cardActions}
+        style={{
+          background: task.isCompleted ? "#cdcdcd" : "",
+        }}
+      >
         <Button
           size="small"
           color="secondary"

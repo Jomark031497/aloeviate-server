@@ -10,7 +10,6 @@ import { setCurrentUser } from "../../features/auth/currentUserSlice";
 const TasksContainer = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-
   const { currentUser, addTask, updateTask, deleteTask } = useSelector(
     (state) => state
   );

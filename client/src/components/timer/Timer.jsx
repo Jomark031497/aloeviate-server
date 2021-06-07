@@ -1,4 +1,10 @@
-import { IconButton, makeStyles, Typography } from "@material-ui/core";
+import {
+  IconButton,
+  makeStyles,
+  MenuItem,
+  TextField,
+  Typography,
+} from "@material-ui/core";
 import PlayIcon from "@material-ui/icons/PlayCircleFilledWhiteOutlined";
 import PauseIcon from "@material-ui/icons/PauseCircleOutline";
 import { useEffect, useRef, useState } from "react";
@@ -7,9 +13,8 @@ import { updateTask } from "../../features/tasks/updateTaskSlice";
 import getFirstTask from "../utils/getFirstTask";
 import dingSound from "../../assets/ding.mp3";
 import useSound from "use-sound";
-import timeToSecs from "../utils/timeToSecs";
 import timeFormatter from "../utils/timeFormatter";
-
+import timeToSecs from "../utils/timeToSecs";
 import lofi from "../../assets/lofi.mp3";
 import jazz from "../../assets/jazz.m4a";
 import classical from "../../assets/classical.m4a";
@@ -19,8 +24,8 @@ const Timer = () => {
 
   const dispatch = useDispatch();
   const [dingPlay] = useSound(dingSound);
-  const [song, setSong] = useState(jazz);
-
+  const [song, setSong] = useState(lofi);
+  const [genre, setGenre] = useState("lofi");
   const [play, { stop, isPlaying }] = useSound(song, {
     loop: true,
     interrupt: true,
@@ -32,6 +37,17 @@ const Timer = () => {
   const [activeTask, setActiveTask] = useState("");
   const timeRef = useRef();
   const taskNameRef = useRef();
+
+  const handleGenre = (e) => {
+    setGenre(e.target.value);
+    setSong("");
+    if (isPlaying) stop();
+
+    stop();
+    if (e.target.value === "jazz") setSong(jazz);
+    if (e.target.value === "lofi") setSong(lofi);
+    if (e.target.value === "classical") setSong(classical);
+  };
 
   const setCurrentBackground = (e) => {
     setSong("");
@@ -95,11 +111,12 @@ const Timer = () => {
     );
 
     if (!filterIncompleteTasks.length) {
-      stop();
+      console.log(" i ran #1");
       clearInterval(countdown);
       setTimerActive(false);
       resetTimerRefs();
       setActiveTask("");
+      stop();
     }
 
     if (
@@ -107,14 +124,15 @@ const Timer = () => {
       filterIncompleteTasks[0].elapsedTime === 0
     ) {
       clearInterval(countdown);
-      timeRef.current.innerHTML = timeFormatter(
-        filterIncompleteTasks[0].duration
-      );
+      // timeRef.current.innerHTML = timeFormatter(
+      //   filterIncompleteTasks[0].duration
+      // );
       setActiveTask(filterIncompleteTasks[0]);
     }
 
     // if the timer is in active mode
     if (timerActive && activeTask) {
+      console.log(" i ran #3");
       // set the duration to the duration of the active task - the elapsed time
       let duration = activeTask.duration - activeTask.elapsedTime;
       if (!isPlaying) play();
@@ -168,17 +186,6 @@ const Timer = () => {
   return (
     <div>
       <div className={classes.root}>
-        <div style={{ pointerEvents: timerActive ? "none" : "" }}>
-          <button value="lofi" onClick={setCurrentBackground}>
-            Lofi
-          </button>
-          <button value="jazz" onClick={setCurrentBackground}>
-            Jazz
-          </button>
-          <button value="classical" onClick={setCurrentBackground}>
-            Classical
-          </button>
-        </div>
         <Typography variant="h3" ref={timeRef}>
           {activeTask && activeTask
             ? timeFormatter(activeTask.duration)
@@ -205,6 +212,23 @@ const Timer = () => {
             <PlayIcon className={classes.icons} />
           </IconButton>
         )}
+
+        <TextField
+          select
+          value={genre}
+          onChange={handleGenre}
+          disabled={timerActive}
+        >
+          <MenuItem value="lofi" onClick={setCurrentBackground}>
+            Lofi
+          </MenuItem>
+          <MenuItem value="jazz" onClick={setCurrentBackground}>
+            Jazz
+          </MenuItem>
+          <MenuItem value="classical" onClick={setCurrentBackground}>
+            Classical
+          </MenuItem>
+        </TextField>
       </div>
     </div>
   );
