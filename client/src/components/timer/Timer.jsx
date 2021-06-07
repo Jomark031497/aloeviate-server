@@ -146,7 +146,7 @@ const Timer = () => {
           setActiveTask("");
           dispatch(
             updateTask({
-              userId: currentUser._id,
+              userId: currentUser.data._id,
               taskId: activeTask._id,
               task: {
                 ...activeTask,
