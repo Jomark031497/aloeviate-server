@@ -7,11 +7,11 @@ import {
   Typography,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { registerUser } from "../../features/auth/registerUserSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { unwrapResult } from "@reduxjs/toolkit";
-import { Link, useHistory } from "react-router-dom";
+import { Link, useHistory, Redirect } from "react-router-dom";
 import Visibility from "@material-ui/icons/Visibility";
 import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import { Alert } from "@material-ui/lab";
@@ -31,21 +31,35 @@ const Register = () => {
   const handleShowPassword = () => setShowPassword(!showPassword);
   const handleHidePassword = () => setShowPassword(!showPassword);
 
+  const currentUser = useSelector((state) => state.currentUser.data);
+
+  useEffect(() => {
+    if (currentUser) {
+      history.push("/");
+    }
+  }, [currentUser, history]);
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-    } catch (err) {}
+
+    if (user.password.length < 6) {
+      console.log("wow");
+      setError("Password should exceed 6 characters");
+      return;
+    }
 
     dispatch(registerUser(user))
       .then(unwrapResult)
       .then((result) => {
-        history.push("/login");
+        console.log("redirecting");
+        <Redirect to="/" />;
+        window.location.reload();
       })
       .catch((err) => {
-        console.log(err);
+        console.log(err.message);
         if (err.name === "Error") {
           setError("Username already exists, please pick another username");
         }
+        setUser({ ...user, password: "" });
       });
   };
   return (
