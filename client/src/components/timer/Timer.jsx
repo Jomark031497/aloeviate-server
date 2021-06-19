@@ -131,7 +131,6 @@ const Timer = () => {
 
     // if the timer is in active mode
     if (timerActive && activeTask) {
-      console.log(" i ran #3");
       // set the duration to the duration of the active task - the elapsed time
       let duration = activeTask.duration - activeTask.elapsedTime;
       if (!isPlaying) play();
@@ -214,17 +213,32 @@ const Timer = () => {
 
         <TextField
           select
+          variant="outlined"
           value={genre}
           onChange={handleGenre}
           disabled={timerActive}
+          className={classes.genreTextfield}
+          size="small"
         >
-          <MenuItem value="lofi" onClick={setCurrentBackground}>
+          <MenuItem
+            className={classes.genreMenuItems}
+            value="lofi"
+            onClick={setCurrentBackground}
+          >
             Lofi
           </MenuItem>
-          <MenuItem value="jazz" onClick={setCurrentBackground}>
+          <MenuItem
+            className={classes.genreMenuItems}
+            value="jazz"
+            onClick={setCurrentBackground}
+          >
             Jazz
           </MenuItem>
-          <MenuItem value="classical" onClick={setCurrentBackground}>
+          <MenuItem
+            className={classes.genreMenuItems}
+            value="classical"
+            onClick={setCurrentBackground}
+          >
             Classical
           </MenuItem>
         </TextField>
@@ -252,6 +266,11 @@ const useStyles = makeStyles((theme) => ({
   },
   iconButtons: {
     margin: "0.5rem auto 0 auto",
+  },
+  genreTextfield: {
+    minWidth: "200px",
+    textAlign: "center",
+    margin: "0.5rem auto",
   },
 }));
 

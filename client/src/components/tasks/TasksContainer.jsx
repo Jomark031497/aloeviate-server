@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { setCurrentUser } from "../../features/auth/currentUserSlice";
-import { Box, Typography } from "@material-ui/core";
+import { Box } from "@material-ui/core";
 
 const TasksContainer = () => {
   const classes = useStyles();

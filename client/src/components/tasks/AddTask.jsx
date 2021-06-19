@@ -14,8 +14,6 @@ const AddTask = ({ userId }) => {
     isCompleted: false,
   });
 
-  // const currentUser = useSelector((state) => state.currentUser.data);
-
   const [open, setOpen] = useState(false);
 
   const dispatch = useDispatch();
@@ -30,7 +28,6 @@ const AddTask = ({ userId }) => {
       duration: task.duration * 60,
     };
 
-    console.log(taskToAdd, userId);
     dispatch(addTask({ userId, task: taskToAdd }));
 
     closeAddTask();

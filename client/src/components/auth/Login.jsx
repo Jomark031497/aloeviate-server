@@ -55,6 +55,7 @@ const Login = () => {
       .catch((err) => {
         if (err.name === "Error") {
           setError("Wrong username or password");
+          setUser({ ...user, password: "" });
         }
       });
   };

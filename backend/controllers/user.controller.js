@@ -1,7 +1,6 @@
 const User = require("../models/user.model");
 const bcrypt = require("bcrypt");
 const passport = require("passport");
-const pool = require("../config/postgres");
 
 const register = async (req, res, next) => {
   try {

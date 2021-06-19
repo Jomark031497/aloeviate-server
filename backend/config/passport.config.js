@@ -1,7 +1,6 @@
 const User = require("../models/user.model");
 const bcrypt = require("bcrypt");
 const localStrategy = require("passport-local").Strategy;
-const pool = require("./postgres");
 
 module.exports = function (passport) {
   passport.use(
