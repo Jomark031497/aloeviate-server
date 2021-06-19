@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import axios from "axios";
 import { setCurrentUser } from "../../features/auth/currentUserSlice";
+import { Box, Typography } from "@material-ui/core";
 
 const TasksContainer = () => {
   const classes = useStyles();
@@ -27,13 +28,33 @@ const TasksContainer = () => {
     getCurrentUser();
   }, [dispatch, addTask.data, updateTask.data, deleteTask.data]);
 
+  const getCompletedTasks = () =>
+    currentUser.data.tasks.filter((task) => task.isCompleted);
+
+  const getIncompleteTasks = () =>
+    currentUser.data.tasks.filter((task) => !task.isCompleted);
+
   return (
     <div className={classes.mainContainer}>
       <Timer />
       {currentUser.data.tasks &&
-        currentUser.data.tasks.map((task) => (
-          <TaskCard task={task} key={task._id} userID={currentUser.data._id} />
+        getIncompleteTasks().map((task) => (
+          <div key={task._id}>
+            <TaskCard task={task} userID={currentUser.data._id} />
+          </div>
         ))}
+
+      <Box className={classes.completedContainer}>
+        <Typography variant="subtitle2" className={classes.completedTitle}>
+          Completed Tasks
+        </Typography>
+        {currentUser.data.tasks &&
+          getCompletedTasks().map((task) => (
+            <div key={task._id}>
+              <TaskCard task={task} userID={currentUser.data._id} />
+            </div>
+          ))}
+      </Box>
 
       <AddTask userId={currentUser.data._id} />
     </div>
@@ -49,6 +70,10 @@ const useStyles = makeStyles((theme) => ({
   },
   mainContainer: {
     padding: "0rem 1rem",
+  },
+  completedTitle: {
+    margin: "auto 1rem",
+    textAlign: "center",
   },
 }));
 export default TasksContainer;

@@ -111,7 +111,6 @@ const Timer = () => {
     );
 
     if (!filterIncompleteTasks.length) {
-      console.log(" i ran #1");
       clearInterval(countdown);
       setTimerActive(false);
       resetTimerRefs();

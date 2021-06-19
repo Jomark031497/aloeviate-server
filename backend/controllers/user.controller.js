@@ -1,7 +1,7 @@
 const User = require("../models/user.model");
 const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
 const passport = require("passport");
+const pool = require("../config/postgres");
 
 const register = async (req, res, next) => {
   try {
@@ -38,6 +38,7 @@ const register = async (req, res, next) => {
     res.json({ error: err.message, status: "error" });
   }
 };
+
 const login = async (req, res, next) => {
   passport.authenticate("local", (err, user, info) => {
     if (err) throw err;
