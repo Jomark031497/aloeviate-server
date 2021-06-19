@@ -45,9 +45,6 @@ const TasksContainer = () => {
         ))}
 
       <Box className={classes.completedContainer}>
-        <Typography variant="subtitle2" className={classes.completedTitle}>
-          Completed Tasks
-        </Typography>
         {currentUser.data.tasks &&
           getCompletedTasks().map((task) => (
             <div key={task._id}>
