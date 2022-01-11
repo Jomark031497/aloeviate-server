@@ -19,7 +19,7 @@ function App() {
   const dispatch = useDispatch();
 
   const { currentUser } = useSelector((state) => state);
-
+  console.log(currentUser);
   useEffect(() => {
     const checkLogin = async () => {
       try {
