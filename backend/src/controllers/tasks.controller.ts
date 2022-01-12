@@ -3,7 +3,6 @@ import Task from "../entities/Task";
 
 export const addTask = async (req: Request, res: Response) => {
   const { name, duration } = req.body;
-  console.log("i ran");
   try {
     if (name === "") return res.status(400).json({ name: "name cannot be empty" });
     const task = new Task({

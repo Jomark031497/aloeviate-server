@@ -1,13 +1,13 @@
-import { Entity, Index, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, BaseEntity } from "typeorm";
+import { Entity, Index, Column, ManyToOne, JoinColumn } from "typeorm";
+import RootEntity from "./RootEntity";
+import User from "./User";
 
 @Entity("tasks")
-export default class Task extends BaseEntity {
+export default class Task extends RootEntity {
   constructor(task: Partial<Task>) {
     super();
     Object.assign(this, task);
   }
-  @PrimaryGeneratedColumn()
-  id: number;
 
   @Index()
   @Column()
@@ -22,9 +22,7 @@ export default class Task extends BaseEntity {
   @Column()
   isCompleted: boolean;
 
-  @CreateDateColumn()
-  createdAt: Date; // automatically add a createdAt timestamp for child classes
-
-  @UpdateDateColumn()
-  updatedAt: Date; // automatically add a updatedAt timestamp for child classes
+  @ManyToOne(() => User, (user) => user.tasks)
+  @JoinColumn({ name: "usaname", referencedColumnName: "username" })
+  user: User;
 }
