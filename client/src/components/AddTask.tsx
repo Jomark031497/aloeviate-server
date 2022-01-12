@@ -21,8 +21,7 @@ const AddTask: React.FC = () => {
     e.preventDefault();
 
     try {
-      const { data } = await axios.post("/tasks", task);
-      console.log(data);
+      await axios.post("/tasks", task);
       mutate("/tasks");
     } catch (error) {
       console.error(error);
@@ -47,6 +46,10 @@ const AddTask: React.FC = () => {
             alignItems: "center",
             justifyContent: "center",
             backgroundColor: "lightgrey",
+            "&:hover": {
+              cursor: "pointer",
+              opacity: "0.7",
+            },
           }}
         >
           <AddIcon sx={{ color: "text.secondary" }} />
