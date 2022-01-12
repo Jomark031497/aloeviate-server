@@ -1,14 +1,15 @@
 import { Router } from "express";
 import { addTask, deleteTask, getTasks, updateTask } from "../controllers/tasks.controller";
+import requireAuth from "../middlewares/requireAuth";
 
 const router = Router();
 
-router.post("/", addTask);
+router.post("/", requireAuth, addTask);
 
-router.get("/", getTasks);
+router.get("/", requireAuth, getTasks);
 
-router.delete("/:id", deleteTask);
+router.delete("/:id", requireAuth, deleteTask);
 
-router.put("/:id", updateTask);
+router.put("/:id", requireAuth, updateTask);
 
 export default router;
