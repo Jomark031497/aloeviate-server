@@ -1,5 +1,6 @@
 import { Card, Box, Typography, CardContent, CardActions } from "@mui/material";
 import { Task } from "../types";
+import AssignmentIcon from "@mui/icons-material/Assignment";
 
 interface Props {
   task: Task;
@@ -35,7 +36,9 @@ const TaskCard: React.FC<Props> = ({ task }) => {
           }}
         >
           <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-            <Box>{task.icon}</Box>
+            <Box>
+              <AssignmentIcon sx={{ fontSize: "2rem" }} />
+            </Box>
             <Typography variant="body2">{task.duration}</Typography>
           </Box>
         </Box>

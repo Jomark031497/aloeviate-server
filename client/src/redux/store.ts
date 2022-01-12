@@ -1,9 +1,9 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-
 import { useDispatch } from "react-redux";
+import addTask from "./features/tasks/addTaskSlice";
 
 // combine all reducers into 1
-const rootReducer = combineReducers({});
+const rootReducer = combineReducers({ addTask });
 
 // create the store and add the reducer functions
 const store = configureStore({

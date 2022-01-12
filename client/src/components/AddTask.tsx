@@ -3,6 +3,8 @@ import AddIcon from "@mui/icons-material/Add";
 import { useState } from "react";
 import { Task } from "../types";
 import { v4 } from "uuid";
+import axios from "axios";
+import { mutate } from "swr";
 
 const AddTask: React.FC = () => {
   const [openAddTask, setOpenAddTask] = useState(false);
@@ -13,13 +15,18 @@ const AddTask: React.FC = () => {
     duration: "0",
     elapsed: "",
     isCompleted: false,
-    icon: <AddIcon />,
   });
 
-  const handleAddTask = (e: React.FormEvent<HTMLDivElement>) => {
+  const handleAddTask = async (e: React.FormEvent<HTMLDivElement>) => {
     e.preventDefault();
-    console.log(task);
 
+    try {
+      const { data } = await axios.post("/tasks", task);
+      console.log(data);
+      mutate("/tasks");
+    } catch (error) {
+      console.error(error);
+    }
     setOpenAddTask(false);
   };
 
