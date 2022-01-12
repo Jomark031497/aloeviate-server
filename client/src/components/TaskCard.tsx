@@ -86,7 +86,7 @@ const TaskCard: React.FC<Props> = ({ task }) => {
                 fontSize: "0.8rem",
               }}
             >
-              {task.elapsed}
+              {minsToTimeFormat(task.elapsed)}
             </Typography>
           </CardActions>
         </Box>
