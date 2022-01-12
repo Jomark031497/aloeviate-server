@@ -1,4 +1,4 @@
-import { Box, Container, Typography } from "@mui/material";
+import { Container } from "@mui/material";
 import type { NextPage } from "next";
 import Head from "next/head";
 
