@@ -2,15 +2,20 @@ import { Card, Box, Typography, CardContent, CardActions } from "@mui/material";
 import { Task } from "../types";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import axios from "axios";
+import { useAppDispatch } from "../redux/store";
+import { getTasks } from "../redux/features/tasks/getTasksSlice";
 
 interface Props {
   task: Task;
 }
 
 const TaskCard: React.FC<Props> = ({ task }) => {
+  const dispatch = useAppDispatch();
+
   const deleteTask = async (id: string) => {
     try {
-      await axios.delete(`/tasks/${parseInt(id)}`);
+      await axios.delete(`/tasks/${parseInt(id)}`, { withCredentials: true });
+      dispatch(getTasks());
     } catch (error) {
       console.error(error);
     }

@@ -16,7 +16,7 @@ const initialState: StateTypes = {
 
 export const addTask = createAsyncThunk("tasks/addTask", async (payload: any, { rejectWithValue }) => {
   try {
-    const { data } = await axios.post("/tasks", payload);
+    const { data } = await axios.post("/tasks", payload, { withCredentials: true });
     return data;
   } catch (error: any) {
     return rejectWithValue(error.response.data);

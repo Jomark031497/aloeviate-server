@@ -10,7 +10,7 @@ interface StateTypes {
 
 export const getTasks = createAsyncThunk("tasks/getTasks", async (payload, { rejectWithValue }) => {
   try {
-    const { data } = await axios.get("/tasks");
+    const { data } = await axios.get("/tasks", { withCredentials: true });
     return data;
   } catch (error: any) {
     rejectWithValue(error);

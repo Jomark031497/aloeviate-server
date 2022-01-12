@@ -5,6 +5,7 @@ import { Task } from "../types";
 import { v4 } from "uuid";
 import { useAppDispatch } from "../redux/store";
 import { addTask } from "../redux/features/tasks/addTaskSlice";
+import { getTasks } from "../redux/features/tasks/getTasksSlice";
 
 const AddTask: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -23,6 +24,7 @@ const AddTask: React.FC = () => {
     let transformedTask = { ...task, duration: parseInt(task.duration) * 60 };
     try {
       await dispatch(addTask(transformedTask));
+      await dispatch(getTasks());
     } catch (error) {
       console.error(error);
     }

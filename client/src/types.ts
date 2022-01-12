@@ -5,3 +5,10 @@ export interface Task {
   elapsed: string;
   isCompleted: boolean;
 }
+
+export interface User {
+  email?: string;
+  username: string;
+  password: string;
+  tasks?: Task[];
+}

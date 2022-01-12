@@ -9,6 +9,7 @@ import { Provider as ReduxProvider } from "react-redux";
 import store from "../redux/store";
 import "../styles/globals.css";
 import axios from "axios";
+
 // for serverside MUI
 const clientSideEmotionCache = createEmotionCache();
 interface MyAppProps extends AppProps {
@@ -19,6 +20,7 @@ axios.defaults.baseURL = process.env.NEXT_PUBLIC_SERVER_URL + "/api";
 
 function MyApp(props: MyAppProps) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
+
   return (
     <>
       <Head>
