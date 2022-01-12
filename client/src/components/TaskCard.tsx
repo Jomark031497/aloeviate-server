@@ -9,7 +9,8 @@ const TaskCard: React.FC<Props> = ({ task }) => {
   return (
     <Card
       sx={{
-        m: "1rem auto",
+        mx: "auto",
+        mb: "0.5rem",
         width: "260px",
         height: "90px",
       }}
