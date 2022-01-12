@@ -9,8 +9,6 @@ import { Provider as ReduxProvider } from "react-redux";
 import store from "../redux/store";
 import "../styles/globals.css";
 import axios from "axios";
-import { SWRConfig } from "swr";
-import fetcher from "../lib/fetcher";
 // for serverside MUI
 const clientSideEmotionCache = createEmotionCache();
 interface MyAppProps extends AppProps {
@@ -28,18 +26,16 @@ function MyApp(props: MyAppProps) {
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <>
-        <SWRConfig value={{ fetcher: async (url) => fetcher(url), dedupingInterval: 1000 }}>
-          <ReduxProvider store={store}>
-            <ThemeProvider theme={theme}>
-              <CacheProvider value={emotionCache}>
-                <CssBaseline />
-                <Layout>
-                  <Component {...pageProps} />
-                </Layout>
-              </CacheProvider>
-            </ThemeProvider>
-          </ReduxProvider>
-        </SWRConfig>
+        <ReduxProvider store={store}>
+          <ThemeProvider theme={theme}>
+            <CacheProvider value={emotionCache}>
+              <CssBaseline />
+              <Layout>
+                <Component {...pageProps} />
+              </Layout>
+            </CacheProvider>
+          </ThemeProvider>
+        </ReduxProvider>
       </>
     </>
   );

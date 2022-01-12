@@ -2,7 +2,6 @@ import { Card, Box, Typography, CardContent, CardActions } from "@mui/material";
 import { Task } from "../types";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import axios from "axios";
-import { mutate } from "swr";
 
 interface Props {
   task: Task;
@@ -12,7 +11,6 @@ const TaskCard: React.FC<Props> = ({ task }) => {
   const deleteTask = async (id: string) => {
     try {
       await axios.delete(`/tasks/${parseInt(id)}`);
-      mutate("/tasks");
     } catch (error) {
       console.error(error);
     }

@@ -3,12 +3,13 @@ import AddIcon from "@mui/icons-material/Add";
 import { useState } from "react";
 import { Task } from "../types";
 import { v4 } from "uuid";
-import axios from "axios";
-import { mutate } from "swr";
+import { useAppDispatch } from "../redux/store";
+import { addTask } from "../redux/features/tasks/addTaskSlice";
 
 const AddTask: React.FC = () => {
-  const [openAddTask, setOpenAddTask] = useState(false);
+  const dispatch = useAppDispatch();
 
+  const [openAddTask, setOpenAddTask] = useState(false);
   const [task, setTask] = useState<Task>({
     id: v4(),
     name: "",
@@ -19,10 +20,9 @@ const AddTask: React.FC = () => {
 
   const handleAddTask = async (e: React.FormEvent<HTMLDivElement>) => {
     e.preventDefault();
-
+    let transformedTask = { ...task, duration: parseInt(task.duration) * 60 };
     try {
-      await axios.post("/tasks", task);
-      mutate("/tasks");
+      await dispatch(addTask(transformedTask));
     } catch (error) {
       console.error(error);
     }

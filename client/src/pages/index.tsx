@@ -8,9 +8,27 @@ import TasksContainer from "../components/TasksContainer";
 import AddTask from "../components/AddTask";
 import BottomActionButtons from "../components/BottomActionButtons";
 import useSWR from "swr";
+import { useEffect } from "react";
+import { useAppDispatch } from "../redux/store";
+import { getTasks } from "../redux/features/tasks/getTasksSlice";
+import { unwrapResult } from "@reduxjs/toolkit";
 
 const Home: NextPage = () => {
-  const { data: tasks } = useSWR("/tasks");
+  // const { data: tasks } = useSWR("/tasks");
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    const fetchTasks = async () => {
+      try {
+        dispatch(getTasks());
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchTasks();
+  }, []);
+
   return (
     <div>
       <Head>
@@ -22,8 +40,8 @@ const Home: NextPage = () => {
       <>
         <Container maxWidth="sm" sx={{ backgroundColor: "#f5f5f5", minHeight: "93vh" }}>
           <TopActionButtons />
-          <Timer tasks={tasks} />
-          <TasksContainer tasks={tasks} />
+          <Timer />
+          <TasksContainer />
           <AddTask />
           <BottomActionButtons />
         </Container>
