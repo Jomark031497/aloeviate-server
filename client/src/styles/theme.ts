@@ -10,9 +10,6 @@ theme = createTheme(theme, {
     secondary: {
       main: "#E27D60",
     },
-    background: {
-      default: "#dae0e6",
-    },
   },
   typography: {
     fontFamily: "'Montserrat', sans-serif",
