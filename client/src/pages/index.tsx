@@ -7,8 +7,10 @@ import Timer from "../components/Timer";
 import TasksContainer from "../components/TasksContainer";
 import AddTask from "../components/AddTask";
 import BottomActionButtons from "../components/BottomActionButtons";
+import useSWR from "swr";
 
 const Home: NextPage = () => {
+  const { data: tasks } = useSWR("/tasks");
   return (
     <div>
       <Head>
@@ -20,8 +22,8 @@ const Home: NextPage = () => {
       <>
         <Container maxWidth="sm" sx={{ backgroundColor: "#f5f5f5", minHeight: "93vh" }}>
           <TopActionButtons />
-          <Timer />
-          <TasksContainer />
+          <Timer tasks={tasks} />
+          <TasksContainer tasks={tasks} />
           <AddTask />
           <BottomActionButtons />
         </Container>
