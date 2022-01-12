@@ -62,3 +62,24 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
   }
   return null;
 };
+
+export const me = async (req: Request, res: Response) => {
+  try {
+    if (!req.user) return res.status(400).json({ error: "no user found" });
+
+    return res.status(200).json(req.user);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "something went wrong" });
+  }
+};
+
+export const logout = async (req: Request, res: Response) => {
+  try {
+    req.logOut();
+    return res.status(200).json({ user: "logged out" });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "something went wrong" });
+  }
+};
