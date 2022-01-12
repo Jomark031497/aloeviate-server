@@ -1,8 +1,6 @@
 import { Box, Button, Card, TextField, Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { useState } from "react";
-import { Task } from "../types";
-import { v4 } from "uuid";
 import { useAppDispatch } from "../redux/store";
 import { addTask } from "../redux/features/tasks/addTaskSlice";
 import { getTasks } from "../redux/features/tasks/getTasksSlice";
@@ -11,16 +9,16 @@ const AddTask: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const [openAddTask, setOpenAddTask] = useState(false);
-  const [task, setTask] = useState<Task>({
-    id: v4(),
+  const [task, setTask] = useState({
     name: "",
     duration: "0",
-    elapsed: "",
+    elapsed: 0,
     isCompleted: false,
   });
 
   const handleAddTask = async (e: React.FormEvent<HTMLDivElement>) => {
     e.preventDefault();
+
     let transformedTask = { ...task, duration: parseInt(task.duration) * 60 };
     try {
       await dispatch(addTask(transformedTask));

@@ -3,8 +3,10 @@ import { useDispatch } from "react-redux";
 import addTask from "./features/tasks/addTaskSlice";
 import tasks from "./features/tasks/getTasksSlice";
 import user from "./features/auth/loginSlice";
+import updateTask from "./features/tasks/updateTaskSlice";
+import activeTask from "./features/tasks/activeTaskSlice";
 // combine all reducers into 1
-const rootReducer = combineReducers({ addTask, tasks, user });
+const rootReducer = combineReducers({ addTask, tasks, user, updateTask, activeTask });
 
 // create the store and add the reducer functions
 const store = configureStore({

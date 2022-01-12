@@ -1,8 +1,8 @@
 export interface Task {
-  id: string;
+  id: number;
   name: string;
-  duration: string;
-  elapsed: string;
+  duration: number;
+  elapsed: number;
   isCompleted: boolean;
 }
 

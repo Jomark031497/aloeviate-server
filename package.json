@@ -1,0 +1,27 @@
+{
+  "name": "aloeviate",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "server": "npm run dev --prefix backend",
+    "client": "npm run dev --prefix client",
+    "watch": "npm run watch --prefix backend",
+    "dev": "concurrently \"npm run watch\" \"npm run server\" \"npm run client\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jomark031497/aloeviate.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jomark031497/aloeviate/issues"
+  },
+  "homepage": "https://github.com/Jomark031497/aloeviate#readme",
+  "devDependencies": {
+    "concurrently": "^7.0.0",
+    "nodemon": "^2.0.15"
+  }
+}
