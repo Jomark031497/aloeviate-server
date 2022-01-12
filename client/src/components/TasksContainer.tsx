@@ -9,7 +9,7 @@ const TasksContainer = () => {
   const sampleTasks = [
     {
       id: uuid(),
-      duration: "10:00",
+      duration: "80:00:00",
       name: "My First Task",
       elapsed: "00:00",
       isCompleted: false,

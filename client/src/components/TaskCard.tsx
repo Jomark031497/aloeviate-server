@@ -26,7 +26,7 @@ const TaskCard: React.FC<Props> = ({ task }) => {
       >
         <Box
           sx={{
-            flex: 0.3,
+            flex: 0.4,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
@@ -34,7 +34,7 @@ const TaskCard: React.FC<Props> = ({ task }) => {
           }}
         >
           <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center", justifyContent: "center" }}>
-            {task.icon}
+            <Box>{task.icon}</Box>
             <Typography variant="body2">{task.duration}</Typography>
           </Box>
         </Box>
