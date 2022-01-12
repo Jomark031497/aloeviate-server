@@ -26,7 +26,11 @@ const initialState: StateTypes = {
 export const getTasksSlice = createSlice({
   name: "getTasks",
   initialState,
-  reducers: {},
+  reducers: {
+    setTasks: (state, action) => {
+      state.data = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getTasks.pending, (state) => {
       state.isLoading = true;
@@ -43,5 +47,7 @@ export const getTasksSlice = createSlice({
     });
   },
 });
+
+export const { setTasks } = getTasksSlice.actions;
 
 export default getTasksSlice.reducer;

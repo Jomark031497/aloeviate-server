@@ -9,7 +9,8 @@ import AddTask from "../components/AddTask";
 import BottomActionButtons from "../components/BottomActionButtons";
 import { useEffect } from "react";
 import { useAppDispatch } from "../redux/store";
-import { getTasks } from "../redux/features/tasks/getTasksSlice";
+import { getTasks, setTasks } from "../redux/features/tasks/getTasksSlice";
+import { unwrapResult } from "@reduxjs/toolkit";
 
 const Home: NextPage = () => {
   // const { data: tasks } = useSWR("/tasks");
@@ -18,14 +19,15 @@ const Home: NextPage = () => {
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        dispatch(getTasks());
+        const data = await dispatch(getTasks());
+        dispatch(setTasks(unwrapResult(data)));
       } catch (error) {
         console.error(error);
       }
     };
 
     fetchTasks();
-  }, []);
+  }, [dispatch]);
 
   return (
     <div>

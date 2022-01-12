@@ -5,7 +5,7 @@ import { Task } from "../types";
 import TaskCard from "./TaskCard";
 
 const TasksContainer: React.FC = () => {
-  const { data: tasks } = useSelector((state: RootState) => state.getTasks);
+  const { data: tasks } = useSelector((state: RootState) => state.tasks);
   return (
     <Box id="tasks-container" sx={{ mx: "auto" }}>
       {tasks && tasks.map((task: Task) => <TaskCard task={task} key={task.id} />)}

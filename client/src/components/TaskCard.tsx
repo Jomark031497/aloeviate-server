@@ -4,6 +4,7 @@ import AssignmentIcon from "@mui/icons-material/Assignment";
 import axios from "axios";
 import { useAppDispatch } from "../redux/store";
 import { getTasks } from "../redux/features/tasks/getTasksSlice";
+import { minsToTimeFormat } from "../lib/timeFormatter";
 
 interface Props {
   task: Task;
@@ -30,7 +31,7 @@ const TaskCard: React.FC<Props> = ({ task }) => {
             <Box>
               <AssignmentIcon sx={{ fontSize: "2rem" }} />
             </Box>
-            <Typography variant="body2">{task.duration}</Typography>
+            <Typography variant="body2">{minsToTimeFormat(task.duration)}</Typography>
           </Box>
         </Box>
         <Box sx={{ flex: 1, p: "0.5rem", display: "flex", flexDirection: "column" }}>
