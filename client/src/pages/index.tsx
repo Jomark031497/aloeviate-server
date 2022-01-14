@@ -1,34 +1,11 @@
 import { Container } from "@mui/material";
 import type { NextPage } from "next";
 import Head from "next/head";
-
 import TopActionButtons from "../components/TopActionButtons";
-import Timer from "../components/Timer";
 import TasksContainer from "../components/TasksContainer";
 import AddTask from "../components/AddTask";
 import BottomActionButtons from "../components/BottomActionButtons";
-import { useEffect } from "react";
-import { useAppDispatch } from "../redux/store";
-import { getTasks, setTasks } from "../redux/features/tasks/getTasksSlice";
-import { unwrapResult } from "@reduxjs/toolkit";
-
 const Home: NextPage = () => {
-  // const { data: tasks } = useSWR("/tasks");
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    const fetchTasks = async () => {
-      try {
-        const data = await dispatch(getTasks());
-        dispatch(setTasks(unwrapResult(data)));
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchTasks();
-  }, [dispatch]);
-
   return (
     <div>
       <Head>
@@ -40,7 +17,6 @@ const Home: NextPage = () => {
       <>
         <Container maxWidth="sm" sx={{ backgroundColor: "#f5f5f5", minHeight: "93vh" }}>
           <TopActionButtons />
-          <Timer />
           <TasksContainer />
           <AddTask />
           <BottomActionButtons />

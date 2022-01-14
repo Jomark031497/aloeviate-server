@@ -13,16 +13,18 @@ interface Props {
 const TaskCard: React.FC<Props> = ({ task }) => {
   const dispatch = useAppDispatch();
 
-  const deleteTask = async (id: string) => {
+  const deleteTask = async (id: number) => {
     try {
-      await axios.delete(`/tasks/${parseInt(id)}`, { withCredentials: true });
+      await axios.delete(`/tasks/${id}`, { withCredentials: true });
       dispatch(getTasks());
     } catch (error) {
       console.error(error);
     }
   };
   return (
-    <Card sx={{ m: "0 auto 0.5rem auto", width: 260, height: 90 }}>
+    <Card
+      sx={{ m: "0 auto 0.5rem auto", width: 260, height: 90, background: task.isCompleted ? "lightgreen" : "white" }}
+    >
       <CardContent sx={{ display: "flex", height: "100%", padding: 0, "&:last-child": { paddingBottom: 0 } }}>
         <Box
           sx={{ flex: 0.4, display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column" }}

@@ -64,10 +64,11 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
 };
 
 export const me = async (req: Request, res: Response) => {
+  const user: any = req.user;
   try {
-    if (!req.user) return res.status(400).json({ error: "no user found" });
-
-    return res.status(200).json(req.user);
+    if (!user) return res.status(400).json({ error: "no user found" });
+    const userData = await User.findOne({ username: user.username }, { relations: ["tasks"] });
+    return res.status(200).json(userData);
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: "something went wrong" });

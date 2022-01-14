@@ -5,7 +5,6 @@ import PauseIcon from "@mui/icons-material/PauseCircle";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../redux/store";
 import { minsToTimeFormat } from "../lib/timeFormatter";
-import { updateTask } from "../redux/features/tasks/updateTaskSlice";
 import { setActiveTask, updateActiveTask } from "../redux/features/tasks/activeTaskSlice";
 
 const Timer: React.FC = () => {
@@ -15,6 +14,7 @@ const Timer: React.FC = () => {
   const [playTimer, setPlayTimer] = useState(false);
 
   const toggleTimer = () => {
+    if (!activeTask) return;
     setPlayTimer(!playTimer);
   };
 
@@ -33,20 +33,17 @@ const Timer: React.FC = () => {
     if (playTimer && activeTask) {
       countdown = setInterval(() => {
         if (activeTask.duration <= 1) {
+          dispatch(updateActiveTask({ ...activeTask, isCompleted: true }));
           clearInterval(countdown);
           setPlayTimer(false);
         }
-        console.log(activeTask);
         dispatch(
           updateActiveTask({ ...activeTask, duration: activeTask.duration - 1, elapsed: activeTask.elapsed + 1 })
         );
-      }, 1000);
+      }, 300);
     } else {
       // clear the countdown timer
       clearInterval(countdown);
-
-      // set current Task, keng mismung task
-      // dispatch(updateTask(activeTask));
     }
 
     return () => clearInterval(countdown);

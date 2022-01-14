@@ -25,6 +25,7 @@ export const activeTaskSlice = createSlice({
     updateActiveTask: (state, action) => {
       state.data!.duration = action.payload.duration;
       state.data!.elapsed = action.payload.elapsed;
+      state.data!.isCompleted = action.payload.isCompleted;
     },
   },
 });
