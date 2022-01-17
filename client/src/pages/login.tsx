@@ -2,7 +2,7 @@ import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import { Field, Form, Formik } from "formik";
 import { NextPage } from "next";
 import { useRouter } from "next/router";
-import { login } from "../redux/features/auth/loginSlice";
+import { login } from "../redux/features/auth/loginUserSlice";
 import { useAppDispatch } from "../redux/store";
 import { User } from "../types";
 

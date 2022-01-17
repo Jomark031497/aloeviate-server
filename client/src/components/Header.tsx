@@ -3,7 +3,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import axios from "axios";
 import { useEffect } from "react";
 import { RootState, useAppDispatch } from "../redux/store";
-import { setCurrentUser } from "../redux/features/auth/loginSlice";
+import { setCurrentUser } from "../redux/features/auth/loginUserSlice";
 import { useRouter } from "next/router";
 import CLink from "./custom/CLink";
 import { useSelector } from "react-redux";
