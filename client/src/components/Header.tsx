@@ -1,67 +1,57 @@
-import { AppBar, Box, Button, IconButton, Toolbar } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
-import axios from "axios";
-import { useEffect } from "react";
-import { RootState, useAppDispatch } from "../redux/store";
-import { setCurrentUser } from "../redux/features/auth/loginUserSlice";
+import { AppBar, Box, Toolbar, Link, Typography } from "@mui/material";
+import NextLink from "next/link";
 import { useRouter } from "next/router";
-import CLink from "./custom/CLink";
 import { useSelector } from "react-redux";
+import { logoutUser } from "../redux/features/auth/loginSlice";
+import { RootState, useAppDispatch } from "../redux/store";
 
 const Header: React.FC = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
-  const { data: user } = useSelector((state: RootState) => state.user);
+  const { data: user } = useSelector((state: RootState) => state.login);
 
-  useEffect(() => {
-    const checkAuth = async () => {
-      try {
-        const { data } = await axios.get("auth/me", { withCredentials: true });
-        dispatch(setCurrentUser(data));
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    checkAuth();
-  }, [dispatch]);
-
-  const logoutUser = async () => {
+  const handleLogout = () => {
     try {
-      await axios.get("auth/logout", { withCredentials: true });
+      dispatch(logoutUser());
       router.reload();
     } catch (error) {
       console.error(error);
     }
   };
-
   return (
     <>
       <AppBar position="fixed">
         <Toolbar>
           <Box id="title-container" sx={{ flex: 1 }}>
-            <CLink href="/" label="aloeviate." variant="h5" color="textPrimary" sx={{ letterSpacing: "0.3rem" }} />
+            <NextLink href="/" passHref>
+              <Link variant="h5" underline="none" sx={{ color: "#fff", letterSpacing: "0.3rem" }}>
+                aloeviate.
+              </Link>
+            </NextLink>
           </Box>
 
           <Box id="auth-container" sx={{ display: "flex" }}>
             {user ? (
-              <IconButton onClick={logoutUser}>
-                <MenuIcon sx={{ color: "#fff" }} />
-              </IconButton>
+              <Box onClick={handleLogout}>
+                <Typography variant="subtitle1">{user.username}</Typography>
+              </Box>
             ) : (
               <>
-                <Button onClick={() => router.push("/login")} sx={{ mx: "0.5rem", color: "text.primary" }}>
-                  Login
-                </Button>
-                <Button onClick={() => router.push("/register")} sx={{ mx: "0.5rem", color: "text.primary" }}>
-                  Register
-                </Button>
+                <NextLink href="/login" passHref>
+                  <Link variant="h6" underline="none" sx={{ color: "#fff", mx: "1rem" }}>
+                    login
+                  </Link>
+                </NextLink>
+                <NextLink href="/register" passHref>
+                  <Link variant="h6" underline="none" sx={{ color: "#fff", mx: "1rem" }}>
+                    register
+                  </Link>
+                </NextLink>
               </>
             )}
           </Box>
         </Toolbar>
       </AppBar>
-
       <Box sx={{ minHeight: { xs: 59, md: 65 } }} />
     </>
   );

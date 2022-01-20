@@ -17,6 +17,7 @@ interface MyAppProps extends AppProps {
 }
 
 axios.defaults.baseURL = process.env.NEXT_PUBLIC_SERVER_URL + "/api";
+axios.defaults.withCredentials = true;
 
 function MyApp(props: MyAppProps) {
   const { Component, emotionCache = clientSideEmotionCache, pageProps } = props;
@@ -24,7 +25,7 @@ function MyApp(props: MyAppProps) {
   return (
     <>
       <Head>
-        <title>leddit</title>
+        <title>aloeviate</title>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <>

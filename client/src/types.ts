@@ -12,3 +12,9 @@ export interface User {
   password: string;
   tasks?: Task[];
 }
+
+export interface AuthState {
+  data: User | null;
+  error: any | null;
+  isLoading: boolean;
+}
