@@ -2,7 +2,7 @@ export interface Task {
   id: number;
   name: string;
   duration: number;
-  elapsed: number;
+  elapsed?: number;
   isCompleted: boolean;
 }
 

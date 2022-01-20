@@ -1,9 +1,6 @@
 import { Card, Box, Typography, CardContent, CardActions } from "@mui/material";
 import { Task } from "../types";
 import AssignmentIcon from "@mui/icons-material/Assignment";
-import axios from "axios";
-import { useAppDispatch } from "../redux/store";
-import { getTasks } from "../redux/features/tasks/getTasksSlice";
 import { minsToTimeFormat } from "../lib/timeFormatter";
 
 interface Props {
@@ -11,16 +8,6 @@ interface Props {
 }
 
 const TaskCard: React.FC<Props> = ({ task }) => {
-  const dispatch = useAppDispatch();
-
-  const deleteTask = async (id: number) => {
-    try {
-      await axios.delete(`/tasks/${id}`, { withCredentials: true });
-      dispatch(getTasks());
-    } catch (error) {
-      console.error(error);
-    }
-  };
   return (
     <Card
       sx={{ m: "0 auto 0.5rem auto", width: 260, height: 90, background: task.isCompleted ? "lightgreen" : "white" }}
@@ -47,7 +34,6 @@ const TaskCard: React.FC<Props> = ({ task }) => {
             <Typography
               variant="body2"
               color="textSecondary"
-              onClick={() => deleteTask(task.id)}
               sx={{
                 fontSize: "0.6rem",
                 "&:hover": {
@@ -81,14 +67,6 @@ const TaskCard: React.FC<Props> = ({ task }) => {
               }}
             >
               COMPLETE
-            </Typography>
-            <Typography
-              color="textSecondary"
-              sx={{
-                fontSize: "0.8rem",
-              }}
-            >
-              {minsToTimeFormat(task.elapsed)}
             </Typography>
           </CardActions>
         </Box>
