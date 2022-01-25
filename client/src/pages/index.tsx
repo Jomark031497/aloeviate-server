@@ -1,27 +1,12 @@
 import { Container } from "@mui/material";
 import type { NextPage } from "next";
 import Head from "next/head";
-import { v4 } from "uuid";
-import TaskCard from "../components/TaskCard";
+import AddTask from "../components/AddTask";
+import TasksContainer from "../components/TasksContainer";
 import Timer from "../components/Timer";
 import TopActionButtons from "../components/TopActionButtons";
-import { Task } from "../types";
-const Home: NextPage = () => {
-  const dummyData: Task[] = [
-    {
-      id: parseInt(v4()),
-      name: "First Task",
-      duration: 500,
-      isCompleted: false,
-    },
-    {
-      id: parseInt(v4()),
-      name: "Second Task",
-      duration: 320,
-      isCompleted: false,
-    },
-  ];
 
+const Home: NextPage = () => {
   return (
     <div>
       <Head>
@@ -31,11 +16,11 @@ const Home: NextPage = () => {
       </Head>
 
       <>
-        <Container maxWidth="sm" sx={{ backgroundColor: "#f5f5f5", minHeight: "93vh" }}>
+        <Container maxWidth="sm" sx={{ background: "#f5f5f5", minHeight: "93vh" }}>
           <TopActionButtons />
           <Timer />
-
-          {dummyData && dummyData.map((task) => <TaskCard task={task} key={task.id} />)}
+          <TasksContainer />
+          <AddTask />
         </Container>
       </>
     </div>

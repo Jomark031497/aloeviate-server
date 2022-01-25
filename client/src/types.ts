@@ -1,20 +1,6 @@
 export interface Task {
-  id: number;
+  id: number | string;
   name: string;
   duration: number;
-  elapsed?: number;
   isCompleted: boolean;
-}
-
-export interface User {
-  email?: string;
-  username: string;
-  password: string;
-  tasks?: Task[];
-}
-
-export interface AuthState {
-  data: User | null;
-  error: any | null;
-  isLoading: boolean;
 }

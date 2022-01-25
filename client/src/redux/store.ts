@@ -1,8 +1,8 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
-import loginReducer from "./features/auth/loginSlice";
+import tasksReducer from "./features/tasks/taskSlice";
 
-const rootReducer = combineReducers({ login: loginReducer });
+const rootReducer = combineReducers({ tasks: tasksReducer });
 
 const store = configureStore({
   reducer: rootReducer,

@@ -1,32 +1,29 @@
 import { Box, Button, Card, TextField, Typography } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import { useState } from "react";
+import React, { useState } from "react";
+import { v4 } from "uuid";
 import { useAppDispatch } from "../redux/store";
-import { addTask } from "../redux/features/tasks/addTaskSlice";
-import { getTasks } from "../redux/features/tasks/getTasksSlice";
 
 const AddTask: React.FC = () => {
   const dispatch = useAppDispatch();
-
   const [openAddTask, setOpenAddTask] = useState(false);
   const [task, setTask] = useState({
     name: "",
     duration: "0",
-    elapsed: 0,
     isCompleted: false,
   });
 
-  const handleAddTask = async (e: React.FormEvent<HTMLDivElement>) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    let transformedTask = { ...task, duration: parseInt(task.duration) * 60 };
-    try {
-      await dispatch(addTask(transformedTask));
-      await dispatch(getTasks());
-    } catch (error) {
-      console.error(error);
-    }
-    setOpenAddTask(false);
+    if (!task.name || !task.duration) return;
+
+    const newTask = {
+      id: v4(),
+      name: task.name,
+      duration: task.duration,
+      isCompleted: task.isCompleted,
+    };
   };
 
   return (
@@ -60,7 +57,7 @@ const AddTask: React.FC = () => {
       ) : (
         <Card
           component="form"
-          onSubmit={handleAddTask}
+          onSubmit={handleSubmit}
           sx={{
             m: "1rem auto",
             width: "258px",
@@ -75,13 +72,12 @@ const AddTask: React.FC = () => {
           }}
         >
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <AddIcon sx={{ color: "text.secondary", fontSize: "2rem" }} />
             <TextField
               size="small"
               placeholder="task name"
+              fullWidth
               value={task.name}
               onChange={(e) => setTask({ ...task, name: e.target.value })}
-              sx={{ width: "65%", ml: "1.5rem" }}
               InputLabelProps={{ style: { height: "0.5rem" }, shrink: true }}
               inputProps={{
                 style: { height: "0.5rem", fontSize: "0.9rem" },
@@ -89,14 +85,17 @@ const AddTask: React.FC = () => {
             />
           </Box>
           <Box sx={{ display: "flex", alignItems: "center" }}>
-            <input
+            <TextField
               type="number"
-              min="0"
+              size="small"
               value={task.duration}
               onChange={(e) => setTask({ ...task, duration: e.target.value })}
-              style={{ width: "50px", height: "30px", border: 0, textAlign: "center" }}
+              InputProps={{
+                inputProps: { min: 1 },
+                style: { height: "1.5rem", fontSize: "0.9rem" },
+              }}
             />
-            <Button size="small" onClick={() => setOpenAddTask(!openAddTask)}>
+            <Button size="small" sx={{ ml: "0.3rem" }} onClick={() => setOpenAddTask(!openAddTask)}>
               Cancel
             </Button>
             <Button size="small" type="submit">
