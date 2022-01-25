@@ -20,7 +20,7 @@ const AddTask: React.FC = () => {
     const newTask = {
       id: v4(),
       name: task.name,
-      duration: task.duration,
+      duration: parseInt(task.duration) * 60,
       isCompleted: false,
     };
 
