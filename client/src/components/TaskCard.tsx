@@ -1,13 +1,20 @@
-import { Card, Box, Typography, CardContent, CardActions, styled, Button } from "@mui/material";
+import { Card, Box, Typography, CardContent, CardActions, Button } from "@mui/material";
 import { Task } from "../types";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import { minsToTimeFormat } from "../lib/timeFormatter";
+import { useAppDispatch } from "../redux/store";
+import { deleteTask } from "../redux/features/tasks/taskSlice";
 
 interface Props {
   task: Task;
 }
 
 const TaskCard: React.FC<Props> = ({ task }) => {
+  const dispatch = useAppDispatch();
+
+  const handleDelete = () => {
+    dispatch(deleteTask(task.id));
+  };
   return (
     <Card sx={{ m: "0 auto 0.5rem auto", width: 260, height: 90 }}>
       <CardContent sx={{ display: "flex", height: "100%", padding: 0, "&:last-child": { paddingBottom: 0 } }}>
@@ -29,7 +36,7 @@ const TaskCard: React.FC<Props> = ({ task }) => {
           </Box>
 
           <CardActions disableSpacing sx={{ height: "20%", display: "flex", justifyContent: "space-between", p: 0 }}>
-            <Button size="small" sx={{ fontSize: "0.6rem", p: 0, minWidth: 0 }}>
+            <Button size="small" sx={{ fontSize: "0.6rem", p: 0, minWidth: 0 }} onClick={handleDelete}>
               DELETE
             </Button>
             <Button size="small" sx={{ fontSize: "0.6rem", p: 0, minWidth: 0 }}>
