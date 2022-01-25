@@ -10,7 +10,7 @@ const Timer: React.FC = () => {
   const toggleTimer = () => setPlayTimer((prev) => !prev);
 
   return (
-    <Box id="timer-container" sx={{ my: "1rem", backgroundColor: "#fff" }}>
+    <Box id="timer-container" sx={{ my: "1rem" }}>
       <>
         <Typography variant="h2" align="center">
           00:00

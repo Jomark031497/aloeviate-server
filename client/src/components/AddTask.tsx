@@ -3,6 +3,7 @@ import AddIcon from "@mui/icons-material/Add";
 import React, { useState } from "react";
 import { v4 } from "uuid";
 import { useAppDispatch } from "../redux/store";
+import { addTask } from "../redux/features/tasks/taskSlice";
 
 const AddTask: React.FC = () => {
   const dispatch = useAppDispatch();
@@ -10,20 +11,22 @@ const AddTask: React.FC = () => {
   const [task, setTask] = useState({
     name: "",
     duration: "0",
-    isCompleted: false,
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
     if (!task.name || !task.duration) return;
 
     const newTask = {
       id: v4(),
       name: task.name,
       duration: task.duration,
-      isCompleted: task.isCompleted,
+      isCompleted: false,
     };
+
+    dispatch(addTask(newTask));
+    setTask({ name: "", duration: "0" });
+    setOpenAddTask(false);
   };
 
   return (
@@ -43,10 +46,7 @@ const AddTask: React.FC = () => {
             alignItems: "center",
             justifyContent: "center",
             backgroundColor: "lightgrey",
-            "&:hover": {
-              cursor: "pointer",
-              opacity: "0.7",
-            },
+            "&:hover": { cursor: "pointer", opacity: "0.7" },
           }}
         >
           <AddIcon sx={{ color: "text.secondary" }} />

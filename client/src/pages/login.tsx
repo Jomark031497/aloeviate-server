@@ -1,12 +1,9 @@
 import { Box, Button, Container, TextField, Typography } from "@mui/material";
 import { Field, Form, Formik } from "formik";
 import { NextPage } from "next";
-import { useRouter } from "next/router";
-import { useAppDispatch } from "../redux/store";
-import { User } from "../types";
 
 const Login: NextPage = () => {
-  const handleLogin = async (values: User) => {
+  const handleLogin = async (values: any) => {
     try {
       console.log(values);
     } catch (error: any) {
