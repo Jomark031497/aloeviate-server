@@ -1,4 +1,4 @@
-import { Card, Box, Typography, CardContent, CardActions } from "@mui/material";
+import { Card, Box, Typography, CardContent, CardActions, styled, Button } from "@mui/material";
 import { Task } from "../types";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import { minsToTimeFormat } from "../lib/timeFormatter";
@@ -9,9 +9,7 @@ interface Props {
 
 const TaskCard: React.FC<Props> = ({ task }) => {
   return (
-    <Card
-      sx={{ m: "0 auto 0.5rem auto", width: 260, height: 90, background: task.isCompleted ? "lightgreen" : "white" }}
-    >
+    <Card sx={{ m: "0 auto 0.5rem auto", width: 260, height: 90 }}>
       <CardContent sx={{ display: "flex", height: "100%", padding: 0, "&:last-child": { paddingBottom: 0 } }}>
         <Box
           sx={{ flex: 0.4, display: "flex", alignItems: "center", justifyContent: "center", flexDirection: "column" }}
@@ -23,7 +21,7 @@ const TaskCard: React.FC<Props> = ({ task }) => {
             <Typography variant="body2">{minsToTimeFormat(task.duration)}</Typography>
           </Box>
         </Box>
-        <Box sx={{ flex: 1, p: "0.5rem", display: "flex", flexDirection: "column" }}>
+        <Box sx={{ flex: 1, p: "0.5rem", display: "flex", flexDirection: "column", width: "20%" }}>
           <Box sx={{ height: "80%", display: "flex", alignItems: "center" }}>
             <Typography variant="body2" noWrap>
               {task.name}
@@ -31,43 +29,15 @@ const TaskCard: React.FC<Props> = ({ task }) => {
           </Box>
 
           <CardActions disableSpacing sx={{ height: "20%", display: "flex", justifyContent: "space-between", p: 0 }}>
-            <Typography
-              variant="body2"
-              color="textSecondary"
-              sx={{
-                fontSize: "0.6rem",
-                "&:hover": {
-                  color: "primary.main",
-                  cursor: "pointer",
-                },
-              }}
-            >
+            <Button size="small" sx={{ fontSize: "0.6rem", p: 0, minWidth: 0 }}>
               DELETE
-            </Typography>
-            <Typography
-              color="textSecondary"
-              sx={{
-                fontSize: "0.6rem",
-                "&:hover": {
-                  color: "primary.main",
-                  cursor: "pointer",
-                },
-              }}
-            >
+            </Button>
+            <Button size="small" sx={{ fontSize: "0.6rem", p: 0, minWidth: 0 }}>
               RESET
-            </Typography>
-            <Typography
-              color="textSecondary"
-              sx={{
-                fontSize: "0.6rem",
-                "&:hover": {
-                  color: "primary.main",
-                  cursor: "pointer",
-                },
-              }}
-            >
+            </Button>
+            <Button size="small" sx={{ fontSize: "0.6rem", p: 0, minWidth: 0 }}>
               COMPLETE
-            </Typography>
+            </Button>
           </CardActions>
         </Box>
       </CardContent>
