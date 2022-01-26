@@ -3,4 +3,5 @@ export interface Task {
   name: string;
   duration: number;
   isCompleted: boolean;
+  elapsed: number;
 }

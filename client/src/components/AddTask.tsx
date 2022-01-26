@@ -22,6 +22,8 @@ const AddTask: React.FC = () => {
       name: task.name,
       duration: parseInt(task.duration) * 60,
       isCompleted: false,
+      isActive: false,
+      elapsed: 0,
     };
 
     dispatch(addTask(newTask));

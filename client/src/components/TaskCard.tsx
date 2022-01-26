@@ -55,6 +55,9 @@ const TaskCard: React.FC<Props> = ({ task }) => {
             <Button size="small" sx={{ fontSize: "0.6rem", p: 0, minWidth: 0 }} onClick={handleComplete}>
               COMPLETE
             </Button>
+            <Button size="small" sx={{ fontSize: "0.6rem", p: 0, minWidth: 0 }}>
+              {minsToTimeFormat(task.elapsed)}
+            </Button>
           </CardActions>
         </Box>
       </CardContent>

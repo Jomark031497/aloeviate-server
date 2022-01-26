@@ -6,14 +6,16 @@ const initialState: Task[] = [
   {
     id: v4(),
     name: "first task",
-    duration: 300,
+    duration: 30,
     isCompleted: false,
+    elapsed: 0,
   },
   {
     id: v4(),
     name: "second task",
-    duration: 600,
+    duration: 30,
     isCompleted: false,
+    elapsed: 0,
   },
 ];
 
