@@ -4,73 +4,68 @@ import PauseIcon from "@mui/icons-material/PauseCircle";
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../redux/store";
-import { Task } from "../types";
 import { minsToTimeFormat, timeFormatToSecs } from "../lib/timeFormatter";
 import { completeTask } from "../redux/features/tasks/taskSlice";
+import { setActiveTask, updateElapsed } from "../redux/features/tasks/activeTaskSlice";
 
 const Timer: React.FC = () => {
   const dispatch = useAppDispatch();
   const tasks = useSelector((state: RootState) => state.tasks);
-  const [currentTask, setCurrentTask] = useState<Task | null>(null);
+  const { data: activeTask } = useSelector((state: RootState) => state.activeTask);
   const [playTimer, setPlayTimer] = useState(false);
-
+  const INTERVAL = 1000;
   const timerRef = useRef<any>(null);
 
-  const startTimer = () => {
-    if (!currentTask) return;
-    setPlayTimer(true);
-  };
-
-  const stopTimer = () => {
-    if (!currentTask) return;
-    // update the currentTask's duration and elapsed time
-    const totalElapsed = currentTask.duration - timeFormatToSecs(timerRef.current.innerHTML);
-    setCurrentTask({ ...currentTask, elapsed: totalElapsed });
-    setPlayTimer(false);
-  };
-
   useEffect(() => {
-    if (tasks.length) {
-      const incompleteTasks = tasks.filter((task) => !task.isCompleted);
-      if (!incompleteTasks) setCurrentTask(null);
-      setCurrentTask(incompleteTasks[0]);
-    } else {
-      setCurrentTask(null);
-    }
-  }, [tasks]);
-
-  useEffect(() => {
+    console.log("effect ran");
+    // timer variable
     let countdown: any;
+    // get all incomplete tasks
+    const incompleteTasks = tasks.filter((task) => !task.isCompleted);
 
-    if (!currentTask) return;
+    // check if there are no incomplete tasks,
+    if (!incompleteTasks) {
+      setActiveTask(null);
+      return;
+    } else {
+      // get the first element and set it to the current task
+      dispatch(setActiveTask(incompleteTasks[0]));
+    }
 
-    if (playTimer) {
-      let duration = currentTask.duration - currentTask.elapsed;
+    // if timer is started and there is a current task
+    if (playTimer && activeTask) {
+      // get the duration / remaining duration
+      let duration = activeTask.duration - activeTask.elapsed;
 
+      // start the counter
       countdown = setInterval(() => {
+        // a condition to stop the timer if duration is 0
         if (duration <= 1) {
           setPlayTimer(false);
-          dispatch(completeTask(currentTask.id));
+          dispatch(completeTask(activeTask.id));
           clearInterval(countdown);
         }
-
         duration -= 1;
         timerRef.current.innerHTML = minsToTimeFormat(duration);
-      }, 1000);
+      }, INTERVAL);
+    } else {
+      if (!activeTask) return;
+      const elapsed = activeTask.duration - timeFormatToSecs(timerRef.current.innerHTML);
+      dispatch(updateElapsed({ ...activeTask, elapsed }));
     }
 
     return () => clearInterval(countdown);
-  }, [playTimer, currentTask, dispatch]);
+  }, [playTimer, tasks]);
 
   return (
     <Box id="timer-container" sx={{ my: "1rem" }}>
-      {currentTask ? (
+      {activeTask ? (
         <>
           <Typography variant="h2" align="center" ref={timerRef}>
-            {minsToTimeFormat(currentTask.duration)}
+            {minsToTimeFormat(activeTask.duration)}
           </Typography>
           <Typography variant="h6" align="center">
-            {currentTask.name}
+            {activeTask.name}
           </Typography>
         </>
       ) : (
@@ -86,11 +81,11 @@ const Timer: React.FC = () => {
 
       <Box id="timer-action-button" sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
         {playTimer ? (
-          <IconButton sx={{ mx: "1rem" }} onClick={stopTimer}>
+          <IconButton sx={{ mx: "1rem" }} onClick={() => setPlayTimer(false)}>
             <PauseIcon sx={{ fontSize: "4rem" }} />
           </IconButton>
         ) : (
-          <IconButton sx={{ mx: "1rem" }} onClick={startTimer}>
+          <IconButton sx={{ mx: "1rem" }} onClick={() => setPlayTimer(true)}>
             <PlayIcon sx={{ fontSize: "4rem" }} />
           </IconButton>
         )}

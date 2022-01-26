@@ -2,8 +2,9 @@ import { Card, Box, Typography, CardContent, CardActions, Button } from "@mui/ma
 import { Task } from "../types";
 import AssignmentIcon from "@mui/icons-material/Assignment";
 import { minsToTimeFormat } from "../lib/timeFormatter";
-import { useAppDispatch } from "../redux/store";
+import { RootState, useAppDispatch } from "../redux/store";
 import { completeTask, deleteTask, resetTask } from "../redux/features/tasks/taskSlice";
+import { useSelector } from "react-redux";
 
 interface Props {
   task: Task;
@@ -40,7 +41,7 @@ const TaskCard: React.FC<Props> = ({ task }) => {
         </Box>
         <Box sx={{ flex: 1, p: "0.5rem", display: "flex", flexDirection: "column", width: "20%" }}>
           <Box sx={{ height: "80%", display: "flex", alignItems: "center" }}>
-            <Typography variant="body2" noWrap>
+            <Typography variant="body2" noWrap onClick={() => console.log("im clicked")}>
               {task.name}
             </Typography>
           </Box>
@@ -55,9 +56,7 @@ const TaskCard: React.FC<Props> = ({ task }) => {
             <Button size="small" sx={{ fontSize: "0.6rem", p: 0, minWidth: 0 }} onClick={handleComplete}>
               COMPLETE
             </Button>
-            <Button size="small" sx={{ fontSize: "0.6rem", p: 0, minWidth: 0 }}>
-              {minsToTimeFormat(task.elapsed)}
-            </Button>
+            <Button size="small" sx={{ fontSize: "0.6rem", p: 0, minWidth: 0 }}></Button>
           </CardActions>
         </Box>
       </CardContent>
