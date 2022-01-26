@@ -1,7 +1,6 @@
 import { Box, Typography, IconButton } from "@mui/material";
 import PlayIcon from "@mui/icons-material/PlayCircle";
 import PauseIcon from "@mui/icons-material/PauseCircle";
-
 import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../redux/store";
