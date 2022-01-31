@@ -2,6 +2,8 @@
 
 ## This is the API for Aloeviate: my productivity app
 
+## To view the frontend code, click [here](https://github.com/Jomark031497/aloeviate-client)
+
 ## https://aloeviate-client.vercel.app/
 
 Built with:
