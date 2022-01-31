@@ -1,36 +1,28 @@
 {
-  "name": "aloeviate",
+  "name": "backend",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "cd backend && npm start",
-    "client-build": "cd client && npm run build",
-    "server": "npm run dev --prefix backend",
-    "install-client": "cd client && npm install",
-    "install-server": "cd backend && npm install",
-    "client": "npm run start --prefix client",
-    "heroku-postbuild": "npm run install-server && npm run install-client && npm run client-build"
+    "dev": "nodemon index.js",
+    "start": "node index.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Jomark031497/productivity-app.git"
-  },
-  "engines": {
-    "node": "14.16.1",
-    "npm": "6.14.12"
-  },
-  "author": "",
+  "author": "Jomark Pangan",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Jomark031497/productivity-app/issues"
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cookie-parser": "^1.4.5",
+    "cors": "^2.8.5",
+    "dotenv": "^15.0.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.2",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.12.10",
+    "passport": "^0.4.1",
+    "passport-local": "^1.0.0",
+    "pg": "^8.6.0"
   },
-  "homepage": "https://github.com/Jomark031497/productivity-app#readme",
   "devDependencies": {
     "nodemon": "^2.0.7"
-  },
-  "dependencies": {
-    "client": "^0.0.1",
-    "dotenv": "^10.0.0"
   }
 }
