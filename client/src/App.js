@@ -1,11 +1,6 @@
 import { makeStyles } from "@material-ui/styles";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 import { useEffect } from "react";
 import axios from "axios";
 import { setCurrentUser } from "./features/auth/currentUserSlice";
@@ -19,11 +14,10 @@ function App() {
   const dispatch = useDispatch();
 
   const { currentUser } = useSelector((state) => state);
-
   useEffect(() => {
     const checkLogin = async () => {
       try {
-        const { data } = await axios.get("/api/users/me");
+        const { data } = await axios.get("/api/auth/me", { withCredentials: true });
         dispatch(setCurrentUser(data));
       } catch (err) {
         console.log(err.message);
@@ -40,9 +34,7 @@ function App() {
         <Switch>
           <Route exact path="/register" component={Register} />
           <Route exact path="/login" component={Login} />
-          <Route path="/">
-            {currentUser.data ? <TaskContainer /> : <Redirect to="/login" />}
-          </Route>
+          <Route path="/">{currentUser.data ? <TaskContainer /> : <Redirect to="/login" />}</Route>
         </Switch>
       </Router>
     </div>

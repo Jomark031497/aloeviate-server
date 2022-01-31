@@ -1,15 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-export const registerUser = createAsyncThunk(
-  "users/registerUser",
-  async (payload) => {
-    const res = await axios.post("/api/users/register", payload, {
-      headers: { "Content-Type": "application/json" },
-    });
-    return res.data;
-  }
-);
+export const registerUser = createAsyncThunk("users/registerUser", async (payload) => {
+  const res = await axios.post("/api/auth/register", payload, {
+    headers: { "Content-Type": "application/json" },
+  });
+  return res.data;
+});
 
 export const registerUserSlice = createSlice({
   name: "registerUser",

@@ -1,15 +1,12 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-export const addTask = createAsyncThunk(
-  "tasks/addTask",
-  async ({ userId, task }) => {
-    const res = await axios.post(`/api/users/task/${userId}`, task, {
-      withCredentials: true,
-    });
-    return res.data;
-  }
-);
+export const addTask = createAsyncThunk("tasks/addTask", async ({ userId, task }) => {
+  const res = await axios.post(`/api/tasks/${userId}`, task, {
+    withCredentials: true,
+  });
+  return res.data;
+});
 
 export const addTaskSlice = createSlice({
   name: "addTask",

@@ -1,14 +1,11 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-export const deleteTask = createAsyncThunk(
-  "tasks/deleteTask",
-  async ({ userId, taskId }) => {
-    const res = await axios.delete(`/api/users/task/${userId}?task=${taskId}`);
+export const deleteTask = createAsyncThunk("tasks/deleteTask", async ({ userId, taskId }) => {
+  const res = await axios.delete(`/api/tasks/${userId}?task=${taskId}`);
 
-    return res.data;
-  }
-);
+  return res.data;
+});
 
 export const deleteTaskSlice = createSlice({
   name: "deleteTask",

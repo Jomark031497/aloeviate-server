@@ -1,11 +1,4 @@
-import {
-  AppBar,
-  Avatar,
-  Menu,
-  MenuItem,
-  Toolbar,
-  Typography,
-} from "@material-ui/core";
+import { AppBar, Avatar, Menu, MenuItem, Toolbar, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 import { useState } from "react";
 import AccountIcon from "@material-ui/icons/AccountCircle";
@@ -28,7 +21,7 @@ const Header = () => {
 
   const handleLogout = async (e) => {
     try {
-      await axios.get("/api/users/logout");
+      await axios.get("/api/auth/logout");
 
       dispatch(clearCurrentUser());
     } catch (err) {
@@ -43,12 +36,7 @@ const Header = () => {
       <AppBar>
         <Toolbar>
           <div className={classes.logoContainer}>
-            <Typography
-              variant="h5"
-              className={classes.projectName}
-              component={Link}
-              to="/"
-            >
+            <Typography variant="h5" className={classes.projectName} component={Link} to="/">
               aloeviate.
             </Typography>
           </div>
@@ -62,18 +50,10 @@ const Header = () => {
               )}
             </Avatar>
 
-            <Menu
-              anchorEl={anchorEl}
-              open={Boolean(anchorEl)}
-              onClose={handleClose}
-            >
+            <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
               {!currentUser ? (
                 <div>
-                  <MenuItem
-                    onClick={handleClose}
-                    component={Link}
-                    to="/register"
-                  >
+                  <MenuItem onClick={handleClose} component={Link} to="/register">
                     Register
                   </MenuItem>
                   <MenuItem onClick={handleClose} component={Link} to="/login">

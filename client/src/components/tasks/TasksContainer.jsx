@@ -11,14 +11,12 @@ import { Box } from "@material-ui/core";
 const TasksContainer = () => {
   const classes = useStyles();
   const dispatch = useDispatch();
-  const { currentUser, addTask, updateTask, deleteTask } = useSelector(
-    (state) => state
-  );
+  const { currentUser, addTask, updateTask, deleteTask } = useSelector((state) => state);
 
   useEffect(() => {
     const getCurrentUser = async () => {
       try {
-        const { data } = await axios.get("/api/users/me");
+        const { data } = await axios.get("/api/auth/me", { withCredentials: true });
         dispatch(setCurrentUser(data));
       } catch (err) {
         console.log(err);
@@ -28,11 +26,9 @@ const TasksContainer = () => {
     getCurrentUser();
   }, [dispatch, addTask.data, updateTask.data, deleteTask.data]);
 
-  const getCompletedTasks = () =>
-    currentUser.data.tasks.filter((task) => task.isCompleted);
+  const getCompletedTasks = () => currentUser.data.tasks.filter((task) => task.isCompleted);
 
-  const getIncompleteTasks = () =>
-    currentUser.data.tasks.filter((task) => !task.isCompleted);
+  const getIncompleteTasks = () => currentUser.data.tasks.filter((task) => !task.isCompleted);
 
   return (
     <div className={classes.mainContainer}>

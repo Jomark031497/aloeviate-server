@@ -1,17 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-export const updateTask = createAsyncThunk(
-  "tasks/updateTask",
-  async (payload) => {
-    const res = await axios.put(
-      `/api/users/task/${payload.userId}?task=${payload.taskId}`,
-      payload.task
-    );
-
-    return res.data;
-  }
-);
+export const updateTask = createAsyncThunk("tasks/updateTask", async (payload) => {
+  const res = await axios.put(`/api/tasks/${payload.userId}?task=${payload.taskId}`, payload.task);
+  return res.data;
+});
 
 export const updateTaskSlice = createSlice({
   name: "updateTask",

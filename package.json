@@ -10,7 +10,7 @@
     "install-client": "cd client && npm install",
     "install-server": "cd backend && npm install",
     "client": "npm run start --prefix client",
-    "heroku-postbuild": " npm run install-client && npm run install-server && npm run client-build"
+    "heroku-postbuild": "npm run install-server"
   },
   "repository": {
     "type": "git",

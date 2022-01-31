@@ -17,7 +17,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(
   cors({
-    origin: process.env.CLIENT_URL,
+    origin: "http://localhost:3000",
     credentials: true,
   })
 );
@@ -36,8 +36,12 @@ require("./config/passport.config")(passport);
 // connecting to mongoDB
 dbConnect(mongoose);
 
-app.use("/api/users", userRoute);
-app.use("/api/users", tasksRoute);
+app.get("/", (req, res) => {
+  res.send("test API working");
+});
+
+app.use("/api/auth", userRoute);
+app.use("/api/tasks", tasksRoute);
 
 // for deploying to heroku
 if (process.env.NODE_ENV === "production") {
@@ -50,6 +54,6 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 8080;
 
 app.listen(PORT, () => console.log(`Listening at port ${PORT}`));
