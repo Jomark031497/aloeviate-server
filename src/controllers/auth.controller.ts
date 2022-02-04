@@ -39,7 +39,10 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
         req.logIn(user, (err: Error) => {
           if (err) return next(err);
 
-          res.status(200).json(user);
+          res.status(200).json({
+            _id: user.id,
+            username: user.username,
+          });
           next();
         });
       } catch (e) {
