@@ -1,11 +1,6 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
-const {
-  login,
-  register,
-  logout,
-  me,
-} = require("../../controllers/user.controller");
+import { login, register, logout, me } from "../../controllers/user.controller";
 
 router.post("/register", register);
 
@@ -15,4 +10,4 @@ router.get("/logout", logout);
 
 router.get("/me", me);
 
-module.exports = router;
+export default router;

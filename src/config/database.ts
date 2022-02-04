@@ -1,6 +1,8 @@
-const dbConnect = (mongoose) => {
+import mongoose from "mongoose";
+
+const dbConnect = () => {
   mongoose.connect(
-    process.env.DB_URI,
+    <string>process.env.DB_URI,
     {
       useCreateIndex: true,
       useUnifiedTopology: true,
@@ -14,4 +16,4 @@ const dbConnect = (mongoose) => {
   );
 };
 
-module.exports = dbConnect;
+export default dbConnect;

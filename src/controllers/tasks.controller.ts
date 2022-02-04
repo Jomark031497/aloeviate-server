@@ -1,6 +1,7 @@
-const User = require("../models/user.model");
+import { Request, Response } from "express";
+import User from "../models/user.model";
 
-const addTask = async (req, res) => {
+export const addTask = async (req: Request, res: Response) => {
   try {
     const user = await User.findByIdAndUpdate(
       req.params.id,
@@ -26,7 +27,7 @@ const addTask = async (req, res) => {
   }
 };
 
-const showAllTasks = async (req, res) => {
+export const showAllTasks = async (req: Request, res: Response) => {
   try {
     const user = await User.findById(req.params.id);
 
@@ -36,9 +37,9 @@ const showAllTasks = async (req, res) => {
   }
 };
 
-const deleteTask = async (req, res) => {
+export const deleteTask = async (req: Request, res: Response) => {
   try {
-    const user = await User.findByIdAndUpdate(
+    await User.findByIdAndUpdate(
       req.params.id,
       {
         $pull: {
@@ -58,11 +59,11 @@ const deleteTask = async (req, res) => {
   }
 };
 
-const updateTask = async (req, res) => {
+export const updateTask = async (req: Request, res: Response) => {
   try {
     const { name, duration, elapsedTime, isCompleted } = req.body;
 
-    const user = await User.findOneAndUpdate(
+    await User.findOneAndUpdate(
       {
         _id: req.params.id,
         "tasks._id": req.query.task,
@@ -81,12 +82,8 @@ const updateTask = async (req, res) => {
         useFindAndModify: false,
       }
     );
-    res
-      .status(200)
-      .json({ message: "Task successfully updated", status: true });
+    res.status(200).json({ message: "Task successfully updated", status: true });
   } catch (err) {
     res.status(400).json({ msg: err.message });
   }
 };
-
-module.exports = { addTask, showAllTasks, deleteTask, updateTask };
