@@ -2,13 +2,17 @@ import express from "express";
 import cors from "cors";
 import cookieParser from "cookie-parser";
 import { config as dotenv } from "dotenv";
-import dbConnect from "./config/database";
+import dbConnect from "./utils/mongodb.config";
 import session from "express-session";
 import passport from "passport";
+import authRoute from "./routes/api/auth.routes";
+import taskRoute from "./routes/api/task.routes";
+import authenticate from "./utils/passport.config";
 
 dotenv();
 const app = express();
 const PORT = process.env.PORT || 8080;
+
 // middlewares
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -28,16 +32,12 @@ app.use(
 app.use(cookieParser(<string>process.env.SECRET));
 app.use(passport.initialize());
 app.use(passport.session());
-// authenticate(passport);
+authenticate(passport);
 
-// connecting to mongoDB
-dbConnect();
+app.use("/api/auth", authRoute);
+app.use("/api/tasks", taskRoute);
 
-app.get("/", (_, res) => {
-  res.send("test API working");
+app.listen(PORT, () => {
+  dbConnect();
+  console.log(`Listening at port ${PORT}`);
 });
-
-// app.use("/api/auth", userRoutes);
-// app.use("/api/tasks", tasksRoutes);
-
-app.listen(PORT, () => console.log(`Listening at port ${PORT}`));

@@ -1,5 +1,4 @@
 import { model, Schema, SchemaTypes } from "mongoose";
-import { hash, genSalt } from "bcrypt";
 
 const userSchema = new Schema(
   {
@@ -14,6 +13,7 @@ const userSchema = new Schema(
       required: true,
       min: 6,
       trim: true,
+      select: false,
     },
     tasks: [
       {
@@ -27,12 +27,6 @@ const userSchema = new Schema(
   }
 );
 
-userSchema.pre("save", async (next) => {
-  let user: any = this;
-  const salt = await genSalt();
-  const hashPassword = await hash(user.password, salt);
-  user.password = hashPassword;
-  next();
-});
+const User = model("User", userSchema);
 
-export default model("User", userSchema);
+export default User;
