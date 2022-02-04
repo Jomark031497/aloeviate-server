@@ -56,10 +56,10 @@ export const login = async (req: Request, res: Response, next: NextFunction) => 
         return res.status(500).json({ error: "Something went wrong" });
       }
     })(req, res, next);
-    return null;
   } catch (error) {
     return res.status(500).json({ error: "Something went wrong" });
   }
+  return null;
 };
 
 export const logout = async (req: Request, res: Response) => {
@@ -73,8 +73,9 @@ export const logout = async (req: Request, res: Response) => {
 };
 
 export const me = (req: Request, res: Response) => {
+  console.log("hello!");
   const user: any = req.user;
-
+  res.send(user);
   if (!user) return res.status(404).json({ error: "no user found" });
 
   return res.status(200).json({
