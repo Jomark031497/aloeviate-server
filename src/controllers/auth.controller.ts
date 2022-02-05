@@ -6,6 +6,8 @@ import User from "../models/User.model";
 export const register = async (req: Request, res: Response) => {
   const { username, password } = req.body;
   try {
+    if (username === "" || password === "")
+      return res.status(400).json({ error: "username and/or password cannot be empty" });
     // check if user exists
     let user = await User.findOne({ username });
     if (user) return res.status(400).json({ error: "username/password already exists" });
