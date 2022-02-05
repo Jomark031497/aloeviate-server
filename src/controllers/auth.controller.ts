@@ -64,3 +64,12 @@ export const me = async (req: Request, res: Response) => {
     return res.status(500).json({ error: "something went wrong" });
   }
 };
+
+export const logout = async (req: Request, res: Response) => {
+  try {
+    req.logout();
+    return res.status(200).json({ success: true });
+  } catch (error) {
+    return res.status(500).json({ error: "something went wrong" });
+  }
+};
