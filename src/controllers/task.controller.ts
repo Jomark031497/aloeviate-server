@@ -43,18 +43,36 @@ export const getTask = async (req: Request, res: Response) => {
 export const updateTask = async (req: Request, res: Response) => {
   const { id: _id } = req.params;
   const { name, duration, isCompleted } = req.body;
+
   try {
     let task = await Task.findById(_id);
     if (!task) return res.status(404).json({ error: "task not found" });
     task.name = name ? name : task.name;
     task.duration = duration ? duration : task.duration;
-    task.isCompleted = isCompleted ? isCompleted : task.isCompleted;
+    task.isCompleted = isCompleted;
 
-    task = await task.save();
+    const updatedTask = await task.save();
 
-    return res.json(task);
+    return res.json(updatedTask);
   } catch (error) {
     console.log(error);
+    return res.status(500).json({ error: "something went wrong" });
+  }
+};
+
+export const toggleTask = async (req: Request, res: Response) => {
+  const { id: _id } = req.params;
+  const { isCompleted } = req.body;
+  try {
+    let task = await Task.findById(_id);
+    if (!task) return res.status(404).json({ error: "task not found" });
+
+    task.isCompleted = isCompleted;
+
+    const updatedTask = await task.save();
+
+    return res.status(200).json(updatedTask);
+  } catch (error) {
     return res.status(500).json({ error: "something went wrong" });
   }
 };
