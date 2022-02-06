@@ -6,11 +6,12 @@ export interface IUser {
 }
 
 export interface ITask {
-  duration: number;
-  isCompleted: boolean;
-  elapsedTime: number;
   _id: string;
   name: string;
+  duration: number;
+  elapsed: number;
+  isCompleted: boolean;
+  elapsedTime: number;
   updatedAt?: string;
   createdAt?: string;
 }

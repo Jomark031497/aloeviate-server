@@ -15,6 +15,10 @@ const taskSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    elapsed: {
+      type: Number,
+      default: 0,
+    },
     user: {
       type: SchemaTypes.ObjectId,
       ref: "User",
