@@ -10,7 +10,9 @@
     "dev": "nodemon dist/index.js",
     "start": "node dist/index.js",
     "build": "tsc",
-    "heroku-postbuild": "npm install && npm run build",
+    "install": "npm install",
+    "post-install": "tsc",
+    "heroku-postbuild": "tsc && npm run install",
     "watch": "tsc -w"
   },
   "author": "Jomark Pangan",
