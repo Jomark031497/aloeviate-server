@@ -6,6 +6,8 @@
   "scripts": {
     "dev": "nodemon dist/index.js",
     "start": "node dist/index.js",
+    "tsc": "tsc",
+    "postinstall": "npm run tsc",
     "heroku-postbuild": "npm install && tsc",
     "watch": "tsc -w"
   },
