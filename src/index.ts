@@ -1,6 +1,5 @@
 import express from "express";
 import cors from "cors";
-import cookieParser from "cookie-parser";
 import { config as dotenv } from "dotenv";
 import dbConnect from "./utils/mongodb.config";
 import session from "express-session";
@@ -8,6 +7,7 @@ import passport from "passport";
 import authRoute from "./routes/api/auth.routes";
 import taskRoute from "./routes/api/task.routes";
 import authenticate from "./utils/passport.config";
+import MongoStore from "connect-mongo";
 
 dotenv();
 const app = express();
@@ -25,11 +25,13 @@ app.use(
 app.use(
   session({
     secret: <string>process.env.SECRET,
-    resave: true,
+    resave: false,
     saveUninitialized: true,
+    cookie: { maxAge: 60 * 60 * 1000 },
+    store: MongoStore.create({ mongoUrl: process.env.DB_URI }),
   })
 );
-app.use(cookieParser(<string>process.env.SECRET));
+
 app.use(passport.initialize());
 app.use(passport.session());
 authenticate(passport);
